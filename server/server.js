@@ -11,7 +11,7 @@ const passport = require("passport");
 const session = require("express-session");
 
 const app = express();
-const port = 3060;
+const port = 3070;
 
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
@@ -33,7 +33,7 @@ const CompanyVacationRoutes = require('./routes/companyVacation');
 const logoutRoutes = require('./routes/logout');
 const chartLateRoutes = require('./routes/chartLate');
 const todayRoutes = require('./routes/today');
-
+const loginRoutes = require('./routes/login');
 
 
 const authData = require("./modelsInitializeData/authData");
@@ -130,6 +130,9 @@ app.use('/company/vacation', CompanyVacationRoutes);
 app.use('/logout', logoutRoutes);
 app.use('/chartLate', chartLateRoutes);
 app.use('/today', todayRoutes);
+
+
+app.use('/login', loginRoutes);
 
 
 app.get("*", (req, res) => {

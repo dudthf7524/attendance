@@ -4,6 +4,12 @@ const auth = require('../databases/auth');
 const company = require('../databases/company');
 const user = require('../databases/user');
 
+
+
+router.get("/", (req, res) => {
+    res.json(req.user);
+});
+
 router.get("/list", async (req, res) => {
 
     try {

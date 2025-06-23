@@ -1,0 +1,15 @@
+import { all, fork } from "redux-saga/effects";
+import axios from "axios";
+import { API_URL } from "../constant/contants";
+import loginSaga from "./login";
+import authSaga from "./auth";
+
+axios.defaults.baseURL = API_URL;
+axios.defaults.withCredentials = true;
+
+export default function* rootSaga() {
+    yield all([
+        fork(loginSaga),
+        fork(authSaga),
+    ]);
+}

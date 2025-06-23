@@ -22,7 +22,7 @@ export default function BottomBar() {
         {
             name: "내정보",
             icon: UserCircleIcon,
-            path: '/worker/profile',
+            path: '/mypage',
         },
 
     ];

@@ -137,7 +137,7 @@ const Join = () => {
             };
 
             console.log(data, data)
-            const res = await axios.post("http://localhost:3060/auth/join", data);
+            const res = await axios.post("http://localhost:3070/auth/join", data);
             // alert(res.data.message);
             // if (res.data.success) window.location.href = "/";
         } catch (e) {

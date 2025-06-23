@@ -1,34 +1,68 @@
 // import './App.css';
-import { Routes, Route, useLocation } from "react-router-dom";
-import Join from './page/Join';
-import Login from './page/Login';
-import Home from "./page/Home";
-import Attendance from "./page/Attendance";
+import { Routes, Route, useLocation, BrowserRouter } from "react-router-dom";
+import Join from './page/client/Join';
+import Login from './page/client/Login';
+import Home from "./page/client/Home";
+import Attendance from "./page/client/Attendance";
 import BottomBar from "./component/BottomBar";
+import Dashboard from "./page/admin/Dashboard";
+import AdminLayout from "./layout/AdminLayout";
+import AttendanceManagement from "./page/admin/AttendanceManagement";
+import TimeManagement from "./page/admin/TimeManagement";
+import EmployeeManagement from "./page/admin/EmployeeManagement";
+import MyPage from "./page/client/MyPage";
+import EmployeeRegisterPage from "./page/admin/EmployeeRegisterPage";
+import LoginSuccess from "./page/client/loginSuccess";
+import { AUTH_REQUEST } from "./reducers/auth";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import ClientLayout from "./layout/ClientLayout";
 
 function App() {
+  const dispatch = useDispatch();
 
-  const location = useLocation();
-  const showBottomBar =
-    location.pathname !== '/' &&
-    location.pathname !== '/join' &&
-    location.pathname !== '/login/sucess' &&
-    location.pathname !== '/change/id' &&
-    location.pathname !== '/change/password';
+  useEffect(() => {
+    userAuth();
+  }, []);
+
+  const userAuth = async () => {
+    dispatch({
+      type: AUTH_REQUEST,
+    });
+  };
+
+  // const location = useLocation();
+  // const showBottomBar =
+  //   location.pathname !== '/' &&
+  //   location.pathname !== '/join' &&
+  //   location.pathname !== '/login/sucess' &&
+  //   location.pathname !== '/change/id' &&
+  //   location.pathname !== '/change/password';
 
   return (
-    <div>
+    <BrowserRouter>
       <Routes>
-        <Route>
+        <Route  element={<ClientLayout />}>
           <Route path="join" element={<Join />} />
-          <Route path="" element={<Login />} />
-          <Route path="home" element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="" element={<Home />} />
           <Route path="attendance" element={<Attendance />} />
+          <Route path="myPage" element={<MyPage />} />
+          <Route path="/login/sucess" element={<LoginSuccess />} />
         </Route>
 
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={< Dashboard />} />
+          <Route path="attendance" element={< AttendanceManagement />} />
+          <Route path="employee/list" element={< EmployeeManagement />} />
+          <Route path="time" element={< TimeManagement />} />
+          <Route path="employee/register" element={< EmployeeRegisterPage />} />
+        </Route>
       </Routes>
-      <BottomBar />
-    </div>
+
+
+      {/* <BottomBar /> */}
+    </BrowserRouter>
   );
 }
 

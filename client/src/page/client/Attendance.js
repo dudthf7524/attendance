@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { MapPinIcon } from '@heroicons/react/24/outline';
-import BottomBar from "../component/BottomBar";
+import BottomBar from "../../component/BottomBar";
 
 const CheckInOutPage = () => {
     const [time, setTime] = useState("");
@@ -119,22 +119,7 @@ const CheckInOutPage = () => {
                     퇴근
                 </button>
             </div>
-            {/* <BottomBar/> */}
-            {/* 푸터바 */}
-            {/* <nav className="fixed bottom-0 w-full max-w-3xl mx-auto bg-white border-t border-gray-200 flex justify-around py-3 text-sm text-gray-700">
-                <button className="flex flex-col items-center text-blue-600 font-medium">
-                    <span>📍</span>
-                    <span>등록</span>
-                </button>
-                <button className="flex flex-col items-center">
-                    <span>📆</span>
-                    <span>스케줄</span>
-                </button>
-                <button className="flex flex-col items-center">
-                    <span>👤</span>
-                    <span>내정보</span>
-                </button>
-            </nav> */}
+            <BottomBar />
         </div >
     );
 };
