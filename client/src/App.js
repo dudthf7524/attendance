@@ -9,14 +9,15 @@ import Dashboard from "./page/admin/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
 import AttendanceManagement from "./page/admin/AttendanceManagement";
 import TimeManagement from "./page/admin/TimeManagement";
-import EmployeeManagement from "./page/admin/EmployeeManagement";
+import EmployeeList from "./page/admin/EmployeeList";
 import MyPage from "./page/client/MyPage";
-import EmployeeRegisterPage from "./page/admin/EmployeeRegisterPage";
+import EmployeeRegister from "./page/admin/EmployeeRegister";
 import LoginSuccess from "./page/client/loginSuccess";
 import { AUTH_REQUEST } from "./reducers/auth";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ClientLayout from "./layout/ClientLayout";
+import CompanyAddress from "./page/admin/CompanyAddress";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route  element={<ClientLayout />}>
+        <Route element={<ClientLayout />}>
           <Route path="join" element={<Join />} />
           <Route path="login" element={<Login />} />
           <Route path="" element={<Home />} />
@@ -54,9 +55,10 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={< Dashboard />} />
           <Route path="attendance" element={< AttendanceManagement />} />
-          <Route path="employee/list" element={< EmployeeManagement />} />
+          <Route path="employee/list" element={< EmployeeList />} />
           <Route path="time" element={< TimeManagement />} />
-          <Route path="employee/register" element={< EmployeeRegisterPage />} />
+          <Route path="employee/register" element={< EmployeeRegister />} />
+          <Route path="setting/gps" element={< CompanyAddress />} />
         </Route>
       </Routes>
 

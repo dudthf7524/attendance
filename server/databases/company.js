@@ -1,6 +1,5 @@
 const { company } = require("../models");
 
-
 const companyRegister = async (data) => {
     try {
         const result = await company.create({

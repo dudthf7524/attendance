@@ -13,7 +13,6 @@ export default function Navbar({ user, onLogout }) {
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
     const { auth } = useSelector((state) => state.auth);
-    console.log(auth)
 
     const handleLogout = () => {
         if (onLogout) onLogout();

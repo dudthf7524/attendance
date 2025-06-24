@@ -1,34 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import { MapPinIcon } from '@heroicons/react/24/outline';
 import BottomBar from "../../component/BottomBar";
+import Today from "../../component/Today";
 
 const CheckInOutPage = () => {
-    const [time, setTime] = useState("");
-    const [date, setDate] = useState("");
-    const [day, setDay] = useState("");
     const [gps, setGps] = useState("위치 정보 없음");
-    const [currentTime, setCurrentTime] = useState(new Date());
-
-    useEffect(() => {
-        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-        return () => clearInterval(timer);
-    }, []);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const now = new Date();
-            const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
-            setDate(`${now.getFullYear()}년 ${now.getMonth() + 1}월 ${now.getDate()}일`);
-            setDay(`(${dayNames[now.getDay()]})`);
-            const hours = now.getHours();
-            const ampm = hours >= 12 ? "PM" : "AM";
-            const displayHours = hours % 12 === 0 ? 12 : hours % 12;
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            setTime(`${ampm} ${displayHours}:${minutes}:${seconds}`);
-        }, 1000);
-        return () => clearInterval(interval);
-    }, []);
 
     const handleGPS = () => {
         if (!navigator.geolocation) return alert("GPS를 지원하지 않습니다.");
@@ -38,31 +14,13 @@ const CheckInOutPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center px-4 py-10 space-y-10">
+        <div className="h-90% w-full bg-gray-50 flex flex-col items-center px-4 py-10 pb-24 overflow-auto space-y-10">
             {/* 공지사항 */}
-            <div className="w-full max-w-3xl text-sm bg-blue-50 border border-blue-200 rounded-md py-2 px-4 text-blue-700">
+            <div className="w-full text-sm bg-blue-50 border border-blue-200 rounded-md py-2 px-4 text-blue-700">
                 오늘 17:00 이후 퇴근 처리됩니다. 지각 주의하세요!
             </div>
-
-            {/* 날짜 */}
-            {/* <div className="w-full max-w-3xl bg-white border border-gray-200  px-6 py-4 text-center">
-                <p className="text-lg font-semibold">{date} {day}</p>
-            </div> */}
-
-            <div className="w-full max-w-3xl bg-white border border-gray-200  px-6 py-4 text-center">
-                <p className="font-semibold mb-4 text-gray-700">{date} {day}</p>
-                <p className="text-sm text-gray-400">현재 시간</p>
-                <p className="text-3xl font-semibold text-blue-600">
-                    {currentTime.toLocaleTimeString('ko-KR', { hour12: false })}
-                </p>
-            </div>
-            {/* 현재 시간 */}
-            {/* <div className="w-full max-w-3xl bg-gray-50 border border-gray-200 rounded-md px-6 py-4">
-                <p className="text-2xl font-mono tracking-wide text-center">{time}</p>
-            </div> */}
-
-            {/* GPS 위치 등록 */}
-            <div className="w-full max-w-3xl bg-white border border-gray-200 px-6 py-4 text-center">
+            <Today/>
+            <div className="w-full bg-white border border-gray-200 px-6 py-4 text-center">
                 <button
                     onClick={handleGPS}
                     className="w-full px-4 py-2 bg-white border border-blue-400 text-blue-400 hover:bg-blue-50 active:scale-95 transition flex items-center justify-center gap-2"
@@ -73,7 +31,7 @@ const CheckInOutPage = () => {
             </div>
 
             {/* 출근/퇴근 기록 */}
-            <div className="w-full max-w-3xl grid grid-cols-2 gap-6 bg-white border border-gray-200 rounded-md p-6">
+            <div className="w-full grid grid-cols-2 gap-6 bg-white border border-gray-200 rounded-md p-6">
                 <div>
                     <p className="text-xs text-gray-500">출근 날짜</p>
                     <p className="text-base font-medium">2025-06-20</p>
@@ -101,7 +59,7 @@ const CheckInOutPage = () => {
             </div>
 
             {/* 출근/퇴근 버튼 */}
-            <div className="w-full max-w-3xl flex flex-col md:flex-row gap-4">
+            <div className="w-full flex flex-col md:flex-row gap-4">
                 <button
                     className="w-full md:w-1/2 py-6 bg-white border border-blue-400 text-blue-400 font-semibold rounded-md 
                hover:bg-blue-50 active:scale-95

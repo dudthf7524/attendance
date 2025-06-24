@@ -15,24 +15,6 @@ const port = 3070;
 
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
-
-const timeRoutes = require('./routes/time');
-
-const processRoutes = require('./routes/process');
-const userProcessRoutes = require('./routes/userProcess');
-const taskRoutes = require('./routes/task');
-const attendanceStartRoutes = require('./routes/attendanceStart');
-const attendanceEndRoutes = require('./routes/attendanceEnd');
-const vacationRoutes = require('./routes/vacation');
-const companyAddressRoutes = require('./routes/companyAddress');
-const taskStartRoutes = require('./routes/taskStart');
-const taskEndRoutes = require('./routes/taskEnd');
-const chartRoutes = require('./routes/chart');
-const noticeRoutes = require('./routes/notice');
-const CompanyVacationRoutes = require('./routes/companyVacation');
-const logoutRoutes = require('./routes/logout');
-const chartLateRoutes = require('./routes/chartLate');
-const todayRoutes = require('./routes/today');
 const loginRoutes = require('./routes/login');
 
 
@@ -114,24 +96,6 @@ app.get("/", (req, res) => {
 
 app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/time', timeRoutes);
-app.use('/process', processRoutes);
-app.use('/userProcess', userProcessRoutes);
-app.use('/task', taskRoutes);
-app.use('/attendanceStart', attendanceStartRoutes);
-app.use('/attendanceEnd', attendanceEndRoutes);
-app.use('/vacation', vacationRoutes);
-app.use('/companyAddress', companyAddressRoutes);
-app.use('/taskStart', taskStartRoutes);
-app.use('/taskEnd', taskEndRoutes);
-app.use('/chart', chartRoutes);
-app.use('/notice', noticeRoutes);
-app.use('/company/vacation', CompanyVacationRoutes);
-app.use('/logout', logoutRoutes);
-app.use('/chartLate', chartLateRoutes);
-app.use('/today', todayRoutes);
-
-
 app.use('/login', loginRoutes);
 
 

@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { TIME_REGISTER_REQUEST } from "../../reducers/time";
+import { useDispatch, useSelector } from "react-redux";
+import { USER_LIST_REQUEST } from "../../reducers/user";
 
 const members = [
   { id: 1, name: "홍길동" },
@@ -6,178 +9,250 @@ const members = [
   { id: 3, name: "이철수" },
 ];
 
-const generateOptions = (range: number) =>
+const generateOptions = (range) =>
   Array.from({ length: range }, (_, i) => String(i).padStart(2, "0"));
 
 const TimeManagementPage = () => {
-  const [selected, setSelected] = useState(members[0]);
-
-  const [times, setTimes] = useState({
-    startHour: "09",
+  const dispatch = useDispatch();
+  const [selected, setSelected] = useState();
+  const [formData, setFormData] = useState({
+    startHour: "00",
     startMin: "00",
-    endHour: "18",
+    endHour: "00",
     endMin: "00",
-    breakStartHour: "12",
+    breakStartHour: "00",
     breakStartMin: "00",
-    breakEndHour: "13",
+    breakEndHour: "00",
     breakEndMin: "00",
   });
 
-  const handleTimeChange = (field: string, value: string) => {
-    setTimes((prev) => ({ ...prev, [field]: value }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const timeRegister = () => {
+    console.log("서버로 넘어갈 데이터들 : ", formData)
+
+    const data = formData;
+
+    dispatch({
+      type: TIME_REGISTER_REQUEST,
+      data: data
+    });
+  }
+
+  const { userList } = useSelector((state) => state.user);
+  useEffect(() => {
+    userListDB();
+  }, []);
+
+  const userListDB = async () => {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
   };
 
   return (
-    <div className="h-screen w-full bg-[#f9fafb] px-4 py-8">
-      <div className="mb-6">
+    <div className="h-[90vh] w-full bg-[#f9fafb] px-4 py-8">
+      {/* 타이틀 */}
+      <div className="mx-auto bg-white border border-blue-200 shadow-sm px-6 py-4 mb-8">
         <h1 className="text-2xl font-bold text-blue-600">시간 관리</h1>
         <p className="text-sm text-gray-500 mt-1">
           직원의 출퇴근 및 휴게 시작·종료 시간을 설정할 수 있습니다.
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-[calc(100%-100px)] transition-all duration-500">
-        {/* 회원 목록 */}
-        <div className="w-full lg:w-1/3 bg-white border border-blue-300 rounded-xl shadow-sm overflow-hidden flex flex-col">
-          <div className="bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-600 border-b border-blue-200">
-            회원 목록
-          </div>
+      {/* 본문 */}
+      <div className="flex flex-col lg:flex-row gap-6 h-[calc(100%-100px)]">
+        {/* 왼쪽 멤버 리스트 */}
+        <div className="w-full lg:w-1/3 bg-white border border-blue-300 shadow-sm flex flex-col">
           <div className="flex-1 overflow-y-auto">
-            {members.map((member) => (
+            {userList?.map((user) => (
               <button
-                key={member.id}
-                onClick={() => setSelected(member)}
-                className={`w-full text-left px-5 py-4 border-b border-blue-100 hover:bg-blue-50 transition ${
-                  selected.id === member.id
-                    ? "bg-blue-50 text-blue-700 font-semibold"
-                    : "text-gray-700"
-                }`}
+                key={user.user_code}
+                onClick={() => setSelected(user)}
+                className={`w-full text-left px-5 py-4 border-b border-blue-100 hover:bg-blue-50 transition ${selected?.user_code === user.user_code
+                  ? "bg-blue-50 text-blue-700 font-semibold"
+                  : "text-gray-700"
+                  }`}
               >
-                {member.name}
+                {user.user_name}
+                <div className="text-xs text-gray-400">{user.user_position}</div>
               </button>
             ))}
           </div>
         </div>
 
-        {/* 시간 설정 */}
-        <div className="w-full lg:w-2/3 bg-white border border-blue-300 rounded-xl shadow-md p-6 flex flex-col gap-6">
-          <h2 className="text-lg font-bold text-blue-600 border-b border-blue-100 pb-2">
-            {selected.name} 님의 시간 설정
-          </h2>
+        {/* 오른쪽 시간 설정 */}
+        <div className="w-full lg:w-2/3 bg-white border border-blue-300 p-6 flex flex-col">
+          {
+            selected ?
+              (
+                <>
+                  <div className="flex justify-between items-center border-b border-blue-100 pb-2 mb-4">
+                    <h2 className="text-lg font-bold text-blue-600">
+                      {selected.user_name} 님의 시간 설정
+                    </h2>
+                    {/* <button
+              onClick={() => console.log("저장됨", times)} // 실제 저장 로직으로 교체 가능
+              className="px-4 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
+            >
+              저장
+            </button> */}
+                  </div>
 
-          {/* 출근 시간 */}
-          <div>
-            <p className="text-sm text-gray-600 font-medium mb-2">출근 시간</p>
-            <div className="flex gap-2">
-              <select
-                value={times.startHour}
-                onChange={(e) => handleTimeChange("startHour", e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-              >
-                {generateOptions(24).map((hour) => (
-                  <option key={hour} value={hour}>
-                    {hour} 시
-                  </option>
-                ))}
-              </select>
-              <select
-                value={times.startMin}
-                onChange={(e) => handleTimeChange("startMin", e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-              >
-                {generateOptions(60).map((min) => (
-                  <option key={min} value={min}>
-                    {min} 분
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+                  <div className="flex-1 flex flex-col gap-6 h-full">
+                    {/* 출근 시간 */}
+                    <div className="flex-1 flex flex-col justify-center">
+                      <p className="text-sm text-blue-500 font-medium mb-4">출근 시간</p>
+                      <div className="flex gap-2">
+                        <select
+                          name="startHour"
+                          value={formData.startHour}
+                          onChange={handleChange}
+                          className="w-1/2 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        >
+                          {generateOptions(24).map((hour) => (
+                            <option key={hour} value={hour}>
+                              {hour}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="self-center">:</span>
+                        <select
+                          name="startMin"
+                          value={formData.startMin}
+                          onChange={handleChange}
+                          className="w-1/2 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        >
+                          {generateOptions(60).map((min) => (
+                            <option key={min} value={min}>
+                              {min}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
-          {/* 퇴근 시간 */}
-          <div>
-            <p className="text-sm text-gray-600 font-medium mb-2">퇴근 시간</p>
-            <div className="flex gap-2">
-              <select
-                value={times.endHour}
-                onChange={(e) => handleTimeChange("endHour", e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-              >
-                {generateOptions(24).map((hour) => (
-                  <option key={hour} value={hour}>
-                    {hour} 시
-                  </option>
-                ))}
-              </select>
-              <select
-                value={times.endMin}
-                onChange={(e) => handleTimeChange("endMin", e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-              >
-                {generateOptions(60).map((min) => (
-                  <option key={min} value={min}>
-                    {min} 분
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+                    {/* 퇴근 시간 */}
+                    <div className="flex-1 flex flex-col justify-center">
+                      <p className="text-sm text-blue-500 font-medium mb-4">퇴근 시간</p>
+                      <div className="flex gap-2">
+                        <select
+                          name="endHour"
+                          value={formData.endHour}
+                          onChange={handleChange}
+                          className="w-1/2 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        >
+                          {generateOptions(24).map((hour) => (
+                            <option key={hour} value={hour}>
+                              {hour}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="self-center">:</span>
+                        <select
+                          name="endMin"
+                          value={formData.endMin}
+                          onChange={handleChange}
+                          className="w-1/2 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        >
+                          {generateOptions(60).map((min) => (
+                            <option key={min} value={min}>
+                              {min}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
-          {/* 휴게 시간 */}
-          <div>
-            <p className="text-sm text-gray-600 font-medium mb-2">휴게 시간</p>
-            <div className="flex gap-4">
-              <div className="flex gap-2">
-                <select
-                  value={times.breakStartHour}
-                  onChange={(e) => handleTimeChange("breakStartHour", e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-                >
-                  {generateOptions(24).map((hour) => (
-                    <option key={hour} value={hour}>
-                      {hour} 시
-                    </option>
-                  ))}
-                </select>
-                <select
-                  value={times.breakStartMin}
-                  onChange={(e) => handleTimeChange("breakStartMin", e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-                >
-                  {generateOptions(60).map((min) => (
-                    <option key={min} value={min}>
-                      {min} 분
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <span className="self-center text-gray-500">~</span>
-              <div className="flex gap-2">
-                <select
-                  value={times.breakEndHour}
-                  onChange={(e) => handleTimeChange("breakEndHour", e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-                >
-                  {generateOptions(24).map((hour) => (
-                    <option key={hour} value={hour}>
-                      {hour} 시
-                    </option>
-                  ))}
-                </select>
-                <select
-                  value={times.breakEndMin}
-                  onChange={(e) => handleTimeChange("breakEndMin", e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-                >
-                  {generateOptions(60).map((min) => (
-                    <option key={min} value={min}>
-                      {min} 분
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
+                    {/* 휴게 시작 시간 */}
+                    <div className="flex-1 flex flex-col justify-center">
+                      <p className="text-sm text-blue-500 font-medium mb-4">휴게 시작 시간</p>
+                      <div className="flex gap-2">
+                        <select
+                          name="breakStartHour"
+                          value={formData.breakStartHour}
+                          onChange={handleChange}
+                          className="w-1/2 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        >
+                          {generateOptions(24).map((hour) => (
+                            <option key={hour} value={hour}>
+                              {hour}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="self-center">:</span>
+                        <select
+                          name="breakStartMin"
+                          value={formData.breakStartMin}
+                          onChange={handleChange}
+                          className="w-1/2 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        >
+                          {generateOptions(60).map((min) => (
+                            <option key={min} value={min}>
+                              {min}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* 휴게 종료 시간 */}
+                    <div className="flex-1 flex flex-col justify-center">
+                      <p className="text-sm text-blue-500 font-medium mb-4">휴게 종료 시간</p>
+                      <div className="flex gap-2">
+                        <select
+                          name="breakEndHour"
+                          value={formData.breakEndHour}
+                          onChange={handleChange}
+                          className="w-1/2 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        >
+                          {generateOptions(24).map((hour) => (
+                            <option key={hour} value={hour}>
+                              {hour}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="self-center">:</span>
+                        <select
+                          name="breakEndMin"
+                          value={formData.breakEndMin}
+                          onChange={handleChange}
+                          className="w-1/2 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                        >
+                          {generateOptions(60).map((min) => (
+                            <option key={min} value={min}>
+                              {min}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="w-full mt-10 text-right mx-auto">
+                      <button
+                        onClick={timeRegister}
+                        type="button"
+                        className="w-full bg-white border-2 border-blue-400 text-blue-400 font-semibold 
+                            hover:bg-blue-50 active:scale-95
+                            active:ring-2 active:ring-blue-400 active:ring-offset-2
+                            transition duration-150 px-8 py-2 rounded-md"
+                      >
+                        등록하기
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )
+              :
+              (
+                <div className="flex-1 flex items-center justify-center text-gray-400 text-3xl">
+                  직원을 선택해주세요.
+                </div>
+              )
+          }
+
         </div>
       </div>
     </div>

@@ -1,14 +1,12 @@
 const passport = require("passport");
 const login = require("./login");
-
-
 const { user } = require("../models");
 module.exports = async () => {
   try {
     await passport.serializeUser((user, done) => {
 
       process.nextTick(() => {
-        done(null, { user_id:user.user_id });
+        done(null, { user_id: user.user_id });
       })
     });
 
@@ -16,7 +14,7 @@ module.exports = async () => {
       try {
         const user_r = await user.findOne({
           where: { user_id: data.user_id },
-          attributes: ["user_code", "user_name", "auth_code"],
+          attributes: ["user_code", "user_name", "auth_code", "company_code"],
           raw: true
         });
 

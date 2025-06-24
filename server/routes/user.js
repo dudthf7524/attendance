@@ -33,37 +33,15 @@ router.post('/login', async (req, res, next) => {
     })(req, res, next);
 });
 
-router.get("/auth", (req, res) => {
-    res.json(req.user);
-});
 
 router.get("/list", async (req, res) => {
+    const company_code = req.user.company_code;
     try {
-        const result = await user.userList()
+        const result = await user.userList(company_code)
         return res.json(result);
     } catch (error) {
         console.error(error)
     }
-});
-
-router.post("/update", async (req, res) => {
-    try {
-        const result = await user.userUpdate(req.body)
-        return res.json(result);
-    } catch (error) {
-        console.error(error)
-    }
-});
-
-router.post("/update/auth", async (req, res) => {
-    try {
-        const result = await user.userUpdateAuth(req.body);
-        return res.json(result);
-    } catch (error) {
-        console.error(error)
-
-    }
-
 });
 
 router.post("/check/id", async (req, res) => {
@@ -77,11 +55,11 @@ router.post("/check/id", async (req, res) => {
     }
 });
 
-router.post("/check/password", authMiddlewareSession, async (req, res) => {
-    const user_code = req.user.user_code;
+router.post("/register", async (req, res) => {
     const data = req.body;
+    const company_code = req.user.company_code;
     try {
-        const result = await user.userCheckPassword(data, user_code);
+        const result = await user.userRegister(data, company_code);
         res.json(result);
     } catch (error) {
         console.error(error)
@@ -89,49 +67,5 @@ router.post("/check/password", authMiddlewareSession, async (req, res) => {
     }
 });
 
-router.post("/change/id", authMiddlewareSession, async (req, res) => {
-    const data = req.body;
-    const user_code = req.user.user_code;
-    try {
-        const result = await user.userChangeId(data, user_code);
-        res.json(result);
-    } catch (error) {
-        console.error(error)
-
-    }
-});
-
-router.post("/change/password", authMiddlewareSession, async (req, res) => {
-
-    const data = req.body;
-    const user_code = req.user.user_code;
-
-    try {
-        const result = await user.userChangePassword(data, user_code);
-        res.json(result);
-    } catch (error) {
-        console.error(error)
-
-    }
-});
-
-router.get("/information", authMiddlewareSession, async (req, res) => {
-    const user_code = req.user.user_code;
-    try {
-        const result = await user.userInformation(user_code);
-        res.json(result);
-    } catch (error) {
-        console.error(error)
-    }
-});
-
-router.post("/delete", async (req, res) => {
-    try {
-        const result = await user.userDelete(req.body);
-        res.json(result);
-    } catch (error) {
-        console.error(error)
-    }
-});
 
 module.exports = router;

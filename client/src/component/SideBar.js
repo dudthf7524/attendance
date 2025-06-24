@@ -5,7 +5,8 @@ import {
     ChevronDownIcon,
     ClipboardDocumentCheckIcon,
     UsersIcon,
-    ClockIcon
+    ClockIcon,
+    WrenchScrewdriverIcon
 } from '@heroicons/react/24/outline';
 
 const navigationItems = [
@@ -29,6 +30,14 @@ const navigationItems = [
         path: '/admin/time',
         icon: ClockIcon,
         subItems: []
+    },
+    {
+        name: '설정',
+        path: '/admin/setting',
+        icon: WrenchScrewdriverIcon,
+        subItems: [
+            { name: "GPS 근무지 설정", path: "/admin/setting/gps" }
+        ]
     },
 ];
 
@@ -134,7 +143,7 @@ export default function Sidebar({ isCollapsed, toggleCollapse }) {
                 </div>
                 <div className="flex-shrink-0 p-4 border-t border-gray-200">
                     {!isCollapsed && (
-                        <div className="text-sm text-gray-500">master v1.0.0</div>
+                        <div className="text-sm text-gray-500">admin v1.0.0</div>
                     )}
                 </div>
             </div>

@@ -2,7 +2,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // next/link 제거
-import axios from "axios";
 import { LOGIN_REQUEST } from '../../reducers/login';
 import { AUTH_REQUEST } from '../../reducers/auth';
 

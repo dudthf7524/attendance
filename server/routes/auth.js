@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../databases/auth');
-const company = require('../databases/company');
-const user = require('../databases/user');
 
 
 
