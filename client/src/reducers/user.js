@@ -13,6 +13,14 @@ export const initialState = {
     user_register_done: false,
     user_register_error: null,
 
+    user_edit_Loading: false,
+    user_edit_done: false,
+    user_edit_error: null,
+
+    user_delete_Loading: false,
+    user_delete_done: false,
+    user_delete_error: null,
+
     userList: null,
     userCheckId: null
 };
@@ -28,6 +36,14 @@ export const USER_CHECK_ID_FAILURE = "USER_CHECK_ID_FAILURE";
 export const USER_REGISTER_REQUEST = "USER_REGISTER_REQUEST";
 export const USER_REGISTER_SUCCESS = "USER_REGISTER_SUCCESS";
 export const USER_REGISTER_FAILURE = "USER_REGISTER_FAILURE";
+
+export const USER_EDIT_REQUEST = "USER_EDIT_REQUEST";
+export const USER_EDIT_SUCCESS = "USER_EDIT_SUCCESS";
+export const USER_EDIT_FAILURE = "USER_EDIT_FAILURE";
+
+export const USER_DELETE_REQUEST = "USER_DELETE_REQUEST";
+export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS";
+export const USER_DELETE_FAILURE = "USER_DELETE_FAILURE";
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -73,6 +89,32 @@ const reducer = (state = initialState, action) => {
             case USER_REGISTER_FAILURE:
                 draft.user_register_Loading = false;
                 draft.user_register_error = action.error;
+                break;
+            case USER_EDIT_REQUEST:
+                draft.user_edit_Loading = true;
+                draft.user_edit_error = null;
+                draft.user_edit_done = false;
+                break;
+            case USER_EDIT_SUCCESS:
+                draft.user_edit_Loading = false;
+                draft.user_edit_done = true;
+                break;
+            case USER_EDIT_FAILURE:
+                draft.user_edit_Loading = false;
+                draft.user_edit_error = action.error;
+                break;
+            case USER_DELETE_REQUEST:
+                draft.user_delete_Loading = true;
+                draft.user_delete_error = null;
+                draft.user_delete_done = false;
+                break;
+            case USER_DELETE_SUCCESS:
+                draft.user_delete_Loading = false;
+                draft.user_delete_done = true;
+                break;
+            case USER_DELETE_FAILURE:
+                draft.user_delete_Loading = false;
+                draft.user_delete_error = action.error;
                 break;
             default:
                 return state;

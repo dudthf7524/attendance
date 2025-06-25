@@ -97,10 +97,46 @@ const userRegister = async (data, company_code) => {
     }
 };
 
+const userEdit = async (data) => {
+    console.log(data)
+
+    try {
+        const result = await user.update(
+            {
+                user_name: data.user_name,
+                user_nickname: data.user_nickname,
+                user_position: data.user_position,
+                user_hire_date: data.user_hire_date
+            },
+            {
+                where: { user_code: data.user_code }
+            }
+        )
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+const userDelete = async (data) => {
+    console.log(data)
+
+    try {
+        const result = await user.destroy({
+            where: { user_code: data.user_code },
+        });
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 module.exports = {
     userJoin,
     userLogin,
     userList,
     userCheckId,
-    userRegister
+    userRegister,
+    userEdit,
+    userDelete
 };

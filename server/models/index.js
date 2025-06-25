@@ -40,6 +40,7 @@ db.taskEnd = require("./taskEnd")(sequelize, Sequelize);
 db.notice = require("./notice")(sequelize, Sequelize);
 db.companyVacation = require("./companyVacation")(sequelize, Sequelize);
 db.company = require("./company")(sequelize, Sequelize);
+db.workPlace = require("./workPlace")(sequelize, Sequelize);
 
 
 // 관계 설정

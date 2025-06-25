@@ -67,5 +67,29 @@ router.post("/register", async (req, res) => {
     }
 });
 
+router.post("/edit", async (req, res) => {
+    console.log(req.body)
+    const data = req.body;
+    try {
+        const result = await user.userEdit(data);
+        res.json(result);
+    } catch (error) {
+        console.error(error)
+
+    }
+});
+
+router.post("/delete", async (req, res) => {
+    console.log(req.body)
+    const data = req.body;
+    try {
+        const result = await user.userDelete(data);
+        res.json(result);
+    } catch (error) {
+        console.error(error)
+
+    }
+});
+
 
 module.exports = router;

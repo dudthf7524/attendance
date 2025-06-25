@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Marker, Circle, Autocomplete } from "@react-google-maps/api";
 import { MapPinIcon } from "@heroicons/react/24/outline";
+import { WORK_PLACE_REGISTER_REQUEST } from "../../reducers/workplace";
+import { useDispatch } from "react-redux";
 
 const containerStyle = {
     width: "100%",
@@ -10,8 +12,9 @@ const containerStyle = {
 const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const CompanyAddress = () => {
+    const dispatch = useDispatch();
     const [location, setLocation] = useState({ lat: 35.9733646723136, lng: 128.939298096262 });
-    const [radius, setRadius] = useState(500);
+    const [radius, setRadius] = useState(300);
     const [autocomplete, setAutocomplete] = useState(null);
     const [address, setAddress] = useState("");
 
@@ -53,12 +56,14 @@ const CompanyAddress = () => {
         const data = {
             address: address,
             location_latitude: location.lat,
-            location_longitude: location.lng,
+            location_hardness: location.lng,
             radius: radius,
         };
 
-        console.log("📦 저장할 위치 데이터:", data);
-        alert("근무지 위치가 저장되었습니다 (콘솔 확인)");
+        dispatch({
+            type: WORK_PLACE_REGISTER_REQUEST,
+            data: data
+        });
     };
 
     return (
@@ -111,8 +116,8 @@ const CompanyAddress = () => {
                             <label className="text-blue-400 font-semibold block mb-1">근무 반경 (m)</label>
                             <input
                                 type="range"
-                                min="100"
-                                max="1000"
+                                min="0"
+                                max="500"
                                 step="100"
                                 value={radius}
                                 onChange={(e) => setRadius(Number(e.target.value))}

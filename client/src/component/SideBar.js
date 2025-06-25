@@ -29,7 +29,11 @@ const navigationItems = [
         name: '시간관리',
         path: '/admin/time',
         icon: ClockIcon,
-        subItems: []
+        subItems: [
+            { name: '시간등록', path:'/admin/time/register'},
+            { name: '시간목록', path:'/admin/time/list'},
+
+        ]
     },
     {
         name: '설정',

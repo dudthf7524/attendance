@@ -43,6 +43,10 @@ module.exports = (sequelize) => {
             foreignKey: 'company_code',
             sourceKey: 'company_code',
         });
+        company.hasMany(models.workPlace, {
+            foreignKey: 'company_code',
+            sourceKey: 'company_code',
+        });
 
     };
 

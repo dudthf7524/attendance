@@ -16,6 +16,9 @@ const port = 3070;
 const userRoutes = require('./routes/user');
 const authRoutes = require('./routes/auth');
 const loginRoutes = require('./routes/login');
+const timeRoutes = require('./routes/time');
+const workPlaceRoutes = require('./routes/workPlace');
+
 
 
 const authData = require("./modelsInitializeData/authData");
@@ -97,6 +100,8 @@ app.get("/", (req, res) => {
 app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/login', loginRoutes);
+app.use('/time', timeRoutes);
+app.use('/work/place', workPlaceRoutes);
 
 
 app.get("*", (req, res) => {

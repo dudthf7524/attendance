@@ -13,6 +13,14 @@ import {
     USER_REGISTER_SUCCESS,
     USER_REGISTER_FAILURE,
 
+    USER_EDIT_REQUEST,
+    USER_EDIT_SUCCESS,
+    USER_EDIT_FAILURE,
+
+    USER_DELETE_REQUEST,
+    USER_DELETE_SUCCESS,
+    USER_DELETE_FAILURE,
+
 } from "../reducers/user";
 // ✅ 사용자 리스트
 function* watchUserList() {
@@ -84,6 +92,7 @@ function* userRegister(action) {
             data: result.data,
         });
         if (result.data) {
+            alert("직원이 등록되었습니다.")
             window.location.href = "/admin/employee/list";
         }
     } catch (err) {
@@ -95,8 +104,66 @@ function* userRegister(action) {
     }
 }
 
+function* watchUserEdit() {
+    yield takeLatest(USER_EDIT_REQUEST, userEdit);
+}
+
+function userEditAPI(data) {
+
+    return axios.post("/user/edit", data);
+}
+
+function* userEdit(action) {
+    try {
+        const result = yield call(userEditAPI, action.data);
+        yield put({
+            type: USER_EDIT_SUCCESS,
+            data: result.data,
+        });
+        if (result.data) {
+            alert("직원정보가 수정되었습니다.")
+            window.location.href = "/admin/employee/list";
+        }
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: USER_EDIT_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
+function* watchUserDelete() {
+    yield takeLatest(USER_DELETE_REQUEST, userDelete);
+}
+
+function userDeleteAPI(data) {
+
+    return axios.post("/user/delete", data);
+}
+
+function* userDelete(action) {
+    try {
+        const result = yield call(userDeleteAPI, action.data);
+        yield put({
+            type: USER_DELETE_SUCCESS,
+            data: result.data,
+        });
+        if (result.data) {
+            alert("직원이 삭제되었습니다.")
+            window.location.href = "/admin/employee/list";
+        }
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: USER_DELETE_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
 export default function* userSaga() {
     yield all([
-        fork(watchUserList), fork(watchUserCheckId), fork(watchUserRegister),
+        fork(watchUserList), fork(watchUserCheckId), fork(watchUserRegister), fork(watchUserEdit), fork(watchUserDelete),
     ]);
 }
