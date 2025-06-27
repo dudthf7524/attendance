@@ -1,8 +1,6 @@
 const { workPlace } = require("../models");
 
 const workPlaceRegister = async (data, company_code) => {
-    console.log(data)
-    console.log(company_code)
     try {
         const result = await workPlace.create({
             address: data.address,

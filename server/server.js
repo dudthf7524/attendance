@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
-const { sequelize } = require('./models');
+const { sequelize, attendance } = require('./models');
 const cookieParser = require('cookie-parser');
 
 
@@ -18,11 +18,11 @@ const authRoutes = require('./routes/auth');
 const loginRoutes = require('./routes/login');
 const timeRoutes = require('./routes/time');
 const workPlaceRoutes = require('./routes/workPlace');
+const attendanceRoutes = require('./routes/attendance');
 
 
 
 const authData = require("./modelsInitializeData/authData");
-const processData = require("./modelsInitializeData/processData");
 const noticeData = require("./modelsInitializeData/noticeData");
 const userData = require('./modelsInitializeData/userData');
 
@@ -51,9 +51,6 @@ sequelize
     try {
       await authData();
       console.log("✅ authData 삽입 완료");
-
-      await processData();
-      console.log("✅ processData 삽입 완료");
 
       await noticeData();
       console.log("✅ noticeData 삽입 완료");
@@ -102,6 +99,7 @@ app.use('/auth', authRoutes);
 app.use('/login', loginRoutes);
 app.use('/time', timeRoutes);
 app.use('/work/place', workPlaceRoutes);
+app.use('/attendance', attendanceRoutes);
 
 
 app.get("*", (req, res) => {

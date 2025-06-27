@@ -27,20 +27,14 @@ const sequelize = new Sequelize(
 
 db.auth = require("./auth")(sequelize, Sequelize);
 db.user = require("./user")(sequelize, Sequelize);
-db.process = require("./process")(sequelize, Sequelize);
 db.time = require("./time")(sequelize, Sequelize);
-db.userProcess = require("./userProcess")(sequelize, Sequelize);
 
-db.attendanceStart = require("./attendanceStart")(sequelize, Sequelize);
-db.attendanceEnd = require("./attendanceEnd")(sequelize, Sequelize);
 db.vacation = require("./vacation")(sequelize, Sequelize);
 db.companyAddress = require("./companyAddress")(sequelize, Sequelize);
-db.taskStart = require("./taskStart")(sequelize, Sequelize);
-db.taskEnd = require("./taskEnd")(sequelize, Sequelize);
 db.notice = require("./notice")(sequelize, Sequelize);
-db.companyVacation = require("./companyVacation")(sequelize, Sequelize);
 db.company = require("./company")(sequelize, Sequelize);
 db.workPlace = require("./workPlace")(sequelize, Sequelize);
+db.attendance = require("./attendance")(sequelize, Sequelize);
 
 
 // 관계 설정

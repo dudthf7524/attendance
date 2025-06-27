@@ -17,6 +17,10 @@ import {
     TIME_EDIT_SUCCESS,
     TIME_EDIT_FAILURE,
 
+    TIME_DETAIL_REQUEST,
+    TIME_DETAIL_SUCCESS,
+    TIME_DETAIL_FAILURE,
+
 } from "../reducers/time";
 
 function* watchTimeRegister() {
@@ -129,6 +133,36 @@ function* timeEdit(action) {
     }
 }
 
+function* watchTimeDetail() {
+    yield takeLatest(TIME_DETAIL_REQUEST, timeDetail);
+}
+
+function timeDetailListAPI() {
+
+    return axios.get("/time/detail");
+}
+
+function* timeDetail() {
+    try {
+        const result = yield call(timeDetailListAPI,);
+        if (result.data === 'common') {
+            alert('로그인이 필요합니다.')
+            window.location.href = "/";
+            return;
+        }
+        yield put({
+            type: TIME_DETAIL_SUCCESS,
+            data: result.data,
+        });
+
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: TIME_DETAIL_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
 
 
 
@@ -138,5 +172,6 @@ export default function* timeSaga() {
         fork(watchTimeListOuter),
         fork(watchTimeListInner),
         fork(watchTimeEdit),
+        fork(watchTimeDetail),
     ]);
 }

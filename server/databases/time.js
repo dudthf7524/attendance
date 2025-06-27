@@ -29,7 +29,6 @@ const timeListOuter = async (company_code) => {
             where: { company_code: company_code },
 
         })
-        console.log(result)
         return result;
     } catch (error) {
         console.error(error);
@@ -49,7 +48,6 @@ const timeListInner = async (company_code) => {
             where: { company_code: company_code },
 
         })
-        console.log(result)
         return result;
     } catch (error) {
         console.error(error);
@@ -57,8 +55,7 @@ const timeListInner = async (company_code) => {
 };
 
 const timeEdit = async (data) => {
-    console.log(data)
-    
+
     try {
         const result = await time.update(
             {
@@ -77,9 +74,19 @@ const timeEdit = async (data) => {
     }
 };
 
+const timeDetail = async (user_code) => {
+    try {
+        const result = await time.findOne({ where: { user_code: user_code } });
+        return result;
+    } catch (error) {
+        console.error(error)
+    }
+};
+
 module.exports = {
     timeRegister,
     timeListOuter,
     timeListInner,
-    timeEdit
+    timeEdit,
+    timeDetail,
 };

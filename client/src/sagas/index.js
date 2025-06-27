@@ -6,6 +6,7 @@ import authSaga from "./auth";
 import userSaga from "./user";
 import timeSaga from "./time";
 import workPlaceSaga from "./workplace";
+import attendanceSaga from "./attendance";
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
@@ -17,5 +18,6 @@ export default function* rootSaga() {
         fork(userSaga),
         fork(timeSaga),
         fork(workPlaceSaga),
+        fork(attendanceSaga),
     ]);
 }

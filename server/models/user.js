@@ -65,30 +65,11 @@ module.exports = (sequelize) => {
       foreignKey: 'user_code',
       sourceKey: 'user_code',
     });
-    user.hasMany(models.userProcess, {
+    user.hasMany(models.attendance, {
       foreignKey: 'user_code',
       sourceKey: 'user_code',
     });
-    user.hasMany(models.attendanceStart, {
-      foreignKey: 'user_code',
-      sourceKey: 'user_code',
-    });
-    user.hasMany(models.attendanceEnd, {
-      foreignKey: 'user_code',
-      sourceKey: 'user_code',
-    });
-    user.hasMany(models.vacation, {
-      foreignKey: 'user_code',
-      sourceKey: 'user_code',
-    });
-    user.hasMany(models.taskStart, {
-      foreignKey: 'user_code',
-      sourceKey: 'user_code',
-    });
-    user.hasMany(models.taskEnd, {
-      foreignKey: 'user_code',
-      sourceKey: 'user_code',
-    });
+
   };
 
   return user;

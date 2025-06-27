@@ -1,8 +1,6 @@
 const { user, auth } = require("../models");
 
 const userJoin = async (data, company_code) => {
-    console.log("data", data);
-    console.log("compnay_code", company_code);
     const today = format(new Date(), 'yyyy-MM-dd');
     try {
         const result = await user.create({
