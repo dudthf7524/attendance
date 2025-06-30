@@ -13,6 +13,13 @@ import {
     ATTENDANCE_UPDATE_SUCCESS,
     ATTENDANCE_UPDATE_FAILURE,
 
+    ATTENDANCE_SEARCH_REQUEST,
+    ATTENDANCE_SEARCH_SUCCESS,
+    ATTENDANCE_SEARCH_FAILURE,
+
+    ATTENDANCE_COMPANY_NUMBER_REQUEST,
+    ATTENDANCE_COMPANY_NUMBER_SUCCESS,
+    ATTENDANCE_COMPANY_NUMBER_FAILURE,
 
 } from "../reducers/attendance";
 
@@ -115,10 +122,44 @@ function* attendanceUpdate(action) {
     }
 }
 
+function* watchAttendanceSearch() {
+    yield takeLatest(ATTENDANCE_SEARCH_REQUEST, attendanceSearch);
+}
+
+function attendanceSearchAPI(data) {
+
+    return axios.get("/attendance/search", { params: data });
+}
+
+function* attendanceSearch(action) {
+    try {
+        const result = yield call(attendanceSearchAPI, action.data);
+
+        if (result.data === 'common') {
+            alert('로그인이 필요합니다.')
+            window.location.href = "/";
+        }
+        yield put({
+            type: ATTENDANCE_SEARCH_SUCCESS,
+            data: result.data,
+        });
+        if (result.data) { }
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: ATTENDANCE_SEARCH_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
+
+
 export default function* attendanceSaga() {
     yield all([
         fork(watchAttendanceRegister),
         fork(watchAttendanceToday),
         fork(watchAttendanceUpdate),
+        fork(watchAttendanceSearch),
     ]);
 } 

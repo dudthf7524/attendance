@@ -2,9 +2,8 @@ const db = require("../models/index"); // Sequelize 모델이 정의된 index.js
 
 const authss = [
     { auth_code: "A1", auth_name: "마스터" },
-    { auth_code: "A2", auth_name: "서브 마스터" },
-    { auth_code: "A3", auth_name: "매니저" },
-    { auth_code: "A4", auth_name: "직원" },
+    { auth_code: "A2", auth_name: "매니저" },
+    { auth_code: "A3", auth_name: "직원" },
 ];
 
 const authData = async () => {

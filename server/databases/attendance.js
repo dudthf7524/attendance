@@ -1,4 +1,5 @@
-const { attendance } = require("../models");
+const { Op } = require("sequelize");
+const { attendance, user, company } = require("../models");
 const dayjs = require('dayjs');
 
 const attendanceRegister = async (data, user_code) => {
@@ -55,8 +56,48 @@ const attendanceUpdate = async (data) => {
     }
 };
 
+
+const attendanceDay = async (startDay, endDay, company_code) => {
+    try {
+        const result = await attendance.findAll({
+            attributes: [
+                'attendance_start_date',
+                'attendance_start_time',
+                'attendance_end_date',
+                'attendance_end_time',
+                'attendance_start_state',
+                'attendance_end_state',
+                'rest_start_time',
+                'rest_end_time',
+            ],
+            include: [
+                {
+                    model: user,
+                    attributes: ['user_name'],
+                    required: true,
+                    include: [
+                        {
+                            model: company,
+                            required: true,
+                            where: { company_code: company_code },
+                        },
+                    ],
+                },
+            ],
+            where: {
+                attendance_start_date: {
+                    [Op.between]: [startDay, endDay]
+                }
+            }
+        })
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+};
 module.exports = {
     attendanceRegister,
     attendanceToday,
     attendanceUpdate,
+    attendanceDay,
 }

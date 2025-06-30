@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { ATTENDANCE_DAY_REQUEST, ATTENDANCE_MONTH_REQUEST, ATTENDANCE_SEARCH_REQUEST, ATTENDANCE_YEAR_REQUEST } from "../../reducers/attendance";
 
 const PeriodFilterTabs = () => {
   const [activeTab, setActiveTab] = useState("day");
@@ -19,8 +21,39 @@ const PeriodFilterTabs = () => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
+  const dispatch = useDispatch();
+
   const handleSearch = () => {
+    console.log("일별, 월별, 연도별", activeTab)
     console.log("조회 조건:", filters);
+
+    var data = {}
+
+    if (activeTab == "day") {
+      data = {
+        activeTab: activeTab,
+        startDay: filters.startDay,
+        endDay: filters.endDay
+      }
+    } else if (activeTab == "month") {
+      data = {
+        activeTab: activeTab,
+        startMonth: filters.startMonth,
+        endMonth: filters.endMonth
+      }
+    } else if (activeTab == "year") {
+      data = {
+        activeTab: activeTab,
+        startYear: filters.startYear,
+        endYear: filters.endYear
+      }
+    }
+    dispatch({
+      type: ATTENDANCE_SEARCH_REQUEST,
+      data: data
+    })
+
+
   };
 
   return (
@@ -34,11 +67,10 @@ const PeriodFilterTabs = () => {
         ].map(({ key, label }) => (
           <button
             key={key}
-            className={`px-6 py-3 text-sm font-medium w-full transition ${
-              activeTab === key
-                ? "border-b-2 border-blue-500 text-blue-600"
-                : "text-gray-600 hover:text-blue-500"
-            }`}
+            className={`px-6 py-3 text-sm font-medium w-full transition ${activeTab === key
+              ? "border-b-2 border-blue-500 text-blue-600"
+              : "text-gray-600 hover:text-blue-500"
+              }`}
             onClick={() => setActiveTab(key)}
           >
             {label}

@@ -10,7 +10,7 @@ const userJoin = async (data, company_code) => {
             user_nickname: "boss",
             user_hire_date: today,
             user_position: "대표",
-            auth_code: "A4",
+            auth_code: "A1",
             company_code: company_code,
             raw: true
         });

@@ -28,7 +28,6 @@ module.exports = (sequelize) => {
         rest_end_time: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: "A4",
         },
     }, {
         timestamps: false,

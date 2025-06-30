@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authMiddlewareSession = require('../middleware/authMiddlewareSession');
 const attendance = require('../databases/attendance');
+const dayjs = require('dayjs');
 
 router.post("/register", authMiddlewareSession, async (req, res) => {
     try {
@@ -28,6 +29,36 @@ router.post("/update", authMiddlewareSession, async (req, res) => {
     try {
         const data = req.body;
         const result = await attendance.attendanceUpdate(data);
+        return res.json(result);
+    } catch (error) {
+        console.error(error)
+    }
+});
+
+router.get("/search", async (req, res) => {
+    const activeTab = req.query.activeTab;
+    const company_code = req.user.company_code;
+
+    let startDate = null;
+    let endDate = null;
+
+    if (activeTab === "day") {
+        const { startDay, endDay } = req.query;
+        startDate = startDay;
+        endDate = endDay;
+
+    } else if (activeTab === "month") {
+        const { startMonth, endMonth } = req.query;
+        startDate = `${startMonth}-01`;
+        endDate = dayjs(`${endMonth}-01`).endOf("month").format("YYYY-MM-DD");
+
+    } else if (activeTab === "year") {
+        const { startYear, endYear } = req.query;
+        startDate = `${startYear}-01-01`;
+        endDate = `${endYear}-12-31`;
+    }
+    try {
+        const result = await attendance.attendanceDay(startDate, endDate, company_code);
         return res.json(result);
     } catch (error) {
         console.error(error)

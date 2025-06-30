@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const { sequelize, attendance } = require('./models');
 const cookieParser = require('cookie-parser');
-
+require('dotenv').config();
 
 const passportConfig = require("./passport/cookie");
 const passport = require("passport");
@@ -19,19 +19,18 @@ const loginRoutes = require('./routes/login');
 const timeRoutes = require('./routes/time');
 const workPlaceRoutes = require('./routes/workPlace');
 const attendanceRoutes = require('./routes/attendance');
+const companyRoutes = require('./routes/company');
 
 
 
 const authData = require("./modelsInitializeData/authData");
-const noticeData = require("./modelsInitializeData/noticeData");
-const userData = require('./modelsInitializeData/userData');
 
 passportConfig();
 app.use(express.json());
 
 // CORS 설정
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://www.washstation.shop/'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://www.washstation.shop/'],
   credentials: true,
 }));
 
@@ -52,11 +51,6 @@ sequelize
       await authData();
       console.log("✅ authData 삽입 완료");
 
-      await noticeData();
-      console.log("✅ noticeData 삽입 완료");
-
-      // await userData();
-      // console.log("✅ userData 삽입 완료");
     } catch (error) {
       console.error("❌ 초기 데이터 삽입 실패:", error);
     }
@@ -83,6 +77,7 @@ app.use(
   })
 );
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -100,7 +95,7 @@ app.use('/login', loginRoutes);
 app.use('/time', timeRoutes);
 app.use('/work/place', workPlaceRoutes);
 app.use('/attendance', attendanceRoutes);
-
+app.use('/company', companyRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));

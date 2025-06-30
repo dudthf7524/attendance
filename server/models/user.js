@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
     auth_code: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "A4",
+      defaultValue: "A3",
     },
     user_hire_date: {
       type: DataTypes.STRING, // 날짜를 'YYYY-MM-DD' 형식의 문자열로 저장
