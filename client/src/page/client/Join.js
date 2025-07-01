@@ -247,7 +247,7 @@ const Join = () => {
         }
 
         console.log(formData)
-      
+
         dispatch({
             type: EMAIL_CHECK_REQUEST,
             data: formData,
