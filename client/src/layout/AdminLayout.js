@@ -12,7 +12,7 @@ export default function AdminLayout() {
   // };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="h-screen flex flex-col">
       <Navbar/>
 
       <div className="flex flex-1 overflow-hidden">

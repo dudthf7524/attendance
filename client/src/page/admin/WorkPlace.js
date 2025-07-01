@@ -67,7 +67,7 @@ const CompanyAddress = () => {
     };
 
     return (
-        <div className="h-90% w-full bg-[#f9fafb] px-4 py-8 overflow-auto">
+        <div className="h-90% w-full px-4 py-8 overflow-auto">
             {/* 타이틀 */}
             <div className="bg-white border border-blue-200 shadow-sm px-6 py-4 mb-6">
                 <h1 className="text-2xl font-bold text-blue-600">GPS 근무지 설정</h1>

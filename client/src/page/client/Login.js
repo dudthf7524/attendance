@@ -66,7 +66,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
       {loggedInUser ? (
         <div className="w-[23.33vw] p-8 rounded-lg shadow-md text-center text-gray-700 text-sm">
           <div className="text-green-500 text-base font-medium mb-4">login success</div>
@@ -78,7 +78,7 @@ const Login = () => {
           </Link>
         </div>
       ) : (
-        <div className="w-[23.33vw] p-6 bg-white shadow-md">
+        <div className="w-full max-w-7xl p-6 bg-white ">
           <p className="text-2xl font-bold mb-6 text-blue-700 text-center">로그인</p>
           <form onSubmit={handleLogin}>
             <div className="mb-4">

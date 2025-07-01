@@ -112,7 +112,7 @@ const Attendance = () => {
     const isCheckOutDisabled = !hasStarted || hasEnded;
 
     return (
-        <div className="h-90% w-full bg-gray-50 flex flex-col items-center px-4 py-10 pb-24 overflow-auto space-y-10">
+        <div className="h-90% w-full bg-white flex flex-col items-center px-4 py-10 pb-24 overflow-auto space-y-10">
             {/* 공지사항 */}
             <div className="w-full text-sm bg-blue-50 border border-blue-200 rounded-md py-2 px-4 text-blue-700">
                 오늘 17:00 이후 퇴근 처리됩니다. 지각 주의하세요!

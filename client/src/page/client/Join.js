@@ -7,9 +7,34 @@ import axios from "axios";
 import AlertModal from "../modal/AlertModal";
 import { COMPANY_NUMBER_REQUEST } from "../../reducers/company";
 import { useDispatch, useSelector } from "react-redux";
+import { EMAIL_CHECK_REQUEST } from "../../reducers/email";
 
 const Join = () => {
     const dispatch = useDispatch();
+
+    const emailDomains = [
+        "naver.com",
+        "hanmail.net",
+        "gmail.com",
+        "daum.net",
+        "hotmail.com",
+        "custom",
+    ];
+
+    const [content, setContent] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
+    const [emailDomain, setEmailDomain] = useState("naver.com");
+    const [customDomain, setCustomDomain] = useState("");
+    const [user_password_check, setPasswordCheck] = useState("");
+    const [checkPassword, setCheckPassword] = useState(false);
+    const [openVerify, setOpenVerify] = useState(false);
+    const [verifyNum, setVerifyNum] = useState("");
+    const [emailVerifyNum, setEmailVerifyNum] = useState("");
+    const [isVerify, setIsVerify] = useState(false);
+    const [isBizVerified, setIsBizVerified] = useState(false);
+    const [isVerifyingBiz, setIsVerifyingBiz] = useState(false);
+    const [timer, setTimer] = useState(180); // 3분 = 180초
+    const [timerActive, setTimerActive] = useState(false);
 
     const [formData, setFormData] = useState({
         company_number: "",
@@ -26,7 +51,6 @@ const Join = () => {
         phone_2: "",
         phone_3: "",
     })
-    
     const formDataChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -35,8 +59,6 @@ const Join = () => {
         });
     };
 
-    console.log(formData)
-
     const phoneDataChange = (e) => {
         const { name, value } = e.target;
         setPhoneData({
@@ -44,23 +66,6 @@ const Join = () => {
             [name]: value
         });
     };
-    const [user_password_check, setPasswordCheck] = useState("");
-    const [checkPassword, setCheckPassword] = useState(false);
-    // const [openConfirmModal, setOpenConfirmModal] = useState(false);
-    const [openVerify, setOpenVerify] = useState(false);
-    const [verifyNum, setVerifyNum] = useState("");
-    const [emailVerifyNum, setEmailVerifyNum] = useState("");
-    const [isVerify, setIsVerify] = useState(false);
-    const [isBizVerified, setIsBizVerified] = useState(false);
-    const [isVerifyingBiz, setIsVerifyingBiz] = useState(false);
-
-    const nameRef = useRef(null);
-    const ceoNameRef = useRef(null);
-    const phoneRef = useRef(null);
-    const passwordRef = useRef(null);
-    const passwordCheckRef = useRef(null);
-
-    const [content, setContent] = useState("");
 
     const BIZ_TYPES = [
         { value: "", label: "업종을 선택하세요" },
@@ -80,38 +85,62 @@ const Join = () => {
         { value: "I", label: "숙박업" },
         { value: "I2", label: "음식·음료업" },
     ];
-    const [modalOpen, setModalOpen] = useState(false);
+
     const sendEmail = async () => {
-        setOpenVerify(true);
-        const randomNum = Math.floor(100000 + Math.random() * 900000).toString();
-        setEmailVerifyNum(randomNum);
-        console.log("Email verification number:", randomNum);
-    };
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // const onVerify = () => {
-    //     if (verifyNum === emailVerifyNum) {
-    //         setIsVerify(true);
-    //         setOpenVerify(false);
-    //         setAlertModalContent("이메일 인증에 성공하였습니다.");
-    //     } else {
-    //         setAlertModalContent("인증번호가 틀렸습니다.");
-    //     }
-    //     setOpenAlertModal(true);
-    // };
-    const { companyNumber } = useSelector((state) => state.company);
+        const user_id = formData.user_id + "@" + emailDomain;
 
-    useEffect(() => {
-        if (companyNumber && companyNumber === "01") {
-            setIsBizVerified(true);
-            setContent("사업자등록번호 인증에 성공했습니다.");
+        formData.user_id = user_id;
+
+        if (!formData.user_id) {
+            setContent("이메일을 입력해주세요.");
             setModalOpen(true);
-        } else if (companyNumber) {
-            setContent("유효하지 않은 사업자등록번호입니다.");
+            setOpenVerify(false);
+            return;
+        } else if (!emailRegex.test(formData.user_id)) {
+            setContent("올바른 이메일 형식이 아닙니다.");
             setModalOpen(true);
+            setOpenVerify(false);
+            return;
+        } else {
+            setOpenVerify(true);
+            setTimer(180); // 3분
+            setTimerActive(true);
+
+            const randomNum = Math.floor(100000 + Math.random() * 900000).toString();
+            setEmailVerifyNum(randomNum);
+            console.log("Email verification number:", randomNum);
+
+            // const user_id = formData.user_id;
+
+            // const data = {
+            //     user_id,
+            //     randomNum
+            // }
+
+            // dispatch({
+            //     type: EMAIL_CHECK_REQUEST,
+            //     data: data,
+            // });
         }
 
-        setIsVerifyingBiz(false);
-    }, [companyNumber]);
+    };
+
+    const onVerify = () => {
+        console.log(verifyNum);
+        console.log(emailVerifyNum);
+        if (verifyNum === emailVerifyNum) {
+            setIsVerify(true);
+            setContent("이메일 인증에 성공하였습니다.");
+            setModalOpen(true);
+        } else {
+            setContent("인증번호가 틀렸습니다.");
+            setModalOpen(true);
+        }
+    };
+
+
 
     const verifyBusinessNumber = async () => {
         if (!formData.company_number) {
@@ -130,39 +159,101 @@ const Join = () => {
                 type: COMPANY_NUMBER_REQUEST,
                 data: data,
             });
-
-
-
-            // const serviceKey = process.env.REACT_APP_BUSINESS_REGISTER_CONFIRM_KEY;
-            // console.log(serviceKey)
-            // const result = await axios.post(
-            //     "http://localhost:3070/api/verify-biz",
-            //     { b_no: [company_number] },
-            //     { headers: { "Content-Type": "application/json" } }
-            // );
-
-            // console.log(result)
-            // console.log(companyNumber)
-
-            // var status = "";
-
-            // console.log(companyNumber);
-            // console.log(status);
-
-            // if (companyNumber) {
-            //     status = companyNumber
-            // }
-
-
         } catch (e) {
             console.error(e);
-            // setAlertModalContent("사업자등록번호 인증 중 오류가 발생했습니다.");
+
         }
-        // setOpenAlertModal(true);
-        setIsVerifyingBiz(false);
+    };
+
+
+    useEffect(() => {
+        let interval;
+        if (timerActive && timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prev) => prev - 1);
+            }, 1000);
+        } else if (timer === 0) {
+            // 시간 초과 시 처리
+            setTimerActive(false);
+            setEmailVerifyNum("");
+            setVerifyNum("");
+            setOpenVerify(false);
+            setContent("이메일 인증 시간이 만료되었습니다. 다시 시도해주세요.");
+            setModalOpen(true);
+        }
+        return () => clearInterval(interval);
+    }, [timerActive, timer]);
+
+    const formatTime = (seconds) => {
+        const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+        const s = String(seconds % 60).padStart(2, "0");
+        return `${m}:${s}`;
     };
 
     const onSubmit = async () => {
+        if (phoneData.phone_1 && phoneData.phone_2 && phoneData.phone_3) {
+            formData.company_ceo_phone = phoneData.phone_1 + "-" + phoneData.phone_2 + "-" + phoneData.phone_3;
+        }
+
+        if (!formData.company_number) {
+            setContent("사업자등록번호를 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!formData.company_name) {
+            setContent("회사명을 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!formData.business_type) {
+            setContent("업종을 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!formData.company_count) {
+            setContent("사용 예상 인원을 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!formData.company_ceo_name) {
+            setContent("대표이름을 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!formData.company_ceo_phone) {
+            setContent("연락처를 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!formData.user_id) {
+            setContent("아이디(이메일)를(을) 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!formData.user_password) {
+            setContent("비밀번호를 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!user_password_check) {
+            setContent("비밀번호 확인을 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!(formData.user_password === user_password_check)) {
+            setContent("비밀번호가 일치하지 않습니다.");
+            setModalOpen(true);
+            return;
+        }
+
+        console.log(formData)
+      
+        dispatch({
+            type: EMAIL_CHECK_REQUEST,
+            data: formData,
+        });
+
+
         // const fields: SigninFields = {
         //   company_name,
         //   company_ceo_name,
@@ -212,11 +303,26 @@ const Join = () => {
         // }
     };
 
+    const { companyNumber } = useSelector((state) => state.company);
+
+    useEffect(() => {
+        if (companyNumber && companyNumber === "01") {
+            setIsBizVerified(true);
+            setContent("사업자등록번호 인증에 성공했습니다.");
+            setModalOpen(true);
+        } else if (companyNumber) {
+            setContent("유효하지 않은 사업자등록번호입니다.");
+            setModalOpen(true);
+        }
+
+        setIsVerifyingBiz(false);
+    }, [companyNumber]);
+
     return (
-        <div className="flex flex-col items-center justify-center w-full min-h-screen p-4 bg-gray-100">
+        <div className="flex flex-col items-center justify-center w-full min-h-screen p-4 bg-white">
             {/* <img src="./image/logo.jpg" alt="logo" className="" /> */}
 
-            <div className="w-full max-w-md p-6 bg-white shadow-md space-y-4">
+            <div className="w-full max-w-7xl p-6 bg-white space-y-4">
                 {/* 사업자등록번호 */}
                 <div>
                     <p className="text-2xl font-bold mb-6 text-blue-700 text-center">회원가입</p>
@@ -249,7 +355,6 @@ const Join = () => {
                         name="company_name"
                         value={formData.company_name}
                         onChange={formDataChange}
-                        ref={nameRef}
                         className="w-full px-3 py-2 border rounded-md"
                         placeholder="(주) TICTEC"
                     />
@@ -291,7 +396,6 @@ const Join = () => {
                         name="company_ceo_name"
                         value={formData.company_ceo_name}
                         onChange={formDataChange}
-                        ref={ceoNameRef}
                         className="w-full px-3 py-2 border rounded-md"
                         placeholder="김틱택"
                     />
@@ -337,43 +441,75 @@ const Join = () => {
                 {/* 이메일 */}
                 <div>
                     <label className="block text-sm font-medium mb-1">아이디(이메일) <span className="text-red-500">*</span></label>
-                    <input
-                        type="email"
-                        name="user_id"
-                        value={formData.user_id}
-                        onChange={formDataChange}
-                        // ref={emailRef}
-                        readOnly={isVerify}
-                        className={`w-full px-3 py-2 border rounded-md ${isVerify ? 'bg-gray-100' : ''}`}
-                        placeholder="tictec@tictec.com"
-                    />
+                    <div className="w-full flex flex-col sm:flex-row sm:items-center gap-2 mt-2">
+                        {/* 아이디 입력 */}
+                        <input
+                            type="text"
+                            name="user_id"
+                            value={formData.user_id}
+                            onChange={formDataChange}
+                            placeholder="아이디"
+                            className="flex-1 px-3 py-2 border rounded-md"
+                            readOnly={isVerify}
+                        />
+
+                        {/* @ 선택 영역 */}
+                        <div className="flex items-center sm:w-auto w-full">
+                            <span className="mx-1 text-gray-500">@</span>
+                            <select
+                                name="emailDomain"
+                                value={emailDomain}
+                                onChange={(e) => setEmailDomain(e.target.value)}
+                                className="flex-1 px-3 py-2 border rounded-md bg-white"
+                                disabled={isVerify}
+                            >
+                                {emailDomains.map((domain) => (
+                                    <option key={domain} value={domain}>
+                                        {domain === "custom" ? "직접 입력" : domain}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {emailDomain === "custom" && (
+                            <input
+                                type="text"
+                                value={customDomain}
+                                onChange={(e) => setCustomDomain(e.target.value)}
+                                placeholder="예: mydomain.com"
+                                className="w-full sm:w-auto px-3 py-2 border rounded-md mt-1 sm:mt-0"
+                                disabled={isVerify}
+                            />
+                        )}
+                    </div>
                     <button
-                        // onClick={() => {
-                        //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                        //     if (!user_email) {
-                        //         setAlertModalContent("이메일을 입력해주세요.");
-                        //         setOpenAlertModal(true);
-                        //     } else if (!emailRegex.test(user_email)) {
-                        //         setAlertModalContent("올바른 이메일 형식이 아닙니다.");
-                        //         setOpenAlertModal(true);
-                        //     } else {
-                        //         setOpenConfirmModal(true);
-                        //     }
-                        // }}
+                        onClick={sendEmail}
                         className={`w-full mt-2 py-2 rounded-md text-white ${isVerify ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`}
                         disabled={isVerify}
                     >
                         {isVerify ? "이메일 인증 완료" : "이메일 인증"}
                     </button>
-                    {openVerify && (
-                        <div className="flex mt-2 space-x-2">
-                            <input
-                                value={verifyNum}
-                                onChange={(e) => setVerifyNum(e.target.value)}
-                                className="flex-1 px-3 py-2 border rounded-md"
-                            />
-                            <button className="px-4 py-2 bg-blue-600 text-white rounded-md">인증</button>
-                        </div>
+                    {openVerify && !isVerify && (
+                        <>
+                            <div className="flex flex-col sm:flex-row mt-2 gap-2 w-full">
+                                <input
+                                    value={verifyNum}
+                                    onChange={(e) => setVerifyNum(e.target.value)}
+                                    className="flex-1 px-3 py-2 border rounded-md"
+                                    placeholder="인증번호 입력"
+                                />
+                                <button
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-md whitespace-nowrap"
+                                    onClick={onVerify}
+                                >
+                                    인증
+                                </button>
+                            </div>
+
+                            <div className="flex mt-2 justify-between items-center">
+                                <p className="text-green-600">인증번호가 발송되었습니다.</p>
+                                <p className="text-green-600 whitespace-nowrap">{formatTime(timer)}</p>
+                            </div>
+                        </>
                     )}
                 </div>
 
@@ -385,7 +521,6 @@ const Join = () => {
                         name="user_password"
                         value={formData.user_password}
                         onChange={formDataChange}
-                        ref={passwordRef}
                         className="w-full px-3 py-2 border rounded-md"
                     />
                 </div>
@@ -400,7 +535,6 @@ const Join = () => {
                             setPasswordCheck(e.target.value);
                             setCheckPassword(e.target.value !== formData.user_password);
                         }}
-                        ref={passwordCheckRef}
                         className="w-full px-3 py-2 border rounded-md"
                     />
                     {checkPassword && (

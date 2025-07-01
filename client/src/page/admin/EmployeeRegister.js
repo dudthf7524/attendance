@@ -56,7 +56,7 @@ const EmployeeRegister = () => {
   }, [userCheckId])
 
   return (
-    <div className="h-screen w-full bg-[#f9fafb] flex flex-col px-4 py-8">
+    <div className="h-screen w-full flex flex-col px-4 py-8">
       {/* 헤더 */}
       <div className="bg-white border border-blue-200  shadow-sm px-6 py-4 mb-8">
         <h1 className="text-2xl font-bold text-blue-600">직원 등록</h1>

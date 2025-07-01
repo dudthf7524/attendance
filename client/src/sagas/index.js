@@ -8,6 +8,8 @@ import timeSaga from "./time";
 import workPlaceSaga from "./workplace";
 import attendanceSaga from "./attendance";
 import companySaga from "./company";
+import emailSaga from "./email";
+
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
@@ -21,5 +23,6 @@ export default function* rootSaga() {
         fork(workPlaceSaga),
         fork(attendanceSaga),
         fork(companySaga),
+        fork(emailSaga),
     ]);
 }

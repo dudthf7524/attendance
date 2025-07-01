@@ -20,6 +20,7 @@ const timeRoutes = require('./routes/time');
 const workPlaceRoutes = require('./routes/workPlace');
 const attendanceRoutes = require('./routes/attendance');
 const companyRoutes = require('./routes/company');
+const emailRoutes = require('./routes/email');
 
 
 
@@ -96,6 +97,7 @@ app.use('/time', timeRoutes);
 app.use('/work/place', workPlaceRoutes);
 app.use('/attendance', attendanceRoutes);
 app.use('/company', companyRoutes);
+app.use('/email', emailRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));

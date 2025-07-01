@@ -62,7 +62,7 @@ export default function Sidebar({ isCollapsed, toggleCollapse }) {
         <>
             {/* Desktop Sidebar */}
             <div
-                className={`hidden sm:flex bg-gray-50 border-r border-gray-200 flex-col h-full transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}
+                className={`hidden sm:flex bg-white border-r border-gray-200 flex-col h-full transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}
             >
                 <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                     <div className="flex-shrink-0 px-4 flex items-center">

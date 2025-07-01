@@ -65,7 +65,7 @@ const AttendanceManagement = () => {
   };
 
   return (
-    <div className="h-[90vh] w-full bg-[#f9fafb] px-4 py-8 min-w-[700px] overflow-x-auto">
+    <div className="h-[90vh] w-full bg-white px-4 py-8 min-w-[700px] overflow-x-auto">
       {/* 상단 헤더 */}
       <div className="bg-white border border-blue-200 shadow-sm px-6 py-4 mb-8">
         <h1 className="text-2xl font-bold text-blue-600">근태 기록</h1>

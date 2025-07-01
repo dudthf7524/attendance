@@ -59,7 +59,7 @@ const TimeManagementPage = () => {
 
 
   return (
-    <div className="h-[90vh] w-full bg-[#f9fafb] px-4 py-8">
+    <div className="h-[90vh] w-full px-4 py-8">
       {/* 타이틀 */}
       <div className="mx-auto bg-white border border-blue-200 shadow-sm px-6 py-4 mb-8">
         <h1 className="text-2xl font-bold text-blue-600">시간 등록</h1>

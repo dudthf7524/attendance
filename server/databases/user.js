@@ -129,6 +129,15 @@ const userDelete = async (data) => {
     }
 };
 
+const findByEmail = async (user_id) => {
+    try {
+        const result = await user.findOne({ where: { user_id: user_id }, raw: true });
+        return result
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 module.exports = {
     userJoin,
     userLogin,
@@ -136,5 +145,6 @@ module.exports = {
     userCheckId,
     userRegister,
     userEdit,
-    userDelete
+    userDelete,
+    findByEmail
 };
