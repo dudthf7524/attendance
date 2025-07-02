@@ -22,7 +22,6 @@ function* Auth() {
             type: AUTH_SUCCESS,
             data: result.data,
         });
-        if (result.data) { }
     } catch (err) {
         console.error(err);
         yield put({

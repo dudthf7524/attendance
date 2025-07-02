@@ -13,7 +13,8 @@ module.exports = () => {
                 passReqToCallback: true,
             },
             async (req, user_id, user_password, done, res) => {
-
+                console.log(user_id)
+                console.log(user_password)
                 try {
                     const result = await user.userLogin(user_id, user_password);
                     if (result === -1) {

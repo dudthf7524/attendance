@@ -21,8 +21,13 @@ export const initialState = {
     user_delete_done: false,
     user_delete_error: null,
 
+    user_detail_Loading: false,
+    user_detail_done: false,
+    user_detail_error: null,
+
     userList: null,
-    userCheckId: null
+    userCheckId: null,
+    userDetail: null,
 };
 
 export const USER_LIST_REQUEST = "USER_LIST_REQUEST";
@@ -44,6 +49,10 @@ export const USER_EDIT_FAILURE = "USER_EDIT_FAILURE";
 export const USER_DELETE_REQUEST = "USER_DELETE_REQUEST";
 export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS";
 export const USER_DELETE_FAILURE = "USER_DELETE_FAILURE";
+
+export const USER_DETAIL_REQUEST = "USER_DETAIL_REQUEST";
+export const USER_DETAIL_SUCCESS = "USER_DETAIL_SUCCESS";
+export const USER_DETAIL_FAILURE = "USER_DETAIL_FAILURE";
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -115,6 +124,20 @@ const reducer = (state = initialState, action) => {
             case USER_DELETE_FAILURE:
                 draft.user_delete_Loading = false;
                 draft.user_delete_error = action.error;
+                break;
+            case USER_DETAIL_REQUEST:
+                draft.user_detail_Loading = true;
+                draft.user_detail_error = null;
+                draft.user_detail_done = false;
+                break;
+            case USER_DETAIL_SUCCESS:
+                draft.user_detail_Loading = false;
+                draft.userDetail = action.data;
+                draft.user_detail_done = true;
+                break;
+            case USER_DETAIL_FAILURE:
+                draft.user_detail_Loading = false;
+                draft.user_detail_error = action.error;
                 break;
             default:
                 return state;

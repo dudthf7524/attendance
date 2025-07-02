@@ -14,7 +14,7 @@ router.post('/check', async (req, res) => {
         if (result) {
             res.json("-1");
         }else{
-        //   const result = await email.sendEmail(user_id, email_verification_number)
+          const result = await email.sendEmail(user_id, email_verification_number)
           console.log(result);
           res.json(true);
         }

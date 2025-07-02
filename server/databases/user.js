@@ -1,10 +1,12 @@
 const { user, auth } = require("../models");
+const dayjs = require('dayjs');
+const bcrypt = require('bcrypt');
 
 const userJoin = async (data, company_code) => {
-    const today = format(new Date(), 'yyyy-MM-dd');
+    const today = dayjs().format('YYYY-MM-DD');
     try {
         const result = await user.create({
-            user_id: data.user_email,
+            user_id: data.user_id,
             user_name: data.user_name,
             user_password: data.user_password,
             user_nickname: "boss",
@@ -23,8 +25,11 @@ const userJoin = async (data, company_code) => {
 const userLogin = async (user_id, user_password) => {
     try {
         const result = await user.findOne({ where: { user_id: user_id }, raw: true })
+        const isMatch = await bcrypt.compare(user_password, result.user_password);
+        console.log(isMatch)
+
         if (result) {
-            if (result.user_password === user_password) {
+            if (isMatch) {
                 return result;
             } else {
                 return 0;
@@ -138,6 +143,17 @@ const findByEmail = async (user_id) => {
     }
 };
 
+
+const userDetail = async (user_code) => {
+    try {
+        const result = await user.findOne({ where: { user_code: user_code } })
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+
+};
+
 module.exports = {
     userJoin,
     userLogin,
@@ -146,5 +162,6 @@ module.exports = {
     userRegister,
     userEdit,
     userDelete,
-    findByEmail
+    findByEmail,
+    userDetail
 };

@@ -24,10 +24,10 @@ const Today = () => {
     return (
         <div className="w-full bg-white border border-gray-200 px-6 py-4 text-center rounded-md shadow-sm">
             <p className="font-semibold mb-4 text-gray-700">
-                {year}.{month}.{date} ({day})
+                {year}년 {month}월 {date}일 ({day})
             </p>
             <p className="text-sm text-gray-400">현재 시간</p>
-            <p className="text-3xl font-semibold text-blue-600">{formattedTime}</p>
+            <p className="text-2xl font-semibold text-blue-600">{formattedTime}</p>
         </div>
     );
 };

@@ -91,5 +91,15 @@ router.post("/delete", async (req, res) => {
     }
 });
 
+router.get("/detail", authMiddlewareSession,  async (req, res) => {
+    const user_code = req.user.user_code;
+    try {
+        const result = await user.userDetail(user_code);
+        return res.json(result);
+    } catch (error) {
+        console.error(error)
+    }
+});
+
 
 module.exports = router;

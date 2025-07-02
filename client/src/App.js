@@ -1,10 +1,9 @@
 // import './App.css';
-import { Routes, Route, useLocation, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Join from './page/client/Join';
 import Login from './page/client/Login';
 import Home from "./page/client/Home";
 import Attendance from "./page/client/Attendance";
-import BottomBar from "./component/BottomBar";
 import Dashboard from "./page/admin/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
 import AttendanceManagement from "./page/admin/AttendanceManagement";
@@ -42,14 +41,14 @@ function App() {
   //   location.pathname !== '/change/password';
 
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route element={<ClientLayout />}>
           <Route path="join" element={<Join />} />
           <Route path="login" element={<Login />} />
           <Route path="" element={<Home />} />
           <Route path="attendance" element={<Attendance />} />
-          <Route path="myPage" element={<MyPage />} />
+          <Route path="mypage" element={<MyPage />} />
           <Route path="/login/sucess" element={<LoginSuccess />} />
         </Route>
 
@@ -64,9 +63,7 @@ function App() {
         </Route>
       </Routes>
 
-
-      {/* <BottomBar /> */}
-    </BrowserRouter>
+    </>
   );
 }
 

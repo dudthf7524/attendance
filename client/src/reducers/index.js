@@ -7,6 +7,8 @@ import workplace from "./workplace";
 import attendance from "./attendance";
 import company from "./company";
 import email from "./email";
+import logout from "./logout";
+import join from "./join";
 
 
 const rootReducer = combineReducers({
@@ -17,7 +19,9 @@ const rootReducer = combineReducers({
     workplace,
     attendance,
     company,
-    email
+    email,
+    logout,
+    join
 });
 
 export default rootReducer;

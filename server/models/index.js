@@ -26,15 +26,14 @@ const sequelize = new Sequelize(
 //   });
 
 db.auth = require("./auth")(sequelize, Sequelize);
+db.companyType = require("./companyType")(sequelize, Sequelize);
+
 db.user = require("./user")(sequelize, Sequelize);
 db.time = require("./time")(sequelize, Sequelize);
-
-db.vacation = require("./vacation")(sequelize, Sequelize);
-db.companyAddress = require("./companyAddress")(sequelize, Sequelize);
-db.notice = require("./notice")(sequelize, Sequelize);
 db.company = require("./company")(sequelize, Sequelize);
 db.workPlace = require("./workPlace")(sequelize, Sequelize);
 db.attendance = require("./attendance")(sequelize, Sequelize);
+
 
 
 // 관계 설정

@@ -1,29 +1,46 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, BellIcon, UserCircleIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { LOGOUT_REQUEST } from '../reducers/logout';
 
-export default function Navbar({ user, onLogout }) {
+export default function Navbar({ user }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [menuItems, setMenuItems] = useState(['Profile', 'Settings', 'Logout']);
-
+    const { auth } = useSelector((state) => state.auth);
+    const menuItems = auth?.auth_code === 'A3'
+        ? ['로그아웃']
+        : ['관리자', '근로자', '로그아웃'];
     const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-    const { auth } = useSelector((state) => state.auth);
-
     const handleLogout = () => {
-        if (onLogout) onLogout();
-        navigate('/login');
+        dispatch({
+            type: LOGOUT_REQUEST,
+        });
     };
 
     const handleMenuClick = (item) => {
-        setMenuItems((prev) => prev.filter((i) => i !== item));
-        if (item === 'Logout') handleLogout();
+        if (item === '로그아웃') {
+            handleLogout();
+        } else {
+            // 예시: 메뉴 항목에 따라 다른 페이지 이동
+            if (item === '관리자') navigate('/admin/attendance');
+            if (item === '근로자') navigate('/attendance');
+        }
+
         setIsDropdownOpen(false);
     };
+
+    function login() {
+        navigate('/login');
+    }
+
+    function join() {
+        navigate('/join');
+    }
 
     return (
         <nav className="bg-white shadow-sm border-b border-gray-200">
@@ -64,17 +81,25 @@ export default function Navbar({ user, onLogout }) {
 
                         {/* User Icon with border on click */}
                         <div className="relative">
-                            <button
-                                onClick={toggleDropdown}
-                                className={`flex items-center rounded-full p-1 transition duration-150 ease-in-out ${isDropdownOpen ? 'ring-2 ring-blue-500 ring-offset-2' : ''
-                                    }`}
-                            >
-                                {user?.avatar ? (
-                                    <img className="h-8 w-8 rounded-full" src={user.avatar} alt="User" />
+                            {
+                                auth ? (
+                                    <button
+                                        onClick={toggleDropdown}
+                                        className={`flex items-center rounded-full p-1 transition duration-150 ease-in-out ${isDropdownOpen ? 'ring-2 ring-blue-500 ring-offset-2' : ''
+                                            }`}
+                                    >
+                                        {user?.avatar ? (
+                                            <img className="h-8 w-8 rounded-full" src={user.avatar} alt="User" />
+                                        ) : (
+                                            <UserCircleIcon className="h-8 w-8 text-gray-400" />
+                                        )}
+                                    </button>
+
                                 ) : (
-                                    <UserCircleIcon className="h-8 w-8 text-gray-400" />
-                                )}
-                            </button>
+                                    <></>
+                                )
+                            }
+
 
                             {/* Dropdown Menu */}
                             {isDropdownOpen && (
@@ -88,9 +113,6 @@ export default function Navbar({ user, onLogout }) {
                                             {item}
                                         </button>
                                     ))}
-                                    {menuItems.length === 0 && (
-                                        <div className="px-4 py-2 text-sm text-gray-400">모든 항목 제거됨</div>
-                                    )}
                                 </div>
                             )}
                         </div>
@@ -115,15 +137,39 @@ export default function Navbar({ user, onLogout }) {
             {/* Mobile Dropdown */}
             {isMobileMenuOpen && (
                 <div className="sm:hidden px-4 pt-2 pb-3 space-y-1">
-                    {menuItems.map((item) => (
-                        <button
-                            key={item}
-                            className="block w-full text-left text-gray-700 py-2 hover:bg-gray-100"
-                            onClick={() => handleMenuClick(item)}
-                        >
-                            {item}
-                        </button>
-                    ))}
+                    {
+                        auth ? (
+                            <>
+                                {menuItems.map((item) => (
+                                    <button
+                                        key={item}
+                                        className="block w-full text-left text-gray-700 py-2 hover:bg-gray-100"
+                                        onClick={() => handleMenuClick(item)}
+                                    >
+                                        {item}
+                                    </button>
+                                ))}
+                            </>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={login}
+                                    className="block w-full text-left text-gray-400 hover:text-gray-500 py-2"
+                                >
+                                    로그인
+
+                                </button>
+                                <button
+                                    onClick={join}
+                                    className="block w-full text-left text-gray-400 hover:text-gray-500 py-2"
+                                >
+                                    회원가입
+
+                                </button>
+                            </>
+                        )
+                    }
+
                 </div>
             )}
         </nav>

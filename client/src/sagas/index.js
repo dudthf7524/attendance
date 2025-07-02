@@ -9,7 +9,8 @@ import workPlaceSaga from "./workplace";
 import attendanceSaga from "./attendance";
 import companySaga from "./company";
 import emailSaga from "./email";
-
+import joinSaga from "./join";
+import logoutSaga from "./logout";
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
@@ -24,5 +25,7 @@ export default function* rootSaga() {
         fork(attendanceSaga),
         fork(companySaga),
         fork(emailSaga),
+        fork(joinSaga),
+        fork(logoutSaga),
     ]);
 }

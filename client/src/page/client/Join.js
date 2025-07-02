@@ -1,13 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 // import AlertModal from "../components/alertModal";
 // import ConfirmModal from "../components/confirmModal";
 // import { validateSignin } from "./validation";
 // import type { SigninFields, SigninRefs } from "./validation";
-import axios from "axios";
 import AlertModal from "../modal/AlertModal";
 import { COMPANY_NUMBER_REQUEST } from "../../reducers/company";
 import { useDispatch, useSelector } from "react-redux";
 import { EMAIL_CHECK_REQUEST } from "../../reducers/email";
+import { JOIN_REQUEST } from "../../reducers/join";
 
 const Join = () => {
     const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const Join = () => {
     const [formData, setFormData] = useState({
         company_number: "",
         company_name: "",
-        business_type: "",
+        company_type: "",
         company_count: "",
         company_ceo_name: "",
         company_ceo_phone: "",
@@ -112,17 +112,17 @@ const Join = () => {
             setEmailVerifyNum(randomNum);
             console.log("Email verification number:", randomNum);
 
-            // const user_id = formData.user_id;
+            const user_id = formData.user_id;
 
-            // const data = {
-            //     user_id,
-            //     randomNum
-            // }
+            const data = {
+                user_id,
+                randomNum
+            }
 
-            // dispatch({
-            //     type: EMAIL_CHECK_REQUEST,
-            //     data: data,
-            // });
+            dispatch({
+                type: EMAIL_CHECK_REQUEST,
+                data: data,
+            });
         }
 
     };
@@ -134,6 +134,10 @@ const Join = () => {
             setIsVerify(true);
             setContent("이메일 인증에 성공하였습니다.");
             setModalOpen(true);
+            setTimerActive(false);
+            setOpenVerify(false);
+            setEmailVerifyNum("");
+            setVerifyNum("");
         } else {
             setContent("인증번호가 틀렸습니다.");
             setModalOpen(true);
@@ -172,7 +176,7 @@ const Join = () => {
             interval = setInterval(() => {
                 setTimer((prev) => prev - 1);
             }, 1000);
-        } else if (timer === 0) {
+        } else if (timer === 0 && !isVerify) {
             // 시간 초과 시 처리
             setTimerActive(false);
             setEmailVerifyNum("");
@@ -182,7 +186,7 @@ const Join = () => {
             setModalOpen(true);
         }
         return () => clearInterval(interval);
-    }, [timerActive, timer]);
+    }, [timerActive, timer, isVerify]);
 
     const formatTime = (seconds) => {
         const m = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -205,7 +209,7 @@ const Join = () => {
             setModalOpen(true);
             return;
         }
-        if (!formData.business_type) {
+        if (!formData.company_type) {
             setContent("업종을 입력해주세요");
             setModalOpen(true);
             return;
@@ -245,62 +249,10 @@ const Join = () => {
             setModalOpen(true);
             return;
         }
-
-        console.log(formData)
-
         dispatch({
-            type: EMAIL_CHECK_REQUEST,
+            type: JOIN_REQUEST,
             data: formData,
         });
-
-
-        // const fields: SigninFields = {
-        //   company_name,
-        //   company_ceo_name,
-        //   company_ceo_phone,
-        //   user_password,
-        //   user_password_check,
-        // };
-        // const refs: SigninRefs = {
-        //   nameRef,
-        //   ceoNameRef,
-        //   phoneRef,
-        //   passwordRef,
-        //   passwordCheckRef,
-        // };
-        // const result = validateSignin(fields, refs, isVerify);
-        // if (!result.valid) {
-        //     setAlertModalContent(result.message || "입력값을 확인해주세요.");
-        //     setOpenAlertModal(true);
-        //     result.focusRef?.current?.focus();
-        //     return;
-        // }
-        console.log(formData)
-        // try {
-        //     const data = {
-        //         company: {
-        //             company_name,
-        //             company_number,
-        //             company_type: bizType,
-        //             company_count,
-        //             company_ceo_name,
-        //             company_ceo_phone,
-        //         },
-        //         user: {
-        //             user_email,
-        //             user_name: company_ceo_name,
-        //             user_password,
-        //             user_password_check,
-        //         },
-        //     };
-
-        //     console.log(data, data)
-        //     const res = await axios.post("http://localhost:3070/auth/join", data);
-        //     // alert(res.data.message);
-        //     // if (res.data.success) window.location.href = "/";
-        // } catch (e) {
-        //     console.error(e);
-        // }
     };
 
     const { companyNumber } = useSelector((state) => state.company);
@@ -320,10 +272,7 @@ const Join = () => {
 
     return (
         <div className="flex flex-col items-center justify-center w-full min-h-screen p-4 bg-white">
-            {/* <img src="./image/logo.jpg" alt="logo" className="" /> */}
-
             <div className="w-full max-w-7xl p-6 bg-white space-y-4">
-                {/* 사업자등록번호 */}
                 <div>
                     <p className="text-2xl font-bold mb-6 text-blue-700 text-center">회원가입</p>
                     <label className="block text-sm font-medium mb-1">
@@ -364,8 +313,8 @@ const Join = () => {
                 <div>
                     <label className="block text-sm font-medium mb-1">업종 <span className="text-red-500">*</span></label>
                     <select
-                        name="business_type"
-                        value={formData.business_type}
+                        name="company_type"
+                        value={formData.company_type}
                         onChange={formDataChange}
                         className="w-full px-3 py-2 border rounded-md bg-white"
                     >

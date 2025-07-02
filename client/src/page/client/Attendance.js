@@ -16,7 +16,7 @@ const Attendance = () => {
 
     const { timeDetail } = useSelector((state) => state.time);
     useEffect(() => {
-         timeDetailDB();
+        timeDetailDB();
     }, [])
     const timeDetailDB = () => {
         dispatch({
@@ -112,95 +112,99 @@ const Attendance = () => {
     const isCheckOutDisabled = !hasStarted || hasEnded;
 
     return (
-        <div className="h-90% w-full bg-white flex flex-col items-center px-4 py-10 pb-24 overflow-auto space-y-10">
+        <div className="h-[90vh] w-full bg-white px-4 py-7 pb-24 overflow-auto">
             {/* 공지사항 */}
-            <div className="w-full text-sm bg-blue-50 border border-blue-200 rounded-md py-2 px-4 text-blue-700">
-                오늘 17:00 이후 퇴근 처리됩니다. 지각 주의하세요!
-            </div>
-            <Today />
-            <div className="w-full bg-white border border-gray-200 px-6 py-4 text-center">
-                <button
-                    onClick={() => setShowLocationModal(true)}
-                    className="w-full px-4 py-2 bg-white border border-blue-400 text-blue-400 hover:bg-blue-50 active:scale-95 transition flex items-center justify-center gap-2"
-                >
-                    <MapPinIcon className="h-5 w-5 text-blue-400" />
-                    <span className="leading-none">현재 위치 찾기</span>
-                </button>
-            </div>
+            <div className="w-full max-w-7xl mx-auto flex flex-col items-center space-y-7">
 
-            <div className="w-full grid grid-cols-3 gap-6 bg-white border border-gray-200 rounded-md p-6 text-center">
-                <div>
-                    <p className="text-xs text-gray-500">출근 시간</p>
-                    <p className="text-base font-medium">{timeDetail?.start_time || '출근시간 미정'}</p>
+                <div className="w-full text-sm bg-blue-50 border border-blue-200 rounded-md py-2 px-4 text-blue-700">
+                    오늘 17:00 이후 퇴근 처리됩니다. 지각 주의하세요!
                 </div>
-                <div>
-                    <p className="text-xs text-gray-500">퇴근 시간</p>
-                    <p className="text-base font-medium">{timeDetail?.end_time || '퇴근시간 미정'}</p>
+                <Today />
+                <div className="w-full bg-white border border-gray-200 px-6 py-4 text-center">
+                    <button
+                        onClick={() => setShowLocationModal(true)}
+                        className="w-full px-4 py-2 bg-white border border-blue-400 text-blue-400 hover:bg-blue-50 active:scale-95 transition flex items-center justify-center gap-2"
+                    >
+                        <MapPinIcon className="h-5 w-5 text-blue-400" />
+                        <span className="leading-none">현재 위치 찾기</span>
+                    </button>
                 </div>
-                <div>
-                    <p className="text-xs text-gray-500">휴게 시간</p>
-                    <p className="text-base font-medium">{timeDetail?.rest_start_time || '휴게시작시간 미정'} ~ {timeDetail?.rest_end_time || '휴게종료시간 미정'}</p>
-                </div>
-            </div>
 
-            {/* 출근/퇴근 기록 */}
-            <div className="w-full grid grid-cols-2 gap-6 bg-white border border-gray-200 rounded-md p-6 text-center">
-                <div>
-                    <p className="text-xs text-gray-500">출근 날짜</p>
-                    <p className="text-base font-medium">{attendanceToday?.attendance_start_date || "출근 전"}</p>
+                <div className="w-full grid grid-cols-3 gap-6 bg-white border border-gray-200 rounded-md p-6 text-center">
+                    <div>
+                        <p className="text-xs text-gray-500">출근 시간</p>
+                        <p className="text-base font-medium">{timeDetail?.start_time || '출근시간 미정'}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-gray-500">퇴근 시간</p>
+                        <p className="text-base font-medium">{timeDetail?.end_time || '퇴근시간 미정'}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-gray-500">휴게 시간</p>
+                        <p className="text-base font-medium">{timeDetail?.rest_start_time || '휴게시작시간 미정'} ~ {timeDetail?.rest_end_time || '휴게종료시간 미정'}</p>
+                    </div>
                 </div>
-                <div>
-                    <p className="text-xs text-gray-500">출근 시간</p>
-                    <p className="text-base font-medium">{attendanceToday?.attendance_start_time || "출근 전"}</p>
-                </div>
-                <div>
-                    <p className="text-xs text-gray-500">퇴근 날짜</p>
-                    <p className="text-base font-medium">{attendanceToday?.attendance_end_date || "퇴근 전"}</p>
-                </div>
-                <div>
-                    <p className="text-xs text-gray-500">퇴근 시간</p>
-                    <p className="text-base font-medium">{attendanceToday?.attendance_end_time || "퇴근 전"}</p>
-                </div>
-            </div>
 
-            {/* 출근/퇴근 버튼 */}
-            <div className="w-full flex flex-col md:flex-row gap-4">
-                <button
-                    disabled={isCheckInDisabled}
-                    onClick={attendance}
-                    className={`w-full md:w-1/2 py-6 font-semibold rounded-md border transition duration-150
+                {/* 출근/퇴근 기록 */}
+                <div className="w-full grid grid-cols-2 gap-6 bg-white border border-gray-200 rounded-md p-6 text-center">
+                    <div>
+                        <p className="text-xs text-gray-500">출근 날짜</p>
+                        <p className="text-base font-medium">{attendanceToday?.attendance_start_date || "출근 전"}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-gray-500">출근 시간</p>
+                        <p className="text-base font-medium">{attendanceToday?.attendance_start_time || "출근 전"}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-gray-500">퇴근 날짜</p>
+                        <p className="text-base font-medium">{attendanceToday?.attendance_end_date || "퇴근 전"}</p>
+                    </div>
+                    <div>
+                        <p className="text-xs text-gray-500">퇴근 시간</p>
+                        <p className="text-base font-medium">{attendanceToday?.attendance_end_time || "퇴근 전"}</p>
+                    </div>
+                </div>
+
+                {/* 출근/퇴근 버튼 */}
+                <div className="w-full flex flex-col md:flex-row gap-4">
+                    <button
+                        disabled={isCheckInDisabled}
+                        onClick={attendance}
+                        className={`w-full md:w-1/2 py-6 font-semibold rounded-md border transition duration-150
       ${isCheckInDisabled
-                            ? 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed'
-                            : 'bg-white border-blue-400 text-blue-400 hover:bg-blue-50 active:scale-95 active:ring-2 active:ring-blue-400 active:ring-offset-2'}
+                                ? 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed'
+                                : 'bg-white border-blue-400 text-blue-400 hover:bg-blue-50 active:scale-95 active:ring-2 active:ring-blue-400 active:ring-offset-2'}
     `}
-                >
-                    출근
-                </button>
+                    >
+                        출근
+                    </button>
 
-                <button
-                    disabled={isCheckOutDisabled}
-                    onClick={leaveWork}
-                    className={`w-full md:w-1/2 py-6 font-semibold rounded-md border transition duration-150
+                    <button
+                        disabled={isCheckOutDisabled}
+                        onClick={leaveWork}
+                        className={`w-full md:w-1/2 py-6 font-semibold rounded-md border transition duration-150
       ${isCheckOutDisabled
-                            ? 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed'
-                            : 'bg-white border-blue-400 text-blue-400 hover:bg-blue-50 active:scale-95 active:ring-2 active:ring-blue-400 active:ring-offset-2'}
+                                ? 'bg-gray-100 border-gray-300 text-gray-400 cursor-not-allowed'
+                                : 'bg-white border-blue-400 text-blue-400 hover:bg-blue-50 active:scale-95 active:ring-2 active:ring-blue-400 active:ring-offset-2'}
     `}
-                >
-                    퇴근
-                </button>
-            </div>
-            <BottomBar />
-            {showLocationModal &&
-                ReactDOM.createPortal(
-                    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-                        <div className="bg-white rounded-lg shadow-lg w-4/5 p-4 h-[90vh] overflow-y-auto">
-                            <MyLocation closeModal={() => setShowLocationModal(false)} />
-                        </div>
-                    </div>,
-                    document.body
-                )
-            }
-        </div >
+                    >
+                        퇴근
+                    </button>
+                </div>
+                <BottomBar />
+                {showLocationModal &&
+                    ReactDOM.createPortal(
+                        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+                            <div className="bg-white rounded-lg shadow-lg w-4/5 p-4 h-[90vh] overflow-y-auto">
+                                <MyLocation closeModal={() => setShowLocationModal(false)} />
+                            </div>
+                        </div>,
+                        document.body
+                    )
+                }
+            </div >
+        </div>
+
     );
 };
 

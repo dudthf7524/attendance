@@ -6,61 +6,42 @@ import {
     JOIN_FAILURE,
 } from "../reducers/join";
 
-
-
-
 // ✅ 사용자 로그인
 function* watchJoin() {
-    yield takeLatest(LOGIN_REQUEST, Login);
+    yield takeLatest(JOIN_REQUEST, join);
 }
 
-function inAPI(data) {
+function joinAPI(data) {
 
-    return axios.post("/login", data);
+    return axios.post("/join", data);
 }
 
-function* in(action) {
+function* join(action) {
+
     try {
-        const result = yield call(LoginAPI, action.data);
-
-        if (result.data === -1) {
-            yield put({
-                type: LOGIN_FAILURE,
-                error: result.data,
-            });
-            return;
-        }
-        if (result.data === 0) {
-            yield put({
-                type: LOGIN_FAILURE,
-                error: result.data,
-            });
-            return;
-        }
-
-        if (result.data) {
-            yield put({
-                type: LOGIN_SUCCESS,
-                error: result.data,
-            });
-            alert('로그인이 완료되었습니다.')
-            window.location.href = "/login/sucess"
-
-        }
-
-
-    } catch (err) {
+        const result = yield call(joinAPI, action.data);
         yield put({
-            type: LOGIN_FAILURE,
+            type: JOIN_SUCCESS,
+            data: result.data,
+        });
+        if (result.data) {
+            alert('회원가입이 완료되었습니다.')
+            window.location.href = "/login";
+        }
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: JOIN_FAILURE,
             error: err.response.data,
         });
     }
+
 }
 
 
 
-export default function* loginSaga() {
+export default function* joinSaga() {
     yield all([
-        fork(watchLogin),
+        fork(watchJoin),
     ]);
 }

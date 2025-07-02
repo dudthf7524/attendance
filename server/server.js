@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
-const { sequelize, attendance } = require('./models');
+const { sequelize } = require('./models');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
@@ -21,17 +21,21 @@ const workPlaceRoutes = require('./routes/workPlace');
 const attendanceRoutes = require('./routes/attendance');
 const companyRoutes = require('./routes/company');
 const emailRoutes = require('./routes/email');
+const joinRoutes = require('./routes/join');
+const logoutRoutes = require('./routes/logout');
 
 
 
 const authData = require("./modelsInitializeData/authData");
+const companyTypeData = require("./modelsInitializeData/companyTypeData");
+
 
 passportConfig();
 app.use(express.json());
 
 // CORS 설정
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://www.washstation.shop/'],
+  origin: ['http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
 }));
 
@@ -51,6 +55,9 @@ sequelize
     try {
       await authData();
       console.log("✅ authData 삽입 완료");
+
+      await companyTypeData();
+      console.log("✅ companyTypeData 삽입 완료");
 
     } catch (error) {
       console.error("❌ 초기 데이터 삽입 실패:", error);
@@ -98,6 +105,9 @@ app.use('/work/place', workPlaceRoutes);
 app.use('/attendance', attendanceRoutes);
 app.use('/company', companyRoutes);
 app.use('/email', emailRoutes);
+app.use('/join', joinRoutes);
+app.use('/logout', logoutRoutes);
+
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));

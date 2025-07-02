@@ -21,6 +21,10 @@ import {
     USER_DELETE_SUCCESS,
     USER_DELETE_FAILURE,
 
+    USER_DETAIL_REQUEST,
+    USER_DETAIL_SUCCESS,
+    USER_DETAIL_FAILURE,
+
 } from "../reducers/user";
 // ✅ 사용자 리스트
 function* watchUserList() {
@@ -162,8 +166,43 @@ function* userDelete(action) {
     }
 }
 
+function* watchUserDetail() {
+    yield takeLatest(USER_DETAIL_REQUEST, userDetail);
+}
+
+function userDetailAPI() {
+
+    return axios.get("/user/detail");
+}
+
+function* userDetail() {
+    try {
+        const result = yield call(userDetailAPI);
+        yield put({
+            type: USER_DETAIL_SUCCESS,
+            data: result.data,
+        });
+        if (result.data === 'common') {
+            alert('쿠키가 만료되어 로그인이 필요합니다.')
+            window.location.href = "/login";
+            return;
+        }
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: USER_DETAIL_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
 export default function* userSaga() {
     yield all([
-        fork(watchUserList), fork(watchUserCheckId), fork(watchUserRegister), fork(watchUserEdit), fork(watchUserDelete),
+        fork(watchUserList),
+        fork(watchUserCheckId),
+        fork(watchUserRegister),
+        fork(watchUserEdit),
+        fork(watchUserDelete),
+        fork(watchUserDetail),
     ]);
 }
