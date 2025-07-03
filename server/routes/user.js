@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const user = require('../databases/user');
-
+const bcrypt = require('bcrypt');
 const passport = require('passport');
 const authMiddlewareSession = require('../middleware/authMiddlewareSession');
 
@@ -58,6 +58,14 @@ router.post("/check/id", async (req, res) => {
 router.post("/register", async (req, res) => {
     const data = req.body;
     const company_code = req.user.company_code;
+
+    const saltOrRounds = 10;
+
+    const hashedPassword = await bcrypt.hash(data.user_password, saltOrRounds);
+
+
+    data.user_password = hashedPassword;
+
     try {
         const result = await user.userRegister(data, company_code);
         res.json(result);
@@ -91,7 +99,7 @@ router.post("/delete", async (req, res) => {
     }
 });
 
-router.get("/detail", authMiddlewareSession,  async (req, res) => {
+router.get("/detail", authMiddlewareSession, async (req, res) => {
     const user_code = req.user.user_code;
     try {
         const result = await user.userDetail(user_code);

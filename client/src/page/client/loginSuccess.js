@@ -12,7 +12,7 @@ const LoginSuccess = () => {
         } else if (auth?.auth_code === "A2") {
             navigate('/admin/dashboard');
         } else if (auth?.auth_code === "A3") {
-            navigate('attendance');
+            navigate('/attendance');
         }
     }, [auth]);
 

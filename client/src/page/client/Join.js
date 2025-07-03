@@ -85,13 +85,21 @@ const Join = () => {
         { value: "I", label: "숙박업" },
         { value: "I2", label: "음식·음료업" },
     ];
-
+    console.log(customDomain)
     const sendEmail = async () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        const user_id = formData.user_id + "@" + emailDomain;
+        var user_id;
 
+        user_id = formData.user_id + "@" + emailDomain;
+
+        if(emailDomain === "custom"){
+            user_id = formData.user_id + "@" + customDomain;
+        }
+        
         formData.user_id = user_id;
+
+
 
         if (!formData.user_id) {
             setContent("이메일을 입력해주세요.");

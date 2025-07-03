@@ -22,7 +22,9 @@ function* workPlaceRegister(action) {
             type: WORK_PLACE_REGISTER_SUCCESS,
             data: result.data,
         });
-        if (result.data) { }
+        if (result.data) {
+            alert('근무지 설정 완료')
+         }
     } catch (err) {
         console.error(err);
         yield put({

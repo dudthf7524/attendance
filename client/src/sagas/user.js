@@ -95,6 +95,8 @@ function* userRegister(action) {
             type: USER_REGISTER_SUCCESS,
             data: result.data,
         });
+        console.log(result)
+        console.log(result.data)
         if (result.data) {
             alert("직원이 등록되었습니다.")
             window.location.href = "/admin/employee/list";

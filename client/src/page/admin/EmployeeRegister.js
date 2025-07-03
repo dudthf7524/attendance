@@ -30,7 +30,8 @@ const EmployeeRegister = () => {
     });
   }
 
-  const userRegister = () => {
+  const userRegister = (e) => {
+    e.preventDefault();
 
     const data = formData;
 
