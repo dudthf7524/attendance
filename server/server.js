@@ -5,6 +5,7 @@ const cors = require('cors');
 const { sequelize } = require('./models');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const jwt = require("jsonwebtoken");
 
 const passportConfig = require("./passport/cookie");
 const passport = require("passport");
@@ -23,6 +24,9 @@ const companyRoutes = require('./routes/company');
 const emailRoutes = require('./routes/email');
 const joinRoutes = require('./routes/join');
 const logoutRoutes = require('./routes/logout');
+const appUserRoutes = require('./routesApp/user');
+const appTimeRoutes = require('./routesApp/time');
+const appAttendanceRoutes = require('./routesApp/attendance');
 
 
 
@@ -107,6 +111,11 @@ app.use('/company', companyRoutes);
 app.use('/email', emailRoutes);
 app.use('/join', joinRoutes);
 app.use('/logout', logoutRoutes);
+
+app.use('/app/user', appUserRoutes);
+app.use('/app/time', appTimeRoutes);
+app.use('/app/attendance', appAttendanceRoutes);
+
 
 
 app.get("*", (req, res) => {

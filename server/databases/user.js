@@ -26,7 +26,6 @@ const userLogin = async (user_id, user_password) => {
     try {
         const result = await user.findOne({ where: { user_id: user_id }, raw: true })
         const isMatch = await bcrypt.compare(user_password, result.user_password);
-        console.log(isMatch)
 
         if (result) {
             if (isMatch) {
@@ -143,6 +142,14 @@ const findByEmail = async (user_id) => {
     }
 };
 
+const findByUserId = async (user_id) => {
+    try {
+        const result = await user.findOne({ where: { user_id: user_id }, raw: true });
+        return result
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 const userDetail = async (user_code) => {
     try {
@@ -163,5 +170,6 @@ module.exports = {
     userEdit,
     userDelete,
     findByEmail,
-    userDetail
+    userDetail,
+    findByUserId
 };

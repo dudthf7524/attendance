@@ -4,6 +4,7 @@ const user = require('../databases/user');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const authMiddlewareSession = require('../middleware/authMiddlewareSession');
+const verifyToken = require('../token/verityToken');
 
 
 router.post("/join", async (req, res) => {
@@ -109,5 +110,10 @@ router.get("/detail", authMiddlewareSession, async (req, res) => {
     }
 });
 
+router.post("/logout", verifyToken, (req, res, next) => {
+
+    delete res.locals.email;
+    res.json({ message: "ok" });
+});
 
 module.exports = router;

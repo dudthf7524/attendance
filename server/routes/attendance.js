@@ -3,6 +3,7 @@ const router = express.Router();
 const authMiddlewareSession = require('../middleware/authMiddlewareSession');
 const attendance = require('../databases/attendance');
 const dayjs = require('dayjs');
+const verifyToken = require('../token/verityToken');
 
 router.post("/register", authMiddlewareSession, async (req, res) => {
     try {
