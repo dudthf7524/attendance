@@ -28,6 +28,7 @@ const Attendance = () => {
     useEffect(() => {
         attendanceTodayDB();
     }, [])
+    
     const attendanceTodayDB = () => {
         dispatch({
             type: ATTENDANCE_TODAY_REQUEST

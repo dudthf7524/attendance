@@ -13,4 +13,34 @@ router.get("/today", verifyToken, async (req, res) => {
     }
 });
 
+router.post("/register", verifyToken, async (req, res) => {
+    try {
+        const data = req.body;
+        const user_code = res.locals.user_code;
+        const result = await attendance.attendanceRegister(data, user_code)
+        if (result) {
+            return res
+                .status(200)
+                .json({ message: "출근 등록 완료" });
+        }
+    } catch (error) {
+        console.error(error)
+    }
+});
+
+router.post("/update", verifyToken, async (req, res) => {
+    console.log(req.body)
+    try {
+        const data = req.body;
+        const result = await attendance.attendanceUpdate(data);
+        if (result) {
+            return res
+                .status(200)
+                .json({ message: "퇴근 등록 완료" });
+        }
+    } catch (error) {
+        console.error(error)
+    }
+});
+
 module.exports = router;
