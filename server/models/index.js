@@ -33,6 +33,7 @@ db.time = require("./time")(sequelize, Sequelize);
 db.company = require("./company")(sequelize, Sequelize);
 db.workPlace = require("./workPlace")(sequelize, Sequelize);
 db.attendance = require("./attendance")(sequelize, Sequelize);
+db.vacation = require("./vacation")(sequelize, Sequelize);
 
 
 

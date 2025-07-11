@@ -110,9 +110,6 @@ router.post("/aaa", async (req, res) => {
 
 
 const verifyRefreshToken = (req, res, next) => {
-    console.log('aaaa')
-    console.log(req.headers.authorization)
-    console.log('aaaa')
 
     if (!req.headers.authorization) {
         return res.status(401).json({ message: "토큰이 없습니다." });

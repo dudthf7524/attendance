@@ -27,6 +27,7 @@ const logoutRoutes = require('./routes/logout');
 const appUserRoutes = require('./routesApp/user');
 const appTimeRoutes = require('./routesApp/time');
 const appAttendanceRoutes = require('./routesApp/attendance');
+const appVacationRoutes = require('./routesApp/vacation');
 
 
 
@@ -112,9 +113,11 @@ app.use('/email', emailRoutes);
 app.use('/join', joinRoutes);
 app.use('/logout', logoutRoutes);
 
+//app
 app.use('/app/user', appUserRoutes);
 app.use('/app/time', appTimeRoutes);
 app.use('/app/attendance', appAttendanceRoutes);
+app.use('/app/vacation', appVacationRoutes);
 
 
 
