@@ -17,10 +17,6 @@ import {
     ATTENDANCE_SEARCH_SUCCESS,
     ATTENDANCE_SEARCH_FAILURE,
 
-    ATTENDANCE_COMPANY_NUMBER_REQUEST,
-    ATTENDANCE_COMPANY_NUMBER_SUCCESS,
-    ATTENDANCE_COMPANY_NUMBER_FAILURE,
-
 } from "../reducers/attendance";
 
 function* watchAttendanceRegister() {

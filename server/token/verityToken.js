@@ -11,8 +11,10 @@ const verifyToken = (req, res, next) => {
             jwtSecret
         );
         res.locals.user_code = data.user_code;
-    } catch (error) {
+        res.locals.company_code = data.company_code;
 
+        
+    } catch (error) {
         if (error.name === "TokenExpiredError") {
             return res
                 .status(419)

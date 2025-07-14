@@ -47,7 +47,10 @@ module.exports = (sequelize) => {
             foreignKey: 'company_code',
             sourceKey: 'company_code',
         });
-
+        company.hasMany(models.vacation, {
+            foreignKey: 'company_code',
+            sourceKey: 'company_code',
+        });
     };
 
     return company;

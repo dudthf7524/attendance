@@ -14,7 +14,7 @@ const LoginSuccess = () => {
         } else if (auth?.auth_code === "A3") {
             navigate('/attendance');
         }
-    }, [auth]);
+    }, [navigate, auth]);
 
 }
 

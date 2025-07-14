@@ -8,6 +8,7 @@ import {
   UsersIcon,
   ClockIcon,
   WrenchScrewdriverIcon,
+  CalendarDaysIcon,
 } from '@heroicons/react/24/outline';
 
 const navigationItems = [
@@ -42,6 +43,12 @@ const navigationItems = [
     subItems: [
       { name: 'GPS 근무지 설정', path: '/admin/setting/gps' },
     ],
+  },
+  {
+    name: '휴가관리',
+    path: '/admin/vacation',
+    icon: CalendarDaysIcon,
+    subItems: [],
   },
 ];
 

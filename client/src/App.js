@@ -18,6 +18,8 @@ import { useDispatch } from "react-redux";
 import ClientLayout from "./layout/ClientLayout";
 import WorkPlace from "./page/admin/WorkPlace";
 import TimeList from "./page/admin/TimeList";
+import Vacation from "./page/admin/Vacation";
+import VacationApproval from "./page/admin/VacationApproval";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,9 +62,10 @@ function App() {
           <Route path="employee/register" element={< EmployeeRegister />} />
           <Route path="setting/gps" element={< WorkPlace />} />
           <Route path="time/list" element={< TimeList />} />
+          <Route path="vacation" element={< Vacation />} />
+          <Route path="vacation/approval" element={< VacationApproval />} />
         </Route>
       </Routes>
-
     </>
   );
 }

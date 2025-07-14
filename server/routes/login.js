@@ -51,16 +51,18 @@ router.post("/aaa", async (req, res) => {
     if (result) {
         const user_code = result.user_code;
         const user_name = result.user_name;
+        const company_code = result.company_code;
         console.log(user_code)
         console.log(user_name)
+        console.log(company_code)
         const refreshToken = jwt.sign(
-            { sub: "refresh", user_id: req.body.user_id, user_code: user_code },
+            { sub: "refresh", user_id: req.body.user_id, user_code: user_code, company_code: company_code },
             jwtSecret,
             { expiresIn: "24h" }
         );
 
         const accessToken = jwt.sign(
-            { sub: "access", user_id: req.body.user_id, user_code: user_code },
+            { sub: "access", user_id: req.body.user_id, user_code: user_code, company_code: company_code },
             jwtSecret,
             { expiresIn: "5m" }
         );
@@ -123,6 +125,7 @@ const verifyRefreshToken = (req, res, next) => {
         console.log(data)
         res.locals.user_code = data.user_code;
         res.locals.user_id = data.user_id;
+        res.locals.company_code = data.company_code;
     } catch (error) {
         console.error(error);
         if (error.name === "TokenExpiredError") {
@@ -140,7 +143,12 @@ const verifyRefreshToken = (req, res, next) => {
 
 router.post("/refreshToken", verifyRefreshToken, async (req, res, next) => {
     const accessToken = jwt.sign(
-        { sub: "access", user_id: res.locals.user_id, user_code: res.locals.user_code },
+        {
+            sub: "access",
+            user_id: res.locals.user_id,
+            user_code: res.locals.user_code,
+            company_code: res.locals.company_code,
+        },
         jwtSecret,
         { expiresIn: "5m" }
     );

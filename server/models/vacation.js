@@ -8,6 +8,10 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
+        company_code: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         user_code: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -28,13 +32,13 @@ module.exports = (sequelize) => {
             defaultValue: "",
         },
         vacation_state: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: false, // 대기 상태를 기본값으로 설정
+            defaultValue: 0, // 대기 상태를 기본값으로 설정
         },
     }, {
         timestamps: false,
-        tableName: 'vacation',
+        tableName: 'vacation', 
     });
 
     // 관계 설정
@@ -42,6 +46,10 @@ module.exports = (sequelize) => {
         vacation.belongsTo(models.user, {
             foreignKey: 'user_code',
             targetKey: 'user_code',
+        });
+        vacation.belongsTo(models.company, {
+            foreignKey: 'company_code',
+            targetKey: 'company_code',
         });
     };
 

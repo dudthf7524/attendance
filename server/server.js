@@ -24,6 +24,10 @@ const companyRoutes = require('./routes/company');
 const emailRoutes = require('./routes/email');
 const joinRoutes = require('./routes/join');
 const logoutRoutes = require('./routes/logout');
+const vacationRoutes = require('./routes/vacation');
+
+
+
 const appUserRoutes = require('./routesApp/user');
 const appTimeRoutes = require('./routesApp/time');
 const appAttendanceRoutes = require('./routesApp/attendance');
@@ -112,6 +116,8 @@ app.use('/company', companyRoutes);
 app.use('/email', emailRoutes);
 app.use('/join', joinRoutes);
 app.use('/logout', logoutRoutes);
+app.use('/vacation', vacationRoutes);
+
 
 //app
 app.use('/app/user', appUserRoutes);
