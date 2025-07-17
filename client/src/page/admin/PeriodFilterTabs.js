@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { ATTENDANCE_DAY_REQUEST, ATTENDANCE_MONTH_REQUEST, ATTENDANCE_SEARCH_REQUEST, ATTENDANCE_YEAR_REQUEST } from "../../reducers/attendance";
+import { ATTENDANCE_SEARCH_REQUEST } from "../../reducers/attendance";
 
 const PeriodFilterTabs = () => {
   const [activeTab, setActiveTab] = useState("day");

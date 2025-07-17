@@ -131,7 +131,7 @@ const verifyRefreshToken = (req, res, next) => {
         if (error.name === "TokenExpiredError") {
             return res
                 .status(419)
-                .json({ message: "만료된 리프레시 토큰입니다.", code: "expired" });
+                .json({ message: "만료된 리프레시 토큰입니다.", code: "refresh_expired" });
         }
         return res
             .status(401)
@@ -153,7 +153,7 @@ router.post("/refreshToken", verifyRefreshToken, async (req, res, next) => {
         { expiresIn: "5m" }
     );
     const result = await user.findByUserId(res.locals.user_id);
-
+    console.log(result)
     if (result) {
         const user_code = result.user_code
         const user_name = result.user_name

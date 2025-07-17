@@ -1,14 +1,10 @@
-// import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import {
-    HomeIcon,
     ClockIcon,
-    CalendarIcon,
     UserCircleIcon
 } from '@heroicons/react/24/outline';
 
 export default function BottomBar() {
-    // const { t } = useTranslation();
     const location = useLocation();
 
     const navigation = [

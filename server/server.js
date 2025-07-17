@@ -37,6 +37,8 @@ const appVacationRoutes = require('./routesApp/vacation');
 
 const authData = require("./modelsInitializeData/authData");
 const companyTypeData = require("./modelsInitializeData/companyTypeData");
+const departmentData = require('./modelsInitializeData/departmentData');
+const countryData = require('./modelsInitializeData/countryData');
 
 
 passportConfig();
@@ -68,6 +70,12 @@ sequelize
       await companyTypeData();
       console.log("✅ companyTypeData 삽입 완료");
 
+      await departmentData();
+      console.log("✅ departmentData 삽입 완료");
+
+      await countryData();
+      console.log("✅ countryData 삽입 완료");
+ 
     } catch (error) {
       console.error("❌ 초기 데이터 삽입 실패:", error);
     }

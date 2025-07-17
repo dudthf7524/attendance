@@ -1,10 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import BottomBar from "../../component/BottomBar";
-import {
-  PencilSquareIcon,
-  KeyIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/outline";
 import { useEffect } from "react";
 import { USER_DETAIL_REQUEST } from "../../reducers/user";
 

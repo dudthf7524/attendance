@@ -26,8 +26,9 @@ const sequelize = new Sequelize(
 //   });
 
 db.auth = require("./auth")(sequelize, Sequelize);
+db.department = require("./department")(sequelize, Sequelize);
+db.country = require("./country")(sequelize, Sequelize);
 db.companyType = require("./companyType")(sequelize, Sequelize);
-
 db.user = require("./user")(sequelize, Sequelize);
 db.time = require("./time")(sequelize, Sequelize);
 db.company = require("./company")(sequelize, Sequelize);

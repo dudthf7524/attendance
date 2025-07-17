@@ -1,6 +1,6 @@
 import { all, fork } from "redux-saga/effects";
 import axios from "axios";
-import { API_URL } from "../constant/contants";
+import { API_URL } from "../constant/Contants";
 import loginSaga from "./login";
 import authSaga from "./auth";
 import userSaga from "./user";
@@ -12,8 +12,6 @@ import emailSaga from "./email";
 import joinSaga from "./join";
 import logoutSaga from "./logout";
 import vacationSaga from "./vacation";
-
-
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;

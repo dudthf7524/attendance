@@ -1,8 +1,4 @@
 import { useState, useEffect } from "react";
-// import AlertModal from "../components/alertModal";
-// import ConfirmModal from "../components/confirmModal";
-// import { validateSignin } from "./validation";
-// import type { SigninFields, SigninRefs } from "./validation";
 import AlertModal from "../modal/AlertModal";
 import { COMPANY_NUMBER_REQUEST } from "../../reducers/company";
 import { useDispatch, useSelector } from "react-redux";

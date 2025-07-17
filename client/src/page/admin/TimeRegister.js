@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TIME_LIST_OUTER_REQUEST, TIME_REGISTER_REQUEST } from "../../reducers/time";
 import { useDispatch, useSelector } from "react-redux";
-import { USER_LIST_REQUEST } from "../../reducers/user";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 const members = [

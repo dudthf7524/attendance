@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { PencilSquareIcon, TrashIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_DELETE_REQUEST, USER_LIST_REQUEST } from "../../reducers/user";
 import EmployeeEditModal from "../modal/EmployeeEditModal";
