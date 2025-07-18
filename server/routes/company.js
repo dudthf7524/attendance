@@ -3,6 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 router.post('/number', async (req, res) => {
+    require('dotenv').config();
     const SERVICE_KEY = process.env.BUSINESS_REGISTER_CONFIRM_KEY;
     console.log(SERVICE_KEY)
     const company_number = req.body;

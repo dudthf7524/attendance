@@ -18,29 +18,12 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    user_nickname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     auth_code: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "A3",
     },
-    user_hire_date: {
-      type: DataTypes.STRING, // 날짜를 'YYYY-MM-DD' 형식의 문자열로 저장
-      allowNull: false,
-      defaultValue: "2000-01-01",
-    },
-    user_position: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: '사원', // 기본값을 '사원'으로 설정
-    },
+   
     company_code: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -49,10 +32,8 @@ module.exports = (sequelize) => {
     underscored: true,
     tableName: 'user',
   });
-
   // 관계 설정
   user.associate = (models) => {
-
     user.belongsTo(models.auth, {
       foreignKey: 'auth_code',
       targetKey: 'auth_code',
@@ -73,8 +54,11 @@ module.exports = (sequelize) => {
       foreignKey: 'user_code',
       sourceKey: 'user_code',
     });
+    user.hasOne(models.userInfo, {
+      foreignKey: 'user_code',
+      sourceKey: 'user_code',
+    });
 
   };
-
   return user;
 };

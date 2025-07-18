@@ -1,24 +1,21 @@
 const { user, auth } = require("../models");
-const dayjs = require('dayjs');
 const bcrypt = require('bcrypt');
 
-const userJoin = async (data, company_code) => {
-    const today = dayjs().format('YYYY-MM-DD');
+const userJoin = async (data, company_code, transaction) => {
     try {
         const result = await user.create({
             user_id: data.user_id,
-            user_name: data.user_name,
             user_password: data.user_password,
-            user_nickname: "boss",
-            user_hire_date: today,
-            user_position: "대표",
             auth_code: "A1",
             company_code: company_code,
-            raw: true
+        }, {
+            transaction, // 트랜잭션 적용
+            raw: true,
         });
-        return result;
+        return result.user_code;
     } catch (error) {
-        console.error(error)
+        console.error("❌ userJoin error:", error);
+        throw error; // rollback 되도록 에러 다시 던짐
     }
 };
 

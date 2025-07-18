@@ -24,15 +24,17 @@ function* join(action) {
             type: JOIN_SUCCESS,
             data: result.data,
         });
-        if (result.data) {
-            alert('회원가입이 완료되었습니다.')
+        if(result.status === 201){
+            alert(result.data?.message || "성공했습니다.");
             window.location.href = "/login";
         }
     } catch (err) {
-        console.error(err);
+        if (err.response.status === 500) {
+            alert(err.response.data?.message || '서버 오류가 발생했습니다.');
+        }
         yield put({
             type: JOIN_FAILURE,
-            error: err.response.data,
+            error: err.response.data?.message, 
         });
     }
 

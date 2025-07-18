@@ -21,7 +21,7 @@ const Join = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [emailDomain, setEmailDomain] = useState("naver.com");
     const [customDomain, setCustomDomain] = useState("");
-    const [user_password_check, setPasswordCheck] = useState("");
+    const [user_password_check, setPasswordCheck] = useState("a");
     const [checkPassword, setCheckPassword] = useState(false);
     const [openVerify, setOpenVerify] = useState(false);
     const [verifyNum, setVerifyNum] = useState("");
@@ -33,14 +33,14 @@ const Join = () => {
     const [timerActive, setTimerActive] = useState(false);
 
     const [formData, setFormData] = useState({
-        company_number: "",
-        company_name: "",
-        company_type: "",
-        company_count: "",
-        company_ceo_name: "",
-        company_ceo_phone: "",
-        user_id: "",
-        user_password: "",
+        company_number: "5",
+        company_name: "a",
+        company_type: "a",
+        company_count: "a",
+        company_ceo_name: "a",
+        company_ceo_phone: "a",
+        user_id: "a",
+        user_password: "a",
     });
     const [phoneData, setPhoneData] = useState({
         phone_1: "010",

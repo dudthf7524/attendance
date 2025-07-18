@@ -28,6 +28,7 @@ const sequelize = new Sequelize(
 db.auth = require("./auth")(sequelize, Sequelize);
 db.department = require("./department")(sequelize, Sequelize);
 db.country = require("./country")(sequelize, Sequelize);
+db.educationLevel = require("./educationLevel")(sequelize, Sequelize);
 db.companyType = require("./companyType")(sequelize, Sequelize);
 db.user = require("./user")(sequelize, Sequelize);
 db.time = require("./time")(sequelize, Sequelize);
@@ -35,6 +36,7 @@ db.company = require("./company")(sequelize, Sequelize);
 db.workPlace = require("./workPlace")(sequelize, Sequelize);
 db.attendance = require("./attendance")(sequelize, Sequelize);
 db.vacation = require("./vacation")(sequelize, Sequelize);
+db.userInfo = require("./userInfo")(sequelize, Sequelize);
 
 
 

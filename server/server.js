@@ -39,6 +39,7 @@ const authData = require("./modelsInitializeData/authData");
 const companyTypeData = require("./modelsInitializeData/companyTypeData");
 const departmentData = require('./modelsInitializeData/departmentData');
 const countryData = require('./modelsInitializeData/countryData');
+const educationLevelData = require('./modelsInitializeData/educationLevelData');
 
 
 passportConfig();
@@ -75,6 +76,9 @@ sequelize
 
       await countryData();
       console.log("✅ countryData 삽입 완료");
+
+      await educationLevelData();
+      console.log("✅ educationLevelData 삽입 완료");
  
     } catch (error) {
       console.error("❌ 초기 데이터 삽입 실패:", error);

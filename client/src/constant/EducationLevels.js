@@ -4,10 +4,6 @@ export const EducationLevels = [
       "label": "최종학력을 선택하세요"
     },
     {
-      "value": "EL",
-      "label": "초등학교 졸업"
-    },
-    {
       "value": "ML",
       "label": "중학교 졸업"
     },
@@ -27,8 +23,4 @@ export const EducationLevels = [
       "value": "GR",
       "label": "대학원 졸업 (석사 이상)"
     },
-    {
-      "value": "ETC",
-      "label": "기타"
-    }
   ];

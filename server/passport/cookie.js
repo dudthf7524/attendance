@@ -1,6 +1,6 @@
 const passport = require("passport");
 const login = require("./login");
-const { user } = require("../models");
+const { user, userInfo } = require("../models");
 module.exports = async () => {
   try {
     await passport.serializeUser((user, done) => {
@@ -13,8 +13,15 @@ module.exports = async () => {
     await passport.deserializeUser(async (data, done) => {
       try {
         const user_r = await user.findOne({
+          attributes: ["user_code", "auth_code", "company_code"],
+          include: [
+            {
+              model: userInfo,
+              attributes: ["user_name"],
+              required: true
+            }
+          ],
           where: { user_id: data.user_id },
-          attributes: ["user_code", "user_name", "auth_code", "company_code"],
           raw: true
         });
 
