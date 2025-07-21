@@ -20,6 +20,7 @@ import WorkPlace from "./page/admin/WorkPlace";
 import TimeList from "./page/admin/TimeList";
 import Vacation from "./page/admin/Vacation";
 import VacationApproval from "./page/admin/VacationApproval";
+import EmployeeDetail from "./page/admin/EmployeeDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ function App() {
           <Route path="dashboard" element={< Dashboard />} />
           <Route path="attendance" element={< AttendanceManagement />} />
           <Route path="employee/list" element={< EmployeeList />} />
+          <Route path="employee/detail/:user_code" element={< EmployeeDetail />} />
           <Route path="time/register" element={< TimeRegister />} />
           <Route path="employee/register" element={< EmployeeRegister />} />
           <Route path="setting/gps" element={< WorkPlace />} />

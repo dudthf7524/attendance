@@ -18,10 +18,10 @@ module.exports = (sequelize) => {
 
   // 관계 설정
   educationLevel.associate = (models) => {
-    // department.hasMany(models.user, {
-    //   foreignKey: 'department_code',
-    //   sourceKey: 'department_code',
-    // });
+    educationLevel.hasMany(models.userInfo, {
+      foreignKey: 'education_level_code',
+      sourceKey: 'education_level_code',
+    });
 
   };
 

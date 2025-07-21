@@ -1,4 +1,4 @@
-const { user, auth } = require("../models");
+const { user, auth, userInfo } = require("../models");
 const bcrypt = require('bcrypt');
 
 const userJoin = async (data, company_code, transaction) => {
@@ -41,23 +41,23 @@ const userLogin = async (user_id, user_password) => {
 const userList = async (company_code) => {
     try {
         const result = await user.findAll({
-            attributes: ['user_code', 'user_id', 'user_name', 'user_nickname', 'user_hire_date', 'user_position'],
+            attributes: ['user_code', 'company_code'],
             include: [
                 {
                     model: auth,
                     attributes: ['auth_code', 'auth_name'], // work_pattern 테이블에서 필요한 컬럼 선택
                     required: true,
                 },
+                {
+                    model: userInfo,
+                    attributes: ['user_name', 'user_nickname', 'user_hire_date', 'user_position'], // work_pattern 테이블에서 필요한 컬럼 선택
+                    required: true,
+                },
             ],
             where: { company_code: company_code },
 
-        })
-
-        console.log(result)
-
+        }) 
         return result;
-
-
     } catch (error) {
         console.error(error);
     }
@@ -77,20 +77,17 @@ const userCheckId = async (data) => {
 
 };
 
-const userRegister = async (data, company_code) => {
+const userRegister = async (data, company_code, transaction) => {
     try {
         const result = await user.create({
             user_id: data.user_id,
             user_password: data.user_password,
-            user_name: data.user_name,
-            user_nickname: data.user_nickname,
-            auth_code: data.auth_code,
-            user_hire_date: data.user_hire_date,
-            user_position: data.user_position,
             company_code: company_code,
-            raw: true
+        }, {
+            transaction, // 트랜잭션 적용
+            raw: true,
         });
-        return result
+        return result.user_code;
     } catch (error) {
         console.error(error);
     }
@@ -155,7 +152,6 @@ const userDetail = async (user_code) => {
     } catch (error) {
         console.error(error);
     }
-
 };
 
 module.exports = {

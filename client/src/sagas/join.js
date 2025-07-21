@@ -20,14 +20,14 @@ function* join(action) {
 
     try {
         const result = yield call(joinAPI, action.data);
-        yield put({
-            type: JOIN_SUCCESS,
-            data: result.data,
-        });
         if(result.status === 201){
             alert(result.data?.message || "성공했습니다.");
             window.location.href = "/login";
         }
+        yield put({
+            type: JOIN_SUCCESS,
+            data: result.data,
+        });
     } catch (err) {
         if (err.response.status === 500) {
             alert(err.response.data?.message || '서버 오류가 발생했습니다.');

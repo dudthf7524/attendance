@@ -91,6 +91,18 @@ module.exports = (sequelize) => {
             foreignKey: 'user_code',
             targetKey: 'user_code',
         });
+        userInfo.belongsTo(models.country, {
+            foreignKey: 'country_code',
+            targetKey: 'country_code',
+        });
+        userInfo.belongsTo(models.department, {
+            foreignKey: 'department_code',
+            targetKey: 'department_code',
+        });
+        userInfo.belongsTo(models.educationLevel, {
+            foreignKey: 'education_level_code',
+            targetKey: 'education_level_code',
+        });
     };
 
     return userInfo;

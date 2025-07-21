@@ -44,7 +44,7 @@ export default function Navbar({ user }) {
 
     return (
         <nav className="bg-white shadow-sm border-b border-gray-200">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[100%] px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 justify-between items-center">
                     <Link to="/" className="font-bold text-2xl text-blue-600">
                         tictec

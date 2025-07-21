@@ -61,7 +61,7 @@ const EmployeeRegister = () => {
   const userRegister = (e) => {
     e.preventDefault();
 
-    const phone = phoneData.phone_1+"-"+phoneData.phone_2+"-"+phoneData.phone_3;
+    const phone = phoneData.phone_1 + "-" + phoneData.phone_2 + "-" + phoneData.phone_3;
     formData.user_phone = phone;
 
     const data = formData;
@@ -69,10 +69,10 @@ const EmployeeRegister = () => {
 
     console.log(data)
 
-    // dispatch({
-    //   type: USER_REGISTER_REQUEST,
-    //   data: data
-    // });
+    dispatch({
+      type: USER_REGISTER_REQUEST,
+      data: data
+    });
   }
 
   const [checkIdState, setCheckIdState] = useState(false);
@@ -113,25 +113,28 @@ const EmployeeRegister = () => {
       ...prev,
       user_postcode: data.zonecode,
       user_address_basic: fullAddress,
-    }));    
+    }));
     setShowPostcode(false);
   };
 
   const closeModal = () => setShowPostcode(false);
 
- 
+
   return (
-    <div className="h-full w-full flex flex-col px-4 py-8">
+    <div className="h-full w-[90%] flex flex-col px-4">
       {/* 헤더 */}
-      <div className="bg-white border border-blue-200  shadow-sm px-6 py-4 mb-8">
-        <h1 className="text-2xl font-bold text-blue-600">직원 등록</h1>
+      <div className="px-6 py-4">
+        <h1 className="text-2xl font-bold">직원 등록</h1>
+      </div>
+
+      <div className="px-6 mb-10">
         <p className="text-sm text-gray-500 mt-1">신규 직원을 등록합니다.</p>
       </div>
 
       {/* 폼 영역 */}
       <form
         onSubmit={userRegister}
-        className="flex-1 bg-white border border-blue-300  shadow-md p-8 w-full "
+        className="flex-1 p-6 w-full "
       >
         <div className="space-y-5 text-sm w-full mx-auto ">
 
@@ -144,17 +147,14 @@ const EmployeeRegister = () => {
                 name="user_id"
                 value={formData.user_id}
                 onChange={handleChange}
-                className="w-1/2 border border-gray-300 rounded-md px-3 py-2"
+                className="w-1/2 border border-gray-300 rounded-md px-3 py-3"
                 required
                 placeholder="아이디를 입력해주세요"
               />
               <button
                 type="button"
                 onClick={checkId}
-                className="w-1/2 px-4 py-2 bg-white border-2 border-blue-400 text-blue-400 font-semibold rounded-md 
-               hover:bg-blue-50 active:scale-95
-               active:ring-2 active:ring-blue-400 active:ring-offset-2
-               transition duration-150"
+                className="w-1/2 px-4 py-3 bg-gray-100 font-bold" 
               >
                 중복확인
               </button>
@@ -174,7 +174,7 @@ const EmployeeRegister = () => {
               name="user_password"
               value={formData.user_password}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-3"
               required
               placeholder="비밀번호를 입력해주세요"
             />
@@ -187,7 +187,7 @@ const EmployeeRegister = () => {
               name="user_password_check"
               value={formData.user_password_check}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-3"
               required
               placeholder="비밀번호 확인을 입력해주세요"
             />
@@ -200,7 +200,7 @@ const EmployeeRegister = () => {
               name="user_name"
               value={formData.user_name}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-3"
               placeholder="이름을 입력해주세요"
             />
           </div>
@@ -212,7 +212,7 @@ const EmployeeRegister = () => {
               name="user_nickname"
               value={formData.user_nickname}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-3"
               placeholder="닉네임을 입력해주세요"
             />
           </div>
@@ -224,7 +224,7 @@ const EmployeeRegister = () => {
               name="user_position"
               value={formData.user_position}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-3"
               placeholder="직책을 입력해주세요"
             />
           </div>
@@ -236,7 +236,7 @@ const EmployeeRegister = () => {
               name="user_hire_date"
               value={formData.user_hire_date}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-3"
             />
           </div>
 
@@ -247,7 +247,7 @@ const EmployeeRegister = () => {
               name="user_birth_date"
               value={formData.user_birth_date}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-3"
             />
           </div>
 
@@ -258,7 +258,7 @@ const EmployeeRegister = () => {
               name="user_annual_leave"
               value={formData.user_annual_leave}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              className="w-full border border-gray-300 rounded-md px-3 py-3"
               placeholder="연차수를 입력해주세요"
             />
           </div>
@@ -269,7 +269,7 @@ const EmployeeRegister = () => {
               name="user_country"
               value={formData.user_country}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md bg-white"
+              className="w-full px-3 py-3 border rounded-md bg-white"
             >
               {Countries.map((type) => (
                 <option key={type.value} value={type.value}>{type.label}</option>
@@ -283,7 +283,7 @@ const EmployeeRegister = () => {
               name="user_department"
               value={formData.user_department}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md bg-white"
+              className="w-full px-3 py-3 border rounded-md bg-white"
             >
               {Departments.map((type) => (
                 <option key={type.value} value={type.value}>{type.label}</option>
@@ -297,7 +297,7 @@ const EmployeeRegister = () => {
               name="user_blood_type"
               value={formData.user_blood_type}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md bg-white"
+              className="w-full px-3 py-3 border rounded-md bg-white"
             >
               {BloodTypes.map((type) => (
                 <option key={type.value} value={type.value}>{type.label}</option>
@@ -310,7 +310,7 @@ const EmployeeRegister = () => {
               name="user_education"
               value={formData.user_education}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md bg-white"
+              className="w-full px-3 py-3 border rounded-md bg-white"
             >
               {EducationLevels.map((type) => (
                 <option key={type.value} value={type.value}>{type.label}</option>
@@ -329,7 +329,7 @@ const EmployeeRegister = () => {
                 maxLength={3}
                 value={phoneData.phone_1}
                 onChange={phoneDataChange}
-                className="w-1/3 px-3 py-2 border rounded-md text-center"
+                className="w-1/3 px-3 py-3 border rounded-md text-center"
                 placeholder="010"
               />
               <span className="text-gray-500">-</span>
@@ -339,7 +339,7 @@ const EmployeeRegister = () => {
                 maxLength={4}
                 value={phoneData.phone_2}
                 onChange={phoneDataChange}
-                className="w-1/3 px-3 py-2 border rounded-md text-center"
+                className="w-1/3 px-3 py-3 border rounded-md text-center"
                 placeholder="1234"
               />
               <span className="text-gray-500">-</span>
@@ -349,7 +349,7 @@ const EmployeeRegister = () => {
                 maxLength={4}
                 value={phoneData.phone_3}
                 onChange={phoneDataChange}
-                className="w-1/3 px-3 py-2 border rounded-md text-center"
+                className="w-1/3 px-3 py-3 border rounded-md text-center"
                 placeholder="5678"
               />
             </div>
@@ -365,12 +365,12 @@ const EmployeeRegister = () => {
                   readOnly
                   onClick={() => setShowPostcode(true)}
                   placeholder="우편번호 찾기 클릭"
-                  className="w-1/2 border border-gray-300 rounded-md px-3 py-2 cursor-pointer bg-gray-50"
+                  className="w-1/2 border border-gray-300 rounded-md px-3 py-3 cursor-pointer bg-gray-50"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPostcode(true)}
-                  className="w-1/2 px-4 py-2 bg-white border-2 border-blue-400 text-blue-400 font-semibold rounded-md 
+                  className="w-1/2 px-4 py-3 bg-white border-2 border-blue-400 text-blue-400 font-semibold rounded-md 
                hover:bg-blue-50 active:scale-95
                active:ring-2 active:ring-blue-400 active:ring-offset-2
                transition duration-150"
@@ -388,7 +388,7 @@ const EmployeeRegister = () => {
                 readOnly
                 onClick={() => setShowPostcode(true)}
                 placeholder="주소 찾기 클릭"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 cursor-pointer bg-gray-50"
+                className="w-full border border-gray-300 rounded-md px-3 py-3 cursor-pointer bg-gray-50"
               />
             </div>
 
@@ -400,7 +400,7 @@ const EmployeeRegister = () => {
                 value={formData.user_address_detail}
                 onChange={handleChange}
                 placeholder="상세주소 입력 (예: 101호)"
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
+                className="w-full border border-gray-300 rounded-md px-3 py-3"
               />
             </div>
 
@@ -425,17 +425,13 @@ const EmployeeRegister = () => {
           </div>
 
         </div>
-
-
-
-
         <div className="w-full mt-10 text-right mx-auto">
           <button
             type="submit"
             className="w-full bg-white border-2 border-blue-400 text-blue-400 font-semibold 
                hover:bg-blue-50 active:scale-95
                active:ring-2 active:ring-blue-400 active:ring-offset-2
-               transition duration-150 px-8 py-2 rounded-md transition"
+               transition duration-150 px-8 py-3 rounded-md transition"
           >
             등록하기
           </button>

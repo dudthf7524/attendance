@@ -18,10 +18,10 @@ module.exports = (sequelize) => {
 
   // 관계 설정
   country.associate = (models) => {
-    // department.hasMany(models.user, {
-    //   foreignKey: 'department_code',
-    //   sourceKey: 'department_code',
-    // });
+    country.hasMany(models.userInfo, {
+      foreignKey: 'company_code',
+      sourceKey: 'country_code',
+    });
 
   };
 

@@ -3,7 +3,6 @@ const router = express.Router();
 const company = require('../databases/company');
 const user = require('../databases/user');
 const userInfo = require('../databases/userInfo');
-
 const bcrypt = require('bcrypt');
 const { sequelize } = require('../models');
 

@@ -25,6 +25,10 @@ import {
     USER_DETAIL_SUCCESS,
     USER_DETAIL_FAILURE,
 
+    USER_VIEW_REQUEST,
+    USER_VIEW_SUCCESS,
+    USER_VIEW_FAILURE,
+
 } from "../reducers/user";
 // ✅ 사용자 리스트
 function* watchUserList() {
@@ -91,18 +95,25 @@ function userRegisterAPI(data) {
 function* userRegister(action) {
     try {
         const result = yield call(userRegisterAPI, action.data);
+        if (result.status === 201) {
+            alert(result.data?.message || "성공했습니다.");
+            window.location.href = "/admin/employee/list";
+        }
+        console.log(result.data)
+        if (result.data === "common"){
+            alert('로그인 만료 로그인이 필요합니다.')
+            window.location.href = "/login"
+        }
+
         yield put({
             type: USER_REGISTER_SUCCESS,
             data: result.data,
         });
-        console.log(result)
-        console.log(result.data)
-        if (result.data) {
-            alert("직원이 등록되었습니다.")
-            window.location.href = "/admin/employee/list";
-        }
     } catch (err) {
         console.error(err);
+        if (err.response.status === 500) {
+            alert(err.response.data?.message || '서버 오류가 발생했습니다.');
+        }
         yield put({
             type: USER_REGISTER_FAILURE,
             error: err.response.data,
@@ -198,6 +209,37 @@ function* userDetail() {
     }
 }
 
+function* watchUserView() {
+    yield takeLatest(USER_VIEW_REQUEST, userView);
+}
+
+function userViewAPI(user_code) {
+    return axios.get("/user/view", {
+        params: { user_code } // ✅ GET 요청에서 쿼리 파라미터 전달 방식
+    });
+}
+
+function* userView(action) {
+    try {
+        const result = yield call(userViewAPI, action.data);
+        yield put({
+            type: USER_VIEW_SUCCESS,
+            data: result.data,
+        });
+        if (result.data === 'common') {
+            alert('쿠키가 만료되어 로그인이 필요합니다.')
+            window.location.href = "/login";
+            return;
+        }
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: USER_VIEW_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
 export default function* userSaga() {
     yield all([
         fork(watchUserList),
@@ -206,5 +248,6 @@ export default function* userSaga() {
         fork(watchUserEdit),
         fork(watchUserDelete),
         fork(watchUserDetail),
+        fork(watchUserView),
     ]);
 }

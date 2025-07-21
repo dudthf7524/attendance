@@ -47,7 +47,7 @@ const EmployeeEditModal = ({ isOpen, userData, onClose }) => {
         <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center px-4">
             <div className="bg-white w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl p-6 rounded-lg shadow-xl z-50">
                 <h2 className="text-xl sm:text-2xl font-bold text-blue-600 mb-4">
-                    {userData.user_name}님의 정보 수정
+                    {/* {userData.user_name}님의 정보 수정 */}
                 </h2>
                 <p className="text-sm sm:text-base text-gray-500 mb-8">
                     선택한 직원의 정보를 수정합니다.

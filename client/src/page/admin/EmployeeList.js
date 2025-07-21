@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, TrashIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_DELETE_REQUEST, USER_LIST_REQUEST } from "../../reducers/user";
 import EmployeeEditModal from "../modal/EmployeeEditModal";
+import { useNavigate } from "react-router-dom";
+import EmployeeDetailModal from "../modal/EmployeeDetailModal";
 
-const TimeList = () => {
+const EmployeeList = () => {
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedDetailUser, setSelectedDetailUser] = useState(null);
 
   const { userList } = useSelector((state) => state.user);
   useEffect(() => {
@@ -41,6 +44,15 @@ const TimeList = () => {
       });
     }
   }
+
+
+  function EmployDetail (user_code){
+    console.log(user_code)
+    setIsModalOpen(true)
+    setSelectedDetailUser(user_code);
+
+  }
+
   return (
     <div className="h-[90vh] w-full  px-4 py-8 min-w-[700px] overflow-x-auto">
       {/* 상단 헤더 */}
@@ -61,8 +73,8 @@ const TimeList = () => {
           <span>직책</span>
           <span>입사일</span>
           <span>권한</span>
-          <span className="text-center text-purple-600">수정</span>
-          <span className="text-center text-red-600">삭제</span>
+          {/* <span className="text-center text-purple-600">수정</span>
+          <span className="text-center text-red-600">삭제</span> */}
         </div>
 
         {/* 목록 */}
@@ -73,12 +85,12 @@ const TimeList = () => {
               className="grid grid-cols-7 items-center px-6 py-4 text-sm text-gray-700 border-t border-blue-100 hover:bg-blue-50 transition"
             >
               {/* <span>{i+1}</span> */}
-              <span className="text-gray-800 font-medium">{user.user_name}</span>
-              <span>{user.user_nickname}</span>
-              <span>{user.user_position}</span>
-              <span>{user.user_hire_date}</span>
+              <span className="text-gray-800 font-medium">{user.user_info.user_name}</span>
+              <span>{user.user_info.user_nickname}</span>
+              <span>{user.user_info.user_position}</span>
+              <span>{user.user_info.user_hire_date}</span>
               <span>{user.auth.auth_name}</span>
-              <span className="text-center">
+              {/* <span className="text-center">
                 <button
                   onClick={() => handleEdit(user)}
                   className="text-purple-600 hover:text-purple-800"
@@ -95,6 +107,15 @@ const TimeList = () => {
                 >
                   <TrashIcon className="w-5 h-5 inline-block" />
                 </button>
+              </span> */}
+              <span className="text-center">
+                <button
+                  onClick={() => EmployDetail(user.user_code)}
+                  className="text-blue-500 hover:text-blue-700"
+                  title="상세보기"
+                >
+                  <EyeIcon className="w-5 h-5 inline-block" />
+                </button>
               </span>
             </div>
           ))}
@@ -102,15 +123,27 @@ const TimeList = () => {
       </div>
 
       {/* 수정 모달 */}
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <EmployeeEditModal
           isOpen={isModalOpen}
           userData={selectedUser}
           onClose={() => setIsModalOpen(false)}
         />
-      )}
+      )} */}
+
+      {
+        isModalOpen &&
+        (
+          <EmployeeDetailModal
+          user_code={selectedDetailUser}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedDetailUser(null);
+          }}        />
+        )
+      }
     </div>
   );
 };
 
-export default TimeList;
+export default EmployeeList;

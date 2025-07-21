@@ -25,9 +25,14 @@ export const initialState = {
     user_detail_done: false,
     user_detail_error: null,
 
+    user_view_Loading: false,
+    user_view_done: false,
+    user_view_error: null,
+
     userList: null,
     userCheckId: null,
     userDetail: null,
+    userView:null,
 };
 
 export const USER_LIST_REQUEST = "USER_LIST_REQUEST";
@@ -53,6 +58,10 @@ export const USER_DELETE_FAILURE = "USER_DELETE_FAILURE";
 export const USER_DETAIL_REQUEST = "USER_DETAIL_REQUEST";
 export const USER_DETAIL_SUCCESS = "USER_DETAIL_SUCCESS";
 export const USER_DETAIL_FAILURE = "USER_DETAIL_FAILURE";
+
+export const USER_VIEW_REQUEST = "USER_VIEW_REQUEST";
+export const USER_VIEW_SUCCESS = "USER_VIEW_SUCCESS";
+export const USER_VIEW_FAILURE = "USER_VIEW_FAILURE";
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -138,6 +147,20 @@ const reducer = (state = initialState, action) => {
             case USER_DETAIL_FAILURE:
                 draft.user_detail_Loading = false;
                 draft.user_detail_error = action.error;
+                break;
+            case USER_VIEW_REQUEST:
+                draft.user_view_Loading = true;
+                draft.user_view_error = null;
+                draft.user_view_done = false;
+                break;
+            case USER_VIEW_SUCCESS:
+                draft.user_view_Loading = false;
+                draft.userView = action.data;
+                draft.user_view_done = true;
+                break;
+            case USER_VIEW_FAILURE:
+                draft.user_view_Loading = false;
+                draft.user_view_error = action.error;
                 break;
             default:
                 return state;
