@@ -1,4 +1,4 @@
-const { user, time } = require("../models");
+const { user, time, userInfo } = require("../models");
 
 const timeRegister = async (data) => {
     try {
@@ -19,29 +19,39 @@ const timeRegister = async (data) => {
 const timeListOuter = async (company_code) => {
     try {
         const result = await user.findAll({
-            attributes: ['user_code', 'user_name', 'user_nickname', 'user_hire_date', 'user_position'],
+            attributes: ['user_code'],
             include: [
                 {
                     model: time,
                     required: false,
                 },
+                {
+                    model: userInfo,
+                    attributes: ['user_name', 'user_nickname', 'user_hire_date', 'user_position'],
+                    required: true,
+                },
             ],
             where: { company_code: company_code },
-
         })
+        console.log(result)
         return result;
     } catch (error) {
         console.error(error);
-    }
+    } 
 };
 
 const timeListInner = async (company_code) => {
     try {
         const result = await user.findAll({
-            attributes: ['user_code', 'user_name', 'user_nickname', 'user_hire_date', 'user_position'],
+            attributes: ['user_code'],
             include: [
                 {
                     model: time,
+                    required: true,
+                },
+                {
+                    model: userInfo,
+                    attributes: ['user_name', 'user_nickname', 'user_hire_date', 'user_position'],
                     required: true,
                 },
             ],

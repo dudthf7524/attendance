@@ -8,6 +8,8 @@ const TimeList = () => {
   const dispatch = useDispatch();
   const { timeListInner } = useSelector((state) => state.time);
 
+  console.log("timeListInner : ", timeListInner)
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState(null);
 
@@ -64,7 +66,7 @@ const TimeList = () => {
               key={i}
               className="grid grid-cols-7 items-center px-6 py-4 text-sm text-gray-700 border-t border-blue-100 hover:bg-blue-50 transition"
             >
-              <span className="text-gray-800 font-medium">{time.user_name}</span>
+              <span className="text-gray-800 font-medium">{time.user_info.user_name}</span>
               <span>{time.time.start_time}</span>
               <span>{time.time.end_time}</span>
               <span>{time.time.rest_start_time}</span>

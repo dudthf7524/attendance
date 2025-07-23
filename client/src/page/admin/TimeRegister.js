@@ -44,6 +44,7 @@ const TimeManagementPage = () => {
   }
 
   const { timeListOuter } = useSelector((state) => state.time);
+  console.log("timeListOuter : ", timeListOuter)
 
   useEffect(() => {
     timeListOuterDB();
@@ -83,8 +84,8 @@ const TimeManagementPage = () => {
               >
                 {/* 왼쪽 이름 + 직책 */}
                 <div className="flex flex-col items-start">
-                  <span>{time.user_name}</span>
-                  <span className="text-xs text-gray-400">{time.user_position}</span>
+                  <span>{time.user_info.user_name}</span>
+                  <span className="text-xs text-gray-400">{time.user_info.user_position}</span>
                 </div>
 
                 {/* 오른쪽 체크 아이콘 */}
@@ -107,7 +108,7 @@ const TimeManagementPage = () => {
                 <>
                   <div className="flex justify-between items-center border-b border-blue-100 pb-2 mb-4">
                     <h2 className="text-lg font-bold text-blue-600">
-                      {selected.user_name} 님의 시간 설정
+                      {selected.user_info.user_name} 님의 시간 설정
                     </h2>
                     {/* <button
               onClick={() => console.log("저장됨", times)} // 실제 저장 로직으로 교체 가능
