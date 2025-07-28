@@ -22,6 +22,7 @@ export default function Navbar({ user }) {
         });
     };
 
+    console.log("auth", auth)
     const handleMenuClick = (item) => {
         if (item === '로그아웃') {
             handleLogout();
@@ -43,9 +44,9 @@ export default function Navbar({ user }) {
     }
 
     return (
-        <nav className="bg-white shadow-sm border-b border-gray-200">
+        <nav className=" shadow-sm border-b border-gray-200">
             <div className="max-w-[100%] px-4 sm:px-6 lg:px-8">
-                <div className="flex h-16 justify-between items-center">
+                <div className="flex py-4 justify-between items-center">
                     <Link to="/" className="font-bold text-2xl text-blue-600">
                         tictec
                     </Link>
@@ -61,7 +62,7 @@ export default function Navbar({ user }) {
                         {
                             auth ? (
                                 <p>
-                                    {auth.user_name}님 환영합니다.
+                                    {auth.user_info.user_name}님 환영합니다.
                                 </p>
                             ) : (
                                 <>

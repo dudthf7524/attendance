@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { USER_EDIT_REQUEST } from "../../reducers/user";
+import { Countries } from "../../constant/Countries";
 
 const EmployeeEditModal = ({ isOpen, userData, onClose }) => {
     const dispatch = useDispatch();
@@ -11,6 +12,9 @@ const EmployeeEditModal = ({ isOpen, userData, onClose }) => {
         user_nickname: "",
         user_position: "",
         user_hire_date: "",
+        user_birth_date: "",
+        user_annual_leave: "",
+        user_country: "",
     });
 
     useEffect(() => {
@@ -96,6 +100,43 @@ const EmployeeEditModal = ({ isOpen, userData, onClose }) => {
                             onChange={handleChange}
                             className="w-full border border-gray-300 rounded-md px-3 py-2"
                         />
+                    </div>
+
+                    <div className="w-full">
+                        <label className="block font-medium mb-1">생년월일</label>
+                        <input
+                            type="date"
+                            name="user_birth_date"
+                            value={formData.user_birth_date}
+                            onChange={handleChange}
+                            className="w-full border border-gray-300 rounded-md px-3 py-3"
+                        />
+                    </div>
+
+                    <div className="w-full">
+                        <label className="block font-medium mb-1">연차수</label>
+                        <input
+                            type="number"
+                            name="user_annual_leave"
+                            value={formData.user_annual_leave}
+                            onChange={handleChange}
+                            className="w-full border border-gray-300 rounded-md px-3 py-3"
+                            placeholder="연차수를 입력해주세요"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium mb-1">국가</label>
+                        <select
+                            name="user_country"
+                            value={formData.user_country}
+                            onChange={handleChange}
+                            className="w-full px-3 py-3 border rounded-md bg-white"
+                        >
+                            {Countries.map((type) => (
+                                <option key={type.value} value={type.value}>{type.label}</option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="flex flex-col space-y-4 mt-10">
