@@ -5,7 +5,6 @@ const auth = require('../databases/auth');
 
 
 router.get("/", async (req, res) => {
-    console.log(req.user)
     try {
         return res.json(req.user);
     } catch (error) {

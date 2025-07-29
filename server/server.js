@@ -5,7 +5,6 @@ const cors = require('cors');
 const { sequelize } = require('./models');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const jwt = require("jsonwebtoken");
 
 const passportConfig = require("./passport/cookie");
 const passport = require("passport");

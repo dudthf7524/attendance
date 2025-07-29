@@ -22,7 +22,7 @@ export default function Navbar({ user }) {
         });
     };
 
-    console.log("auth", auth)
+   
     const handleMenuClick = (item) => {
         if (item === '로그아웃') {
             handleLogout();
