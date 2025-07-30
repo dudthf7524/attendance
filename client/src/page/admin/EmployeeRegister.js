@@ -128,8 +128,8 @@ const EmployeeRegister = () => {
           </div>
           {/* <h2 className="text-lg font-bold mb-4">기본정보</h2> */}
           <form onSubmit={userRegister} className="w-full text-sm">
-            <div className="flex flex-col border-t border-gray-200 rounded overflow-hidden">
-              <div className="flex border-b border-gray-200 last:border-b-0">
+            <div className="flex flex-col border-t border-b border-gray-200 rounded overflow-hidden">
+              <div className="flex border-b border-gray-200">
                 <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">아이디</div>
                 <div className="w-px bg-gray-300" />
                 <div className="flex-1 px-4 py-3">
@@ -146,9 +146,9 @@ const EmployeeRegister = () => {
                       type="button"
                       onClick={checkId}
                       disabled={isAvailable}
-                      className={`w-1/3 px-4 py-2 bg-gray-100 font-bold ${isAvailable ? "text-gray-300" : ""}`}
+                      className={`w-1/3 px-4 py-2 text-white bg-blue-600 font-bold hover:bg-blue-500 rounded ${isAvailable ? "bg-gray-400" : ""}`}
                     >
-                      중복확인
+                      중복 확인
                     </button>
                   </div>
 
@@ -388,24 +388,24 @@ const EmployeeRegister = () => {
                 <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">우편번호</div>
                 <div className="w-px bg-gray-300" />
                 <div className="flex-1 px-4 py-3">
-                  <input
-                    type="text"
-                    value={formData.user_postcode}
-                    readOnly
-                    onClick={() => setShowPostcode(true)}
-                    placeholder="우편번호 찾기 클릭"
-                    className="w-1/2 border border-gray-300 rounded-md px-3 py-3 cursor-pointer bg-gray-50"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPostcode(true)}
-                    className="w-1/2 px-4 py-3 bg-white border-2 border-blue-400 text-blue-400 font-semibold rounded-md 
-               hover:bg-blue-50 active:scale-95
-               active:ring-2 active:ring-blue-400 active:ring-offset-2
-               transition duration-150"
-                  >
-                    주소 검색
-                  </button>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={formData.user_postcode}
+                      readOnly
+                      onClick={() => setShowPostcode(true)}
+                      placeholder="우편번호 찾기 클릭"
+                      className="w-2/3 border border-gray-300 rounded-md px-3 py-3 cursor-pointer bg-gray-50"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPostcode(true)}
+                      className={"w-1/3 px-4 py-2 bg-blue-600 font-bold text-white hover:bg-blue-500 rounded"}
+
+                    >
+                      주소 검색
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -459,9 +459,8 @@ const EmployeeRegister = () => {
             </div>
 
             {/* 버튼 */}
-            <div className="flex justify-end gap-2 pt-6">
-              <button type="button" className="px-4 py-2 bg-gray-200 rounded">취소</button>
-              <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">등록</button>
+            <div className="flex justify-end gap-2 mt-6">
+              <button type="submit" className="w-full px-4 py-2 bg-blue-600 text-white font bold rounded ">등록</button>
             </div>
           </form>
         </div>

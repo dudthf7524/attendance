@@ -67,18 +67,18 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ${
+      className={`bg-custom-dark border-r border-gray-200 flex flex-col transition-all duration-300 ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-4 border-b">
         {!isCollapsed && (
-          <h1 className="text-xl font-bold text-blue-600">관리자</h1>
+          <h1 className="text-xl font-bold text-white">관리자</h1>
         )}
         <button
           onClick={toggleCollapse}
-          className="p-1 rounded-full text-gray-400 hover:bg-gray-100"
+          className="p-1 rounded-full text-gray-500"
         >
           <ChevronRightIcon
             className={`h-5 w-5 transition-transform ${
@@ -102,25 +102,25 @@ export default function Sidebar() {
                   onClick={() => toggleSubMenu(item.name)}
                   className={`w-full flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md ${
                     isActive
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                      ? 'text-white'
+                      : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
                   <div className="flex items-center">
                     <item.icon
                       className={`h-6 w-6 flex-shrink-0 ${
                         isActive
-                          ? 'text-blue-500'
-                          : 'text-gray-400 group-hover:text-gray-500'
+                          ? 'text-white'
+                          : 'text-gray-500'
                       } ${!isCollapsed ? 'mr-3' : ''}`}
                     />
                     {!isCollapsed && <span>{item.name}</span>}
                   </div>
                   {!isCollapsed && (
                     isExpanded ? (
-                      <ChevronDownIcon className="h-4 w-4 text-gray-500" />
+                      <ChevronDownIcon className="h-4 w-4 text-white" />
                     ) : (
-                      <ChevronRightIcon className="h-4 w-4 text-gray-500" />
+                      <ChevronRightIcon className="h-4 w-4 text-white" />
                     )
                   )}
                 </button>
@@ -129,15 +129,15 @@ export default function Sidebar() {
                   to={item.path}
                   className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${
                     isActive
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                      ? 'text-white'
+                      : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
                   <item.icon
                     className={`h-6 w-6 flex-shrink-0 ${
                       isActive
-                        ? 'text-blue-500'
-                        : 'text-gray-400 group-hover:text-gray-500'
+                        ? 'text-white'
+                        : 'text-gray-500'
                     } ${!isCollapsed ? 'mr-3' : ''}`}
                   />
                   {!isCollapsed && <span>{item.name}</span>}
@@ -153,8 +153,8 @@ export default function Sidebar() {
                       to={subItem.path}
                       className={`block px-3 py-1 text-sm rounded-md ${
                         location.pathname === subItem.path
-                          ? 'bg-blue-50 text-blue-600'
-                          : 'text-gray-600 hover:bg-gray-100'
+                          ? 'text-white'
+                          : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                       }`}
                     >
                       {subItem.name}
@@ -168,7 +168,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t text-gray-400 text-sm">
+      <div className="p-4 border-t text-white text-sm">
         {!isCollapsed && 'admin v1.0.0'}
       </div>
     </div>

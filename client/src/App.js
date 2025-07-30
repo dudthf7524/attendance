@@ -27,7 +27,7 @@ function App() {
 
   useEffect(() => {
     userAuth();
-  }, []);
+  }, [dispatch]);
 
   const userAuth = async () => {
     dispatch({

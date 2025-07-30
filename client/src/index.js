@@ -8,7 +8,9 @@ import configureStore from './store/configureStore';
 import { BrowserRouter } from 'react-router-dom';
 const store = configureStore();
 
-
+ window.addEventListener("unhandledrejection", (event) => {
+    console.log("🔥 Uncaught (in promise):", event.reason);
+  });
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
