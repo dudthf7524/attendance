@@ -6,11 +6,13 @@ import { Departments } from "../../constant/Departments";
 import { BloodTypes } from "../../constant/BloodTypes";
 import { EducationLevels } from "../../constant/EducationLevels";
 import DaumPostcode from 'react-daum-postcode';
+import { validateUserId } from "../../hooks/validate/EmployeeRegister";
 
 const EmployeeRegister = () => {
   const dispatch = useDispatch();
   const [checkIdState, setCheckIdState] = useState(false);
   const [isAvailable, setIsAvailable] = useState(false);
+  const [error, setError] = useState(null);
 
   const [formData, setFormData] = useState({
     user_id: "",
@@ -36,6 +38,7 @@ const EmployeeRegister = () => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+
 
   const userRegister = (e) => {
     e.preventDefault();
@@ -111,11 +114,20 @@ const EmployeeRegister = () => {
     }));
     setShowPostcode(false);
   };
+  // const validateUserId = (userId) => {
+  //   const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
+  //   return regex.test(userId);
+  // };
 
+  // 예시 사용
+  // if (!validateUserId(formData.user_id)) {
+  //   alert("아이디는 8~15자의 영문자와 숫자를 조합해야 합니다.");
+  //   return;
+  // }
   const closeModal = () => setShowPostcode(false);
 
   return (
-    <div className="w-full min-w-[700px] overflow-x-auto">
+    <div className="w-full min-w-[1000px] overflow-x-auto">
       <main className="flex-1">
         <div className="bg-white rounded-xl s hadow p-5 flex flex-col space-y-4">
           <div className="flex justify-between items-center">
@@ -128,6 +140,210 @@ const EmployeeRegister = () => {
           </div>
           {/* <h2 className="text-lg font-bold mb-4">기본정보</h2> */}
           <form onSubmit={userRegister} className="w-full text-sm">
+            {/* <div className="flex flex-wrap">
+  <div className="w-full md:w-1/2 px-2 mb-4">
+    <label className="block font-semibold mb-1">아이디</label>
+    <div className="flex gap-2">
+      <input
+        name="user_id"
+        value={formData.user_id}
+        onChange={handleChange}
+        readOnly={isAvailable}
+        className="w-2/3 border px-3 py-2 rounded"
+        placeholder="아이디를 입력하세요"
+      />
+      <button
+        type="button"
+        onClick={checkId}
+        disabled={isAvailable}
+        className={`w-1/3 px-4 py-2 text-white font-bold rounded ${isAvailable ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-500"}`}
+      >
+        중복 확인
+      </button>
+    </div>
+    {checkIdState && (
+      <p className={`mt-2 text-sm ${isAvailable ? "text-green-500" : "text-red-500"}`}>
+        {isAvailable ? "사용 가능한 아이디입니다." : "이미 사용 중인 아이디입니다."}
+      </p>
+    )}
+  </div>
+
+  <div className="w-full md:w-1/2 px-2 mb-4">
+    <label className="block font-semibold mb-1">비밀번호</label>
+    <input
+      name="user_password"
+      value={formData.user_password}
+      onChange={handleChange}
+      className="w-full border px-3 py-2 rounded"
+      placeholder="비밀번호를 입력하세요"
+    />
+  </div>
+
+  <div className="w-full md:w-1/2 px-2 mb-4">
+    <label className="block font-semibold mb-1">비밀번호 확인</label>
+    <input
+      type="password"
+      name="user_password_check"
+      value={formData.user_password_check}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-md px-3 py-2"
+      placeholder="비밀번호 확인을 입력해주세요"
+    />
+  </div>
+
+  <div className="w-full md:w-1/2 px-2 mb-4">
+    <label className="block font-semibold mb-1">이름</label>
+    <input
+      type="text"
+      name="user_name"
+      value={formData.user_name}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-md px-3 py-2"
+      placeholder="이름을 입력해주세요"
+    />
+  </div>
+
+  <div className="w-full md:w-1/2 px-2 mb-4">
+    <label className="block font-semibold mb-1">닉네임</label>
+    <input
+      type="text"
+      name="user_nickname"
+      value={formData.user_nickname}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-md px-3 py-2"
+      placeholder="닉네임을 입력해주세요"
+    />
+  </div>
+
+  <div className="w-full md:w-1/2 px-2 mb-4">
+    <label className="block font-semibold mb-1">직책</label>
+    <input
+      type="text"
+      name="user_position"
+      value={formData.user_position}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-md px-3 py-2"
+      placeholder="직책을 입력해주세요"
+    />
+  </div>
+
+  <div className="w-full md:w-1/2 px-2 mb-4">
+    <label className="block font-semibold mb-1">입사일</label>
+    <input
+      type="date"
+      name="user_hire_date"
+      value={formData.user_hire_date}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-md px-3 py-2"
+    />
+  </div>
+
+  <div className="w-full md:w-1/2 px-2 mb-4">
+    <label className="block font-semibold mb-1">생년월일</label>
+    <input
+      type="date"
+      name="user_birth_date"
+      value={formData.user_birth_date}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-md px-3 py-2"
+    />
+  </div>
+</div> */}
+            {/* <table className="w-full table-fixed border-t border-gray-300">
+              <tbody>
+                <tr>
+                  <th className="px-4 py-2 colSpan={2} w-1/2 text-xl">기본정보</th>
+                  <th className="border-l px-4 py-2 colSpan={2} w-1/2 text-xl">직원정보</th>
+                </tr>
+              </tbody>
+            </table>
+
+            <table className="w-full table-fixed border-t border-b border-gray-300">
+
+              <tbody>
+                <tr>
+                  <th className="border-b border-r w-40 bg-gray-50 text-center">아이디</th>
+                  <th className="border-b px-4 py-2">
+                    <div className="flex gap-2">
+                      <input
+                        name="user_id"
+                        value={formData.user_id}
+                        onChange={handleChange}
+                        readOnly={isAvailable}
+                        className="w-2/3 border px-3 py-2 rounded"
+                        placeholder="아이디를 입력하세요"
+                      />
+                      <button
+                        type="button"
+                        onClick={checkId}
+                        disabled={isAvailable}
+                        className={`w-1/3 px-4 py-2 text-white bg-blue-600 font-bold hover:bg-blue-500 rounded ${isAvailable ? "bg-gray-400" : ""}`}
+                      >
+                        중복 확인
+                      </button>
+                    </div>
+                  </th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">비밀번호</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <input
+                        name="user_password"
+                        value={formData.user_password}
+                        onChange={handleChange}
+                        className="w-full border px-3 py-2 rounded"
+                        placeholder="비밀번호를 입력하세요"
+                      />
+                    </div>
+                  </th>
+                </tr>
+
+                <tr>
+                  <th className="border-b border-r w-40 bg-gray-50 text-center">비밀번호</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <input
+                        name="user_password"
+                        value={formData.user_password}
+                        onChange={handleChange}
+                        className="w-full border px-3 py-2 rounded"
+                        placeholder="비밀번호를 입력하세요"
+                      />
+                    </div>
+                  </th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">비밀번호 확인</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <input
+                        name="user_password"
+                        value={formData.user_password}
+                        onChange={handleChange}
+                        className="w-full border px-3 py-2 rounded"
+                        placeholder="비밀번호를 입력하세요"
+                      />
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <td className="border-b px-4 py-2">내용 5</td>
+                  <td className="border-b px-4 py-2">내용 6</td>
+                  <td className="border-b px-4 py-2">내용 7</td>
+                  <td className="border-b px-4 py-2">내용 8</td>
+                </tr>
+                <tr>
+                  <td className="border-b px-4 py-2">내용 9</td>
+                  <td className="border-b px-4 py-2">내용 10</td>
+                  <td className="border-b px-4 py-2">내용 11</td>
+                  <td className="border-b px-4 py-2">내용 12</td>
+                </tr>
+                <tr>
+                  <td className="border-b px-4 py-2">내용 13</td>
+                  <td className="border-b px-4 py-2">내용 14</td>
+                  <td className="border-b px-4 py-2">내용 15</td>
+                  <td className="border-b px-4 py-2">내용 16</td>
+                </tr>
+              </tbody>
+            </table> */}
+
             <div className="flex flex-col border-t border-b border-gray-200 rounded overflow-hidden">
               <div className="flex border-b border-gray-200">
                 <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">아이디</div>
@@ -138,6 +354,10 @@ const EmployeeRegister = () => {
                       name="user_id"
                       value={formData.user_id}
                       onChange={handleChange}
+                      onBlur={() => {
+                        const errorMessage = validateUserId(formData.user_id);
+                        setError(errorMessage);
+                      }}
                       readOnly={isAvailable}
                       className="w-2/3 border px-3 py-2 rounded"
                       placeholder="아이디를 입력하세요"
@@ -151,7 +371,7 @@ const EmployeeRegister = () => {
                       중복 확인
                     </button>
                   </div>
-
+                  {error && <p className="text-red-500 text-sm px-2 mt-2">{error}</p>}
                   {checkIdState ? (
                     <p className={`px-2 mt-2 text-sm ${isAvailable ? "text-green-500" : "text-red-500"}`}>
                       {isAvailable ? "사용 가능한 아이디입니다." : "이미 사용 중인 아이디입니다."}
