@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_CHECK_ID_REQUEST, USER_REGISTER_REQUEST } from "../../reducers/user";
 import { Countries } from "../../constant/Countries";
@@ -137,129 +137,12 @@ const EmployeeRegister = () => {
                 직원 리스트를 확인할 수 있습니다.
               </p>
             </div>
+            <div>
+              <button type="submit" className="w-full px-4 py-2 bg-blue-600 text-white font bold rounded ">등록</button>
+            </div>
           </div>
-          {/* <h2 className="text-lg font-bold mb-4">기본정보</h2> */}
           <form onSubmit={userRegister} className="w-full text-sm">
-            {/* <div className="flex flex-wrap">
-  <div className="w-full md:w-1/2 px-2 mb-4">
-    <label className="block font-semibold mb-1">아이디</label>
-    <div className="flex gap-2">
-      <input
-        name="user_id"
-        value={formData.user_id}
-        onChange={handleChange}
-        readOnly={isAvailable}
-        className="w-2/3 border px-3 py-2 rounded"
-        placeholder="아이디를 입력하세요"
-      />
-      <button
-        type="button"
-        onClick={checkId}
-        disabled={isAvailable}
-        className={`w-1/3 px-4 py-2 text-white font-bold rounded ${isAvailable ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-500"}`}
-      >
-        중복 확인
-      </button>
-    </div>
-    {checkIdState && (
-      <p className={`mt-2 text-sm ${isAvailable ? "text-green-500" : "text-red-500"}`}>
-        {isAvailable ? "사용 가능한 아이디입니다." : "이미 사용 중인 아이디입니다."}
-      </p>
-    )}
-  </div>
-
-  <div className="w-full md:w-1/2 px-2 mb-4">
-    <label className="block font-semibold mb-1">비밀번호</label>
-    <input
-      name="user_password"
-      value={formData.user_password}
-      onChange={handleChange}
-      className="w-full border px-3 py-2 rounded"
-      placeholder="비밀번호를 입력하세요"
-    />
-  </div>
-
-  <div className="w-full md:w-1/2 px-2 mb-4">
-    <label className="block font-semibold mb-1">비밀번호 확인</label>
-    <input
-      type="password"
-      name="user_password_check"
-      value={formData.user_password_check}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-md px-3 py-2"
-      placeholder="비밀번호 확인을 입력해주세요"
-    />
-  </div>
-
-  <div className="w-full md:w-1/2 px-2 mb-4">
-    <label className="block font-semibold mb-1">이름</label>
-    <input
-      type="text"
-      name="user_name"
-      value={formData.user_name}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-md px-3 py-2"
-      placeholder="이름을 입력해주세요"
-    />
-  </div>
-
-  <div className="w-full md:w-1/2 px-2 mb-4">
-    <label className="block font-semibold mb-1">닉네임</label>
-    <input
-      type="text"
-      name="user_nickname"
-      value={formData.user_nickname}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-md px-3 py-2"
-      placeholder="닉네임을 입력해주세요"
-    />
-  </div>
-
-  <div className="w-full md:w-1/2 px-2 mb-4">
-    <label className="block font-semibold mb-1">직책</label>
-    <input
-      type="text"
-      name="user_position"
-      value={formData.user_position}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-md px-3 py-2"
-      placeholder="직책을 입력해주세요"
-    />
-  </div>
-
-  <div className="w-full md:w-1/2 px-2 mb-4">
-    <label className="block font-semibold mb-1">입사일</label>
-    <input
-      type="date"
-      name="user_hire_date"
-      value={formData.user_hire_date}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-md px-3 py-2"
-    />
-  </div>
-
-  <div className="w-full md:w-1/2 px-2 mb-4">
-    <label className="block font-semibold mb-1">생년월일</label>
-    <input
-      type="date"
-      name="user_birth_date"
-      value={formData.user_birth_date}
-      onChange={handleChange}
-      className="w-full border border-gray-300 rounded-md px-3 py-2"
-    />
-  </div>
-</div> */}
-            {/* <table className="w-full table-fixed border-t border-gray-300">
-              <tbody>
-                <tr>
-                  <th className="px-4 py-2 colSpan={2} w-1/2 text-xl">기본정보</th>
-                  <th className="border-l px-4 py-2 colSpan={2} w-1/2 text-xl">직원정보</th>
-                </tr>
-              </tbody>
-            </table>
-
-            <table className="w-full table-fixed border-t border-b border-gray-300">
-
+            <table className="w-full table-fixed border-t border-gray-300">
               <tbody>
                 <tr>
                   <th className="border-b border-r w-40 bg-gray-50 text-center">아이디</th>
@@ -283,20 +166,19 @@ const EmployeeRegister = () => {
                       </button>
                     </div>
                   </th>
-                  <th className="border-b border-l w-40 bg-gray-50 text-center">비밀번호</th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">생년월일</th>
                   <th className="border-b">
                     <div className="flex-1 px-4 py-3">
                       <input
-                        name="user_password"
-                        value={formData.user_password}
+                        type="date"
+                        name="user_birth_date"
+                        value={formData.user_birth_date}
                         onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded"
-                        placeholder="비밀번호를 입력하세요"
+                        className="w-full border border-gray-300 rounded-md px-3 py-3"
                       />
                     </div>
                   </th>
                 </tr>
-
                 <tr>
                   <th className="border-b border-r w-40 bg-gray-50 text-center">비밀번호</th>
                   <th className="border-b">
@@ -310,7 +192,51 @@ const EmployeeRegister = () => {
                       />
                     </div>
                   </th>
-                  <th className="border-b border-l w-40 bg-gray-50 text-center">비밀번호 확인</th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">입사일</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <input
+                        type="date"
+                        name="user_hire_date"
+                        value={formData.user_hire_date}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded-md px-3 py-3"
+                      />
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <th className="border-b border-r w-40 bg-gray-50 text-center">이름</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <input
+                        type="text"
+                        name="user_name"
+                        value={formData.user_name}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded-md px-3 py-3"
+                        placeholder="이름을 입력해주세요"
+                      />
+                    </div>
+                  </th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">국가</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <select
+                        name="user_country"
+                        value={formData.user_country}
+                        onChange={handleChange}
+                        className="w-full px-3 py-3 border rounded-md bg-white"
+                      >
+                        {Countries.map((type) => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <th className="border-b border-r w-40 bg-gray-50 text-center">닉네임</th>
                   <th className="border-b">
                     <div className="flex-1 px-4 py-3">
                       <input
@@ -322,342 +248,167 @@ const EmployeeRegister = () => {
                       />
                     </div>
                   </th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">부서</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <select
+                        name="user_department"
+                        value={formData.user_department}
+                        onChange={handleChange}
+                        className="w-full px-3 py-3 border rounded-md bg-white"
+                      >
+                        {Departments.map((type) => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </th>
                 </tr>
                 <tr>
-                  <td className="border-b px-4 py-2">내용 5</td>
-                  <td className="border-b px-4 py-2">내용 6</td>
-                  <td className="border-b px-4 py-2">내용 7</td>
-                  <td className="border-b px-4 py-2">내용 8</td>
+                  <th className="border-b border-r w-40 bg-gray-50 text-center">직책</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <input
+                        type="text"
+                        name="user_position"
+                        value={formData.user_position}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded-md px-3 py-3"
+                        placeholder="직책을 입력해주세요"
+                      />
+                    </div>
+                  </th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">혈액형</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <select
+                        name="user_blood_type"
+                        value={formData.user_blood_type}
+                        onChange={handleChange}
+                        className="w-full px-3 py-3 border rounded-md bg-white"
+                      >
+                        {BloodTypes.map((type) => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </th>
                 </tr>
                 <tr>
-                  <td className="border-b px-4 py-2">내용 9</td>
-                  <td className="border-b px-4 py-2">내용 10</td>
-                  <td className="border-b px-4 py-2">내용 11</td>
-                  <td className="border-b px-4 py-2">내용 12</td>
+                  <th className="border-b border-r w-40 bg-gray-50 text-center">연차수</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <input
+                        type="number"
+                        name="user_annual_leave"
+                        value={formData.user_annual_leave}
+                        onChange={handleChange}
+                        className="w-full border border-gray-300 rounded-md px-3 py-3"
+                        placeholder="연차수를 입력해주세요"
+                      />
+                    </div>
+                  </th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">최종학력</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <select
+                        name="user_education"
+                        value={formData.user_education}
+                        onChange={handleChange}
+                        className="w-full px-3 py-3 border rounded-md bg-white"
+                      >
+                        {EducationLevels.map((type) => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </th>
                 </tr>
                 <tr>
-                  <td className="border-b px-4 py-2">내용 13</td>
-                  <td className="border-b px-4 py-2">내용 14</td>
-                  <td className="border-b px-4 py-2">내용 15</td>
-                  <td className="border-b px-4 py-2">내용 16</td>
+                  <th className="border-b border-r w-40 bg-gray-50 text-center">연락처</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+
+                      <div className="flex gap-2 w-full items-center justify-between">
+                        <input
+                          type="text"
+                          name="phone_1"
+                          maxLength={3}
+                          value={phoneData.phone_1}
+                          onChange={phoneDataChange}
+                          className="w-1/3 px-3 py-3 border rounded-md text-center"
+                          placeholder="010"
+                        />
+                        <span className="text-gray-500">-</span>
+                        <input
+                          type="text"
+                          name="phone_2"
+                          maxLength={4}
+                          value={phoneData.phone_2}
+                          onChange={phoneDataChange}
+                          className="w-1/3 px-3 py-3 border rounded-md text-center"
+                          placeholder="1234"
+                        />
+                        <span className="text-gray-500">-</span>
+                        <input
+                          type="text"
+                          name="phone_3"
+                          maxLength={4}
+                          value={phoneData.phone_3}
+                          onChange={phoneDataChange}
+                          className="w-1/3 px-3 py-3 border rounded-md text-center"
+                          placeholder="5678"
+                        />
+                      </div>
+                    </div>
+                  </th>
+                  <th className="border-b border-l w-40 bg-gray-50 text-center">우편번호</th>
+                  <th className="border-b">
+                    <div className="flex-1 px-4 py-3">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={formData.user_postcode}
+                          readOnly
+                          onClick={() => setShowPostcode(true)}
+                          placeholder="우편번호 찾기 클릭"
+                          className="w-2/3 border border-gray-300 rounded-md px-3 py-3 cursor-pointer bg-gray-50"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPostcode(true)}
+                          className={"w-1/3 px-4 py-2 bg-blue-600 font-bold text-white hover:bg-blue-500 rounded"}
+
+                        >
+                          주소 검색
+                        </button>
+                      </div>
+                      <div className="flex mt-2 mb-2">
+                        <input
+                          type="text"
+                          value={formData.user_address_basic}
+                          readOnly
+                          placeholder="기본주소"
+                          className="w-full border border-gray-300 rounded-md px-3 py-3"
+                        />
+                      </div>
+                      <div className="flex">
+                        <input
+                          type="text"
+                          name="user_address_detail"
+                          value={formData.user_address_detail}
+                          onChange={handleChange}
+                          placeholder="상세주소 입력 (예: 101호)"
+                          className="w-full border border-gray-300 rounded-md px-3 py-3"
+                        />
+                      </div>
+                    </div>
+                  </th>
                 </tr>
               </tbody>
-            </table> */}
+            </table>
 
             <div className="flex flex-col border-t border-b border-gray-200 rounded overflow-hidden">
-              <div className="flex border-b border-gray-200">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">아이디</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <div className="flex gap-2">
-                    <input
-                      name="user_id"
-                      value={formData.user_id}
-                      onChange={handleChange}
-                      onBlur={() => {
-                        const errorMessage = validateUserId(formData.user_id);
-                        setError(errorMessage);
-                      }}
-                      readOnly={isAvailable}
-                      className="w-2/3 border px-3 py-2 rounded"
-                      placeholder="아이디를 입력하세요"
-                    />
-                    <button
-                      type="button"
-                      onClick={checkId}
-                      disabled={isAvailable}
-                      className={`w-1/3 px-4 py-2 text-white bg-blue-600 font-bold hover:bg-blue-500 rounded ${isAvailable ? "bg-gray-400" : ""}`}
-                    >
-                      중복 확인
-                    </button>
-                  </div>
-                  {error && <p className="text-red-500 text-sm px-2 mt-2">{error}</p>}
-                  {checkIdState ? (
-                    <p className={`px-2 mt-2 text-sm ${isAvailable ? "text-green-500" : "text-red-500"}`}>
-                      {isAvailable ? "사용 가능한 아이디입니다." : "이미 사용 중인 아이디입니다."}
-                    </p>
-                  ) : (<></>)
-                  }
-
-                </div>
-              </div>
-              <div className="flex border-b border-gray-200 last:border-b-0">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">비밀번호</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    name="user_password"
-                    value={formData.user_password}
-                    onChange={handleChange}
-                    className="w-full border px-3 py-2 rounded"
-                    placeholder="비밀번호를 입력하세요"
-                  />
-                </div>
-              </div>
-
-              <div className="flex border-b border-gray-200 last:border-b-0">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">비밀번호 확인</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="password"
-                    name="user_password_check"
-                    value={formData.user_password_check}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-3"
-                    required
-                    placeholder="비밀번호 확인을 입력해주세요"
-                  />
-                </div>
-              </div>
-
-              <div className="flex border-b border-gray-200 last:border-b-0">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">이름</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3 flex gap-2">
-                  <input
-                    type="text"
-                    name="user_name"
-                    value={formData.user_name}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-3"
-                    placeholder="이름을 입력해주세요"
-                  />
-                </div>
-              </div>
-
-              <div className="flex border-b border-gray-200 last:border-b-0">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">닉네임</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="text"
-                    name="user_nickname"
-                    value={formData.user_nickname}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-3"
-                    placeholder="닉네임을 입력해주세요"
-                  />
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">직책</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="text"
-                    name="user_position"
-                    value={formData.user_position}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-3"
-                    placeholder="직책을 입력해주세요"
-                  />
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">입사일</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="date"
-                    name="user_hire_date"
-                    value={formData.user_hire_date}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-3"
-                  />
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">생년월일</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="date"
-                    name="user_birth_date"
-                    value={formData.user_birth_date}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-3"
-                  />
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">연차수</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="number"
-                    name="user_annual_leave"
-                    value={formData.user_annual_leave}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-3"
-                    placeholder="연차수를 입력해주세요"
-                  />
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">국가</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <select
-                    name="user_country"
-                    value={formData.user_country}
-                    onChange={handleChange}
-                    className="w-full px-3 py-3 border rounded-md bg-white"
-                  >
-                    {Countries.map((type) => (
-                      <option key={type.value} value={type.value}>{type.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">부서</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <select
-                    name="user_department"
-                    value={formData.user_department}
-                    onChange={handleChange}
-                    className="w-full px-3 py-3 border rounded-md bg-white"
-                  >
-                    {Departments.map((type) => (
-                      <option key={type.value} value={type.value}>{type.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">혈액형</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <select
-                    name="user_blood_type"
-                    value={formData.user_blood_type}
-                    onChange={handleChange}
-                    className="w-full px-3 py-3 border rounded-md bg-white"
-                  >
-                    {BloodTypes.map((type) => (
-                      <option key={type.value} value={type.value}>{type.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">최종학력</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <select
-                    name="user_education"
-                    value={formData.user_education}
-                    onChange={handleChange}
-                    className="w-full px-3 py-3 border rounded-md bg-white"
-                  >
-                    {EducationLevels.map((type) => (
-                      <option key={type.value} value={type.value}>{type.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">연락처</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <div className="flex gap-2 w-full items-center justify-between">
-                    <input
-                      type="text"
-                      name="phone_1"
-                      maxLength={3}
-                      value={phoneData.phone_1}
-                      onChange={phoneDataChange}
-                      className="w-1/3 px-3 py-3 border rounded-md text-center"
-                      placeholder="010"
-                    />
-                    <span className="text-gray-500">-</span>
-                    <input
-                      type="text"
-                      name="phone_2"
-                      maxLength={4}
-                      value={phoneData.phone_2}
-                      onChange={phoneDataChange}
-                      className="w-1/3 px-3 py-3 border rounded-md text-center"
-                      placeholder="1234"
-                    />
-                    <span className="text-gray-500">-</span>
-                    <input
-                      type="text"
-                      name="phone_3"
-                      maxLength={4}
-                      value={phoneData.phone_3}
-                      onChange={phoneDataChange}
-                      className="w-1/3 px-3 py-3 border rounded-md text-center"
-                      placeholder="5678"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">우편번호</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={formData.user_postcode}
-                      readOnly
-                      onClick={() => setShowPostcode(true)}
-                      placeholder="우편번호 찾기 클릭"
-                      className="w-2/3 border border-gray-300 rounded-md px-3 py-3 cursor-pointer bg-gray-50"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPostcode(true)}
-                      className={"w-1/3 px-4 py-2 bg-blue-600 font-bold text-white hover:bg-blue-500 rounded"}
-
-                    >
-                      주소 검색
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">기본주소</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="text"
-                    value={formData.user_address_basic}
-                    readOnly
-                    onClick={() => setShowPostcode(true)}
-                    placeholder="주소 찾기 클릭"
-                    className="w-full border border-gray-300 rounded-md px-3 py-3 cursor-pointer bg-gray-50"
-                  />
-                </div>
-              </div>
-
-              <div className="flex">
-                <div className="w-40 px-4 py-3 font-semibold bg-gray-50 flex items-center">상세주소</div>
-                <div className="w-px bg-gray-300" />
-                <div className="flex-1 px-4 py-3">
-                  <input
-                    type="text"
-                    name="user_address_detail"
-                    value={formData.user_address_detail}
-                    onChange={handleChange}
-                    placeholder="상세주소 입력 (예: 101호)"
-                    className="w-full border border-gray-300 rounded-md px-3 py-3"
-                  />
-                </div>
-              </div>
               {showPostcode && (
                 <div
                   className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
@@ -679,9 +430,7 @@ const EmployeeRegister = () => {
             </div>
 
             {/* 버튼 */}
-            <div className="flex justify-end gap-2 mt-6">
-              <button type="submit" className="w-full px-4 py-2 bg-blue-600 text-white font bold rounded ">등록</button>
-            </div>
+
           </form>
         </div>
       </main >
