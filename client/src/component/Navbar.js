@@ -22,7 +22,7 @@ export default function Navbar({ user }) {
         });
     };
 
-   
+
     const handleMenuClick = (item) => {
         if (item === '로그아웃') {
             handleLogout();
@@ -44,8 +44,8 @@ export default function Navbar({ user }) {
     }
 
     return (
-        <nav className=" shadow-sm border-b border-gray-200">
-            <div className="max-w-[100%] px-4 sm:px-6 lg:px-8">
+        <nav className="border-b border-gray-20">
+            <div className="max-w-[100%] px-4 sm:px-6 lg:px-8 ">
                 <div className="flex py-4 justify-between items-center">
                     <Link to="/" className="font-bold text-2xl text-blue-600">
                         tictec

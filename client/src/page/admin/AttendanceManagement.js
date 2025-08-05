@@ -3,6 +3,7 @@ import PeriodFilterTabs from "./PeriodFilterTabs";
 import SearchBox from "./SearchBox";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
+import { EyeIcon } from "@heroicons/react/24/outline";
 
 const AttendanceManagement = () => {
   const [keyword, setKeyword] = useState("");
@@ -36,6 +37,162 @@ const AttendanceManagement = () => {
     return `${hours}시간 ${minutes}분`;
   };
 
+  const getStatusColor = (auth_code) => {
+    switch (auth_code) {
+      case "A1":
+        return "text-green-600 bg-green-100";
+      case "A2":
+        return "text-yellow-600 bg-yellow-100";
+      case "A3":
+        return "text-red-600 bg-red-100";
+      default:
+        return "";
+    }
+  };
+
+  const userList = [
+    {
+      auth: {
+        auth_code: "A1",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A1",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A1",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A1",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A1",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A1",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A1",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A3",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A1",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+    {
+      auth: {
+        auth_code: "A2",
+        auth_name: "마스터"
+      },
+      company_code: 1,
+      user_code: 1,
+      user_info: {
+        user_name: "a",
+        user_nickname: "boss",
+        user_position: "대표",
+        user_hire_date: "2025-07-28"
+      }
+    },
+  ];
+
   return (
     <div className="min-w-[1000px] w-full overflow-x-auto">
       <main className="flex-1">
@@ -52,6 +209,60 @@ const AttendanceManagement = () => {
 
           <PeriodFilterTabs />
           <SearchBox keyword={keyword} onChange={setKeyword} />
+
+
+          <div className="overflow-x-auto">
+            <div className="min-w-full text-sm flex flex-col border-b">
+              <div className="grid grid-cols-7 border-b text-left font-medium border-t">
+                <div className="px-4 py-4">이름</div>
+                <div className="px-4 py-4">날짜</div>
+                <div className="px-4 py-4">출근 시간</div>
+                <div className="px-4 py-4">퇴근 시간</div>
+                <div className="px-4 py-4">쉬는 시간</div>
+                <div className="px-4 py-4">근무 시간</div>
+                <div className="px-4 py-4 text-blue-700">지각여부</div>
+              </div>
+
+              {/* 테이블 바디 */}
+              {userList.map((user, i) => (
+                <div
+                  key={i}
+                  className="grid grid-cols-7 items-center hover:bg-gray-50 transition"
+                >
+                  <div className="px-4 py-4">
+                    {user.user_info.user_name}
+                  </div>
+                  <div className="px-4 py-4">
+                    {user.user_info.user_name}
+                  </div>
+                  <div className="px-4 py-4">
+                    {user.user_info.user_nickname}
+                  </div>
+                  <div className="px-4 py-4">
+                    <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                      {user.user_info.user_hire_date}
+                    </span>
+                  </div>
+                  <div className="px-4 py-4">
+                    {user.user_info.user_position}
+                  </div>
+                  <div className="px-4 py-4">
+                    <span className={`px-2 py-1 text-xs rounded ${getStatusColor(user.auth.auth_code)}`}>
+                      {user.auth.auth_name}
+                    </span>
+                  </div>
+                  <div className="px-4 py-4">
+                    <button
+                      className="text-blue-500 hover:text-blue-700"
+                      title="상세보기"
+                    >
+                      <EyeIcon className="w-5 h-5 inline-block" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* 테이블 헤더 */}
           <div className="grid grid-cols-7 bg-blue-50 text-blue-600 text-xs font-semibold px-6 py-3 tracking-wide border border-blue-100 rounded mt-2">
@@ -90,11 +301,10 @@ const AttendanceManagement = () => {
                 </span>
                 <span>
                   <span
-                    className={`inline-block px-2 py-1 text-xs rounded-full font-medium text-center w-fit ${
-                      attendance.attendance_start_state === "지각"
-                        ? "bg-red-100 text-red-600"
-                        : "bg-green-100 text-green-600"
-                    }`}
+                    className={`inline-block px-2 py-1 text-xs rounded-full font-medium text-center w-fit ${attendance.attendance_start_state === "지각"
+                      ? "bg-red-100 text-red-600"
+                      : "bg-green-100 text-green-600"
+                      }`}
                   >
                     {attendance?.attendance_start_state || "정상"}
                   </span>

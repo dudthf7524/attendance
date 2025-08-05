@@ -57,7 +57,7 @@ const PeriodFilterTabs = () => {
   };
 
   return (
-    <div className="w-full bg-white border border-gray-200 rounded-lg">
+    <div className="bg-white border border-gray-300 rounded-xl shadow-md px-6 py-6 w-full">
       {/* 탭 네비게이션 */}
       <nav className="flex border-b border-gray-200">
         {[
