@@ -24,9 +24,11 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/list/outer", async (req, res) => {
+    console.log(req.user.company_code)
     const company_code = req.user.company_code;
     try {
         const result = await time.timeListOuter(company_code)
+        console.log("result", result)
         res.json(result);
 
     } catch (error) {

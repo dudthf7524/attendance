@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { ClockIcon } from "@heroicons/react/24/outline";
+import React, { useEffect, useState } from "react";
+import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/outline";
+import { useDispatch, useSelector } from "react-redux";
+import { TIME_LIST_OUTER_REQUEST } from "../../reducers/time";
 
 const TimeSettingPage = () => {
   const userList = [
@@ -25,10 +27,26 @@ const TimeSettingPage = () => {
       },
     },
   ];
+  const [selected, setSelected] = useState();
 
+  const dispatch = useDispatch();
+
+  const { timeListOuter } = useSelector((state) => state.time);
+  console.log("timeListOuter : ", timeListOuter)
+  useEffect(() => {
+    timeListOuterDB();
+  }, []);
+  const timeListOuterDB = async () => {
+    dispatch({
+      type: TIME_LIST_OUTER_REQUEST,
+    });
+  };
   const [selectedUser, setSelectedUser] = useState(null);
   const [timeSettings, setTimeSettings] = useState({});
   const [savedSettings, setSavedSettings] = useState({});
+
+
+  console.log("selectedUser", selectedUser)
 
   const handleUserClick = (user_code) => {
     setSelectedUser(user_code);
@@ -48,6 +66,9 @@ const TimeSettingPage = () => {
   };
 
   const handleSave = () => {
+    console.log("selectedUser", selectedUser)
+    console.log("timeSettings", timeSettings)
+
     if (!selectedUser) return;
     setSavedSettings((prev) => ({
       ...prev,
@@ -91,11 +112,10 @@ const TimeSettingPage = () => {
               </p>
             </div>
           </div>
-
           <div className="grid grid-cols-4 gap-4">
             <div className="col-span-1 border-r pr-4">
               <h3 className="text-sm font-bold mb-2">직원 목록</h3>
-              {userList.map((user, idx) => (
+              {timeListOuter?.map((user, idx) => (
                 <div
                   key={idx}
                   onClick={() => handleUserClick(user.user_code)}
@@ -112,13 +132,12 @@ const TimeSettingPage = () => {
                 </div>
               ))}
             </div>
-
             <div className="col-span-3">
               {selectedUser ? (
                 <>
                   <div className="flex justify-between items-center">
                     <h3 className="text-lg font-bold mb-4">
-                      {userList.find((u) => u.user_code === selectedUser)?.user_info.user_name}님 시간 설정
+                      {timeListOuter.find((u) => u.user_code === selectedUser)?.user_info.user_name}님 시간 설정
                     </h3>
                     <button
                       onClick={handleSave}

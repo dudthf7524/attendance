@@ -11,7 +11,6 @@ module.exports = async () => {
     });
 
     await passport.deserializeUser(async (data, done) => {
-      console.log("data", data)
       try {
         const user_r = await user.findOne({
           attributes: ["user_code", "auth_code", "company_code"],
@@ -24,7 +23,6 @@ module.exports = async () => {
           ],
           where: { user_id: data.user_id },
         });
-        console.log("user_r", user_r)
 
         if (!user_r) {
           return done(null, false); // 사용자를 찾지 못했을 때, false 반환 (세션 종료)

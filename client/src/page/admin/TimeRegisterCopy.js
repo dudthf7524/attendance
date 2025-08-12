@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TIME_LIST_OUTER_REQUEST, TIME_REGISTER_REQUEST } from "../../reducers/time";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
