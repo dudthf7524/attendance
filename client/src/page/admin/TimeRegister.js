@@ -66,9 +66,6 @@ const TimeSettingPage = () => {
   };
 
   const handleSave = () => {
-    console.log("selectedUser", selectedUser)
-    console.log("timeSettings", timeSettings)
-
     if (!selectedUser) return;
     setSavedSettings((prev) => ({
       ...prev,
