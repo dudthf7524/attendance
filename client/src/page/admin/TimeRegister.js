@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { TIME_LIST_OUTER_REQUEST } from "../../reducers/time";
@@ -27,12 +27,29 @@ const TimeSettingPage = () => {
       },
     },
   ];
-  const [selected, setSelected] = useState();
+  const [formData, setFormData] = useState({
+    startHour: "00",
+    startMin: "00",
+    endHour: "00",
+    endMin: "00",
+    breakStartHour: "00",
+    breakStartMin: "00",
+    breakEndHour: "00",
+    breakEndMin: "00",
+  });
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const dispatch = useDispatch();
 
   const { timeListOuter } = useSelector((state) => state.time);
-  console.log("timeListOuter : ", timeListOuter)
+
+  console.log("timeListOuter", timeListOuter)
+
   useEffect(() => {
     timeListOuterDB();
   }, []);
@@ -42,55 +59,25 @@ const TimeSettingPage = () => {
     });
   };
   const [selectedUser, setSelectedUser] = useState(null);
-  const [timeSettings, setTimeSettings] = useState({});
-  const [savedSettings, setSavedSettings] = useState({});
 
-
-  console.log("selectedUser", selectedUser)
+  const selectedTime = useMemo(() => {
+    return timeListOuter?.find((u) => u.user_code === selectedUser)?.time;
+  }, [timeListOuter, selectedUser]);
 
   const handleUserClick = (user_code) => {
     setSelectedUser(user_code);
   };
 
-  const handleTimeChange = (field, subField, value) => {
-    setTimeSettings((prev) => ({
-      ...prev,
-      [selectedUser]: {
-        ...prev[selectedUser],
-        [field]: {
-          ...(prev[selectedUser]?.[field] || {}),
-          [subField]: value,
-        },
-      },
-    }));
-  };
+
 
   const handleSave = () => {
-    if (!selectedUser) return;
-    setSavedSettings((prev) => ({
-      ...prev,
-      [selectedUser]: timeSettings[selectedUser],
-    }));
-    alert("시간이 저장되었습니다.");
+
   };
 
-  const handleReset = () => {
-    if (!selectedUser) return;
-    setTimeSettings((prev) => ({
-      ...prev,
-      [selectedUser]: {},
-    }));
-  };
+
 
   const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
   const minuteOptions = Array.from({ length: 6 }, (_, i) => (i * 10).toString().padStart(2, '0'));
-
-  const timeFields = [
-    { label: '출근시간', key: 'startWork' },
-    { label: '퇴근시간', key: 'endWork' },
-    { label: '휴게 시작시간', key: 'breakStart' },
-    { label: '휴게 종료시간', key: 'breakEnd' },
-  ];
 
   const formatTime = (time) => {
     if (!time?.hour || !time?.minute) return '-';
@@ -120,12 +107,6 @@ const TimeSettingPage = () => {
                 >
                   <div className="font-semibold mt-2">{user.user_info.user_name}</div>
                   <div className="text-xs text-gray-500 mb-2">{user.user_info.user_position}</div>
-                  {savedSettings[user.user_code] && (
-                    <div className="text-xs text-gray-600 mt-1">
-                      ⏰ {formatTime(savedSettings[user.user_code].startWork)} ~ {formatTime(savedSettings[user.user_code].endWork)}<br />
-                      ☕ {formatTime(savedSettings[user.user_code].breakStart)} ~ {formatTime(savedSettings[user.user_code].breakEnd)}
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
@@ -143,42 +124,177 @@ const TimeSettingPage = () => {
                       저장
                     </button>
                   </div>
-                  <table className="w-full table-fixed border-t border-gray-300 text-sm mb-4">
-                    <tbody>
-                      {timeFields.map(({ label, key }) => (
-                        <tr key={key}>
-                          <th className="border-b border-r w-40 bg-gray-50 text-center">{label}</th>
-                          <td className="border-b px-4 py-3">
-                            <div className="flex gap-2 items-center">
-                              <select
-                                value={timeSettings[selectedUser]?.[key]?.hour || ""}
-                                onChange={(e) => handleTimeChange(key, 'hour', e.target.value)}
-                                className="px-3 py-2 border rounded"
-                              >
-                                <option value=""></option>
-                                {hourOptions.map((h) => (
-                                  <option key={h} value={h}>{h}</option>
-                                ))}
-                              </select>
-                              <span>시</span>
-                              <select
-                                value={timeSettings[selectedUser]?.[key]?.minute || ""}
-                                onChange={(e) => handleTimeChange(key, 'minute', e.target.value)}
-                                className="px-3 py-2 border rounded"
-                              >
-                                <option value=""></option>
-                                {minuteOptions.map((m) => (
-                                  <option key={m} value={m}>{m}</option>
-                                ))}
-                              </select>
-                              <span>분</span>
-                              <ClockIcon className="w-5 h-5 text-gray-400" />
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+
+                  {
+                    selectedTime ?
+                      (
+                        <table className="w-full table-fixed border-t border-gray-300 text-sm mb-4">
+                          <tbody>
+                            <tr>
+                              <th className="border-b border-r w-40 bg-gray-50 text-center">출근시간</th>
+                              <td className="border-b px-4 py-3">
+                                <div className="flex gap-2 items-center">
+                                  {selectedTime.start_time.split(":")[0]}시 {selectedTime.start_time.split(":")[1]}분
+                                  <ClockIcon className="w-5 h-5 text-gray-400" />
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th className="border-b border-r w-40 bg-gray-50 text-center">퇴근시간</th>
+                              <td className="border-b px-4 py-3">
+                                <div className="flex gap-2 items-center">
+                                  {selectedTime.end_time.split(":")[0]}시 {selectedTime.end_time.split(":")[1]}분
+                                  <ClockIcon className="w-5 h-5 text-gray-400" />
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th className="border-b border-r w-40 bg-gray-50 text-center">휴게 시작 시간</th>
+                              <td className="border-b px-4 py-3">
+                                <div className="flex gap-2 items-center">
+                                  {selectedTime.rest_start_time.split(":")[0]}시 {selectedTime.rest_start_time.split(":")[1]}분
+                                  <ClockIcon className="w-5 h-5 text-gray-400" />
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th className="border-b border-r w-40 bg-gray-50 text-center">휴게 종료 시간</th>
+                              <td className="border-b px-4 py-3">
+                                <div className="flex gap-2 items-center">
+                                  {selectedTime.rest_end_time.split(":")[0]}시 {selectedTime.rest_end_time.split(":")[1]}분
+                                  <ClockIcon className="w-5 h-5 text-gray-400" />
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      )
+                      :
+                      (<table className="w-full table-fixed border-t border-gray-300 text-sm mb-4">
+                        <tbody>
+                          <tr>
+                            <th className="border-b border-r w-40 bg-gray-50 text-center">출근시간</th>
+                            <td className="border-b px-4 py-3">
+                              <div className="flex gap-2 items-center">
+                                <select
+                                  name="startHour"
+                                  value={formData.startHour}
+                                  onChange={handleChange}
+                                >
+                                  <option value=""></option>
+                                  {hourOptions.map((h) => (
+                                    <option key={h} value={h}>{h}</option>
+                                  ))}
+                                </select>
+                                <span>시</span>
+                                <select
+                                  name="startMin"
+                                  value={formData.startMin}
+                                  onChange={handleChange}
+                                >
+                                  <option value=""></option>
+                                  {minuteOptions.map((m) => (
+                                    <option key={m} value={m}>{m}</option>
+                                  ))}
+                                </select>
+                                <span>분</span>
+                                <ClockIcon className="w-5 h-5 text-gray-400" />
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border-b border-r w-40 bg-gray-50 text-center">퇴근시간</th>
+                            <td className="border-b px-4 py-3">
+                              <div className="flex gap-2 items-center">
+                                <select
+                                  name="endHour"
+                                  value={formData.endHour}
+                                  onChange={handleChange}
+                                >
+                                  <option value=""></option>
+                                  {hourOptions.map((h) => (
+                                    <option key={h} value={h}>{h}</option>
+                                  ))}
+                                </select>
+                                <span>시</span>
+                                <select
+                                  name="endMin"
+                                  value={formData.endMin}
+                                  onChange={handleChange}
+                                >
+                                  <option value=""></option>
+                                  {minuteOptions.map((m) => (
+                                    <option key={m} value={m}>{m}</option>
+                                  ))}
+                                </select>
+                                <span>분</span>
+                                <ClockIcon className="w-5 h-5 text-gray-400" />
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border-b border-r w-40 bg-gray-50 text-center">휴게 시작 시간</th>
+                            <td className="border-b px-4 py-3">
+                              <div className="flex gap-2 items-center">
+                                <select
+                                  name="breakStartHour"
+                                  value={formData.breakStartHour}
+                                  onChange={handleChange}
+                                >
+                                  <option value=""></option>
+                                  {hourOptions.map((h) => (
+                                    <option key={h} value={h}>{h}</option>
+                                  ))}
+                                </select>
+                                <span>시</span>
+                                <select
+                                  name="breakStartMin"
+                                  value={formData.breakStartMin}
+                                  onChange={handleChange}
+                                >
+                                  <option value=""></option>
+                                  {minuteOptions.map((m) => (
+                                    <option key={m} value={m}>{m}</option>
+                                  ))}
+                                </select>
+                                <span>분</span>
+                                <ClockIcon className="w-5 h-5 text-gray-400" />
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th className="border-b border-r w-40 bg-gray-50 text-center">휴게 종료 시간</th>
+                            <td className="border-b px-4 py-3">
+                              <div className="flex gap-2 items-center">
+                                <select
+                                  name="breakEndHour"
+                                  value={formData.breakEndHour}
+                                  onChange={handleChange}
+                                >
+                                  <option value=""></option>
+                                  {hourOptions.map((h) => (
+                                    <option key={h} value={h}>{h}</option>
+                                  ))}
+                                </select>
+                                <span>시</span>
+                                <select
+                                  name="breakEndMin"
+                                  value={formData.breakEndMin}
+                                  onChange={handleChange}
+                                >
+                                  <option value=""></option>
+                                  {minuteOptions.map((m) => (
+                                    <option key={m} value={m}>{m}</option>
+                                  ))}
+                                </select>
+                                <span>분</span>
+                                <ClockIcon className="w-5 h-5 text-gray-400" />
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>)
+                  }
                 </>
               ) : (
                 <div className="text-gray-500">좌측에서 직원을 선택하세요.</div>
