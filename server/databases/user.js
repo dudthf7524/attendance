@@ -147,6 +147,7 @@ const findByUserId = async (user_id) => {
 };
 
 const userDetail = async (user_code) => {
+    console.log("user_code", user_code)
     try {
         const result = await user.findOne({ where: { user_code: user_code } })
         return result;

@@ -28,11 +28,10 @@ const vacationRoutes = require('./routes/vacation');
 
 
 const appUserRoutes = require('./routesApp/user');
+const appUserInfoRoutes = require('./routesApp/userInfo');
 const appTimeRoutes = require('./routesApp/time');
 const appAttendanceRoutes = require('./routesApp/attendance');
 const appVacationRoutes = require('./routesApp/vacation');
-
-
 
 const authData = require("./modelsInitializeData/authData");
 const companyTypeData = require("./modelsInitializeData/companyTypeData");
@@ -46,7 +45,7 @@ app.use(express.json());
 
 // CORS 설정
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001','http://49.50.135.16:3070'],
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://49.50.135.16:3070'],
   credentials: true,
 }));
 
@@ -78,7 +77,7 @@ sequelize
 
       await educationLevelData();
       console.log("✅ educationLevelData 삽입 완료");
- 
+
     } catch (error) {
       console.error("❌ 초기 데이터 삽입 실패:", error);
     }
@@ -132,9 +131,11 @@ app.use('/vacation', vacationRoutes);
 
 //app
 app.use('/app/user', appUserRoutes);
+app.use('/app/userInfo', appUserInfoRoutes);
 app.use('/app/time', appTimeRoutes);
 app.use('/app/attendance', appAttendanceRoutes);
 app.use('/app/vacation', appVacationRoutes);
+
 
 
 

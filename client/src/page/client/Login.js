@@ -66,60 +66,63 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
+    <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center p-6">
       {loggedInUser ? (
-        <div className="w-[23.33vw] p-8 rounded-lg shadow-md text-center text-gray-700 text-sm">
-          <div className="text-green-500 text-base font-medium mb-4">login success</div>
+        <div className="bg-white p-8 rounded-lg border border-gray-300 shadow-lg text-center max-w-md w-full">
+          <div className="text-gray-700 text-lg font-medium mb-6">로그인 성공</div>
           <Link
             to="/dashboard"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="inline-block px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-full font-medium transition"
           >
             대쉬보드
           </Link>
         </div>
       ) : (
-        <div className="w-full max-w-7xl p-6 bg-white ">
-          <p className="text-2xl font-bold mb-6 text-blue-700 text-center">로그인</p>
-          <form onSubmit={handleLogin}>
-            <div className="mb-4">
-              <p className="text-sm mb-2">아이디(e-mail)</p>
+        <div className="bg-white p-8 rounded-lg border border-gray-300 shadow-lg max-w-md w-full">
+          <h1 className="text-3xl font-bold mb-2 text-center">
+            <span className="text-black">TicTec</span> 로그인
+          </h1>
+          <p className="text-gray-600 text-center mb-8">미래형 출결관리 솔루션에 오신 것을 환영합니다</p>
+          
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">아이디(e-mail)</label>
               <input
-                // type="email"
                 name="user_id"
                 value={formData.user_id}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border rounded-md text-sm"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
+                placeholder="이메일을 입력하세요"
               />
             </div>
-            <div className="mb-4">
-              <p className="text-sm mb-2">비밀번호</p>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">비밀번호</label>
               <input
                 name="user_password"
                 type="password"
                 value={formData.user_password}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border rounded-md text-sm"
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
+                placeholder="비밀번호를 입력하세요"
               />
             </div>
-            {/* <p className="text-sm text-right text-blue-500 cursor-pointer mb-4">Find Password</p> */}
 
-            <button type="submit" className="w-full py-3 bg-blue-600 text-white text-center rounded-md cursor-pointer mb-4"
+            <button 
+              type="submit" 
+              className="w-full py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-medium transition duration-200 mb-4"
             >
               로그인
             </button>
           </form>
-          {/* <div className="flex items-center justify-between text-gray-500 text-sm mb-4">
-            <div className="flex-grow border-t border-gray-400"></div>
-            <span className="mx-2">Sign In</span>
-            <div className="flex-grow border-t border-gray-400"></div>
-          </div> */}
 
-          <Link
-            to="/join"
-            className="w-full py-3 border border-blue-600 text-blue-600 text-center rounded-md block"
-          >
-            회원가입
-          </Link>
+          <div className="text-center">
+            <Link
+              to="/join"
+              className="inline-block w-full py-3 border border-gray-400 text-gray-700 hover:bg-gray-100 text-center rounded-lg font-medium transition duration-200"
+            >
+              회원가입
+            </Link>
+          </div>
         </div>
       )}
     </div>

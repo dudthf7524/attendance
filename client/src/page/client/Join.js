@@ -275,11 +275,16 @@ const Join = () => {
     }, [companyNumber]);
 
     return (
-        <div className="flex flex-col items-center justify-center w-full min-h-screen p-4 bg-white">
-            <div className="w-full max-w-7xl p-6 bg-white space-y-4">
+        <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center p-6">
+            <div className="bg-white p-8 rounded-lg border border-gray-300 shadow-lg max-w-2xl w-full space-y-6">
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold mb-2">
+                        <span className="text-black">TicTec</span> 회원가입
+                    </h1>
+                    <p className="text-gray-600">미래형 출결관리 솔루션에 가입하여 시작하세요</p>
+                </div>
                 <div>
-                    <p className="text-2xl font-bold mb-6 text-blue-700 text-center">회원가입</p>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                         사업자등록번호 <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -287,14 +292,14 @@ const Join = () => {
                         value={formData.company_number}
                         onChange={formDataChange}
                         type="text"
-                        className={`w-full px-3 py-2 border rounded-md ${isBizVerified ? 'bg-gray-100' : ''}`}
+                        className={`w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent ${isBizVerified ? 'bg-gray-100 border-gray-400' : ''}`}
                         placeholder="숫자로 이루어진 10자리 값만 가능"
                         readOnly={isBizVerified}
                     />
                     <button
                         onClick={verifyBusinessNumber}
                         disabled={isBizVerified}
-                        className={`w-full mt-2 py-2 rounded-md text-white ${isBizVerified ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`}
+                        className={`w-full mt-3 py-3 rounded-lg font-medium transition duration-200 ${isBizVerified ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-black hover:bg-gray-800 text-white'}`}
                     >
                         {isBizVerified ? "사업자 등록번호 인증 완료" : isVerifyingBiz ? "인증 중..." : "사업자 등록번호 인증"}
                     </button>
@@ -302,25 +307,25 @@ const Join = () => {
 
                 {/* 회사명 */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">회사명 <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">회사명 <span className="text-red-500">*</span></label>
                     <input
                         type="text"
                         name="company_name"
                         value={formData.company_name}
                         onChange={formDataChange}
-                        className="w-full px-3 py-2 border rounded-md"
+                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                         placeholder="(주) TICTEC"
                     />
                 </div>
 
                 {/* 업종 */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">업종 <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">업종 <span className="text-red-500">*</span></label>
                     <select
                         name="company_type"
                         value={formData.company_type}
                         onChange={formDataChange}
-                        className="w-full px-3 py-2 border rounded-md bg-white"
+                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                     >
                         {BIZ_TYPES.map((type) => (
                             <option key={type.value} value={type.value}>{type.label}</option>
@@ -330,33 +335,33 @@ const Join = () => {
 
                 {/* 인원 */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">사용 예상 인원 <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">사용 예상 인원 <span className="text-red-500">*</span></label>
                     <input
                         type="text"
                         name="company_count"
                         value={formData.company_count}
                         onChange={formDataChange}
-                        className="w-full px-3 py-2 border rounded-md"
+                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                         placeholder="10"
                     />
                 </div>
 
                 {/* 대표 이름 */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">대표이름 <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">대표이름 <span className="text-red-500">*</span></label>
                     <input
                         type="text"
                         name="company_ceo_name"
                         value={formData.company_ceo_name}
                         onChange={formDataChange}
-                        className="w-full px-3 py-2 border rounded-md"
+                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                         placeholder="김틱택"
                     />
                 </div>
 
                 {/* 연락처 */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                         연락처 <span className="text-red-500">*</span>
                     </label>
                     <div className="flex gap-2 w-full items-center justify-between">
@@ -366,34 +371,34 @@ const Join = () => {
                             maxLength={3}
                             value={phoneData.phone_1}
                             onChange={phoneDataChange}
-                            className="w-1/3 px-3 py-2 border rounded-md text-center"
+                            className="w-1/3 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                             placeholder="010"
                         />
-                        <span className="text-gray-500">-</span>
+                        <span className="text-gray-600">-</span>
                         <input
                             type="text"
                             name="phone_2"
                             maxLength={4}
                             value={phoneData.phone_2}
                             onChange={phoneDataChange}
-                            className="w-1/3 px-3 py-2 border rounded-md text-center"
+                            className="w-1/3 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                             placeholder="1234"
                         />
-                        <span className="text-gray-500">-</span>
+                        <span className="text-gray-600">-</span>
                         <input
                             type="text"
                             name="phone_3"
                             maxLength={4}
                             value={phoneData.phone_3}
                             onChange={phoneDataChange}
-                            className="w-1/3 px-3 py-2 border rounded-md text-center"
+                            className="w-1/3 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                             placeholder="5678"
                         />
                     </div>
                 </div>
                 {/* 이메일 */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">아이디(이메일) <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">아이디(이메일) <span className="text-red-500">*</span></label>
                     <div className="w-full flex flex-col sm:flex-row sm:items-center gap-2 mt-2">
                         {/* 아이디 입력 */}
                         <input
@@ -402,18 +407,18 @@ const Join = () => {
                             value={formData.user_id}
                             onChange={formDataChange}
                             placeholder="아이디"
-                            className="flex-1 px-3 py-2 border rounded-md"
+                            className={`flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent ${isVerify ? 'bg-gray-100 border-gray-400' : ''}`}
                             readOnly={isVerify}
                         />
 
                         {/* @ 선택 영역 */}
                         <div className="flex items-center sm:w-auto w-full">
-                            <span className="mx-1 text-gray-500">@</span>
+                            <span className="mx-1 text-gray-600">@</span>
                             <select
                                 name="emailDomain"
                                 value={emailDomain}
                                 onChange={(e) => setEmailDomain(e.target.value)}
-                                className="flex-1 px-3 py-2 border rounded-md bg-white"
+                                className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                                 disabled={isVerify}
                             >
                                 {emailDomains.map((domain) => (
@@ -429,29 +434,29 @@ const Join = () => {
                                 value={customDomain}
                                 onChange={(e) => setCustomDomain(e.target.value)}
                                 placeholder="예: mydomain.com"
-                                className="w-full sm:w-auto px-3 py-2 border rounded-md mt-1 sm:mt-0"
+                                className="w-full sm:w-auto px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent mt-1 sm:mt-0"
                                 disabled={isVerify}
                             />
                         )}
                     </div>
                     <button
                         onClick={sendEmail}
-                        className={`w-full mt-2 py-2 rounded-md text-white ${isVerify ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`}
+                        className={`w-full mt-3 py-3 rounded-lg font-medium transition duration-200 ${isVerify ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-black hover:bg-gray-800 text-white'}`}
                         disabled={isVerify}
                     >
                         {isVerify ? "이메일 인증 완료" : "이메일 인증"}
                     </button>
                     {openVerify && !isVerify && (
                         <>
-                            <div className="flex flex-col sm:flex-row mt-2 gap-2 w-full">
+                            <div className="flex flex-col sm:flex-row mt-3 gap-2 w-full">
                                 <input
                                     value={verifyNum}
                                     onChange={(e) => setVerifyNum(e.target.value)}
-                                    className="flex-1 px-3 py-2 border rounded-md"
+                                    className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                                     placeholder="인증번호 입력"
                                 />
                                 <button
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md whitespace-nowrap"
+                                    className="px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-medium transition duration-200 whitespace-nowrap"
                                     onClick={onVerify}
                                 >
                                     인증
@@ -459,8 +464,8 @@ const Join = () => {
                             </div>
 
                             <div className="flex mt-2 justify-between items-center">
-                                <p className="text-green-600">인증번호가 발송되었습니다.</p>
-                                <p className="text-green-600 whitespace-nowrap">{formatTime(timer)}</p>
+                                <p className="text-gray-700 text-sm">인증번호가 발송되었습니다.</p>
+                                <p className="text-gray-700 text-sm font-medium whitespace-nowrap">{formatTime(timer)}</p>
                             </div>
                         </>
                     )}
@@ -468,19 +473,20 @@ const Join = () => {
 
                 {/* 비밀번호 */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">비밀번호 <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">비밀번호 <span className="text-red-500">*</span></label>
                     <input
                         type="password"
                         name="user_password"
                         value={formData.user_password}
                         onChange={formDataChange}
-                        className="w-full px-3 py-2 border rounded-md"
+                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
+                        placeholder="비밀번호를 입력하세요"
                     />
                 </div>
 
                 {/* 비밀번호 확인 */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">비밀번호 확인 <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">비밀번호 확인 <span className="text-red-500">*</span></label>
                     <input
                         type="password"
                         value={user_password_check}
@@ -488,14 +494,15 @@ const Join = () => {
                             setPasswordCheck(e.target.value);
                             setCheckPassword(e.target.value !== formData.user_password);
                         }}
-                        className="w-full px-3 py-2 border rounded-md"
+                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
+                        placeholder="비밀번호를 다시 입력하세요"
                     />
                     {checkPassword && (
                         <p className="text-sm text-red-500 mt-1">비밀번호가 일치하지 않습니다.</p>
                     )}
                 </div>
 
-                <button onClick={onSubmit} className="w-full mt-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-md">
+                <button onClick={onSubmit} className="w-full mt-6 py-4 bg-black hover:bg-gray-800 text-white text-lg font-medium rounded-lg transition duration-200">
                     가입하기
                 </button>
             </div>
