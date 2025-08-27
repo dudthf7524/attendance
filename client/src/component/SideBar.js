@@ -67,14 +67,14 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`bg-custom-dark border-r border-gray-200 flex flex-col transition-all duration-300 ${
+      className={`bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-4 border-b">
         {!isCollapsed && (
-          <h1 className="text-xl font-bold text-white">관리자</h1>
+          <h1 className="text-xl font-bold text-black">관리자</h1>
         )}
         <button
           onClick={toggleCollapse}
@@ -102,7 +102,7 @@ export default function Sidebar() {
                   onClick={() => toggleSubMenu(item.name)}
                   className={`w-full flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md ${
                     isActive
-                      ? 'text-white'
+                      ? 'text-black'
                       : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
@@ -110,7 +110,7 @@ export default function Sidebar() {
                     <item.icon
                       className={`h-6 w-6 flex-shrink-0 ${
                         isActive
-                          ? 'text-white'
+                          ? 'text-black'
                           : 'text-gray-500'
                       } ${!isCollapsed ? 'mr-3' : ''}`}
                     />
@@ -118,9 +118,9 @@ export default function Sidebar() {
                   </div>
                   {!isCollapsed && (
                     isExpanded ? (
-                      <ChevronDownIcon className="h-4 w-4 text-white" />
+                      <ChevronDownIcon className="h-4 w-4 text-black" />
                     ) : (
-                      <ChevronRightIcon className="h-4 w-4 text-white" />
+                      <ChevronRightIcon className="h-4 w-4 text-black" />
                     )
                   )}
                 </button>
@@ -129,14 +129,14 @@ export default function Sidebar() {
                   to={item.path}
                   className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${
                     isActive
-                      ? 'text-white'
+                      ? 'text-black'
                       : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
                   <item.icon
                     className={`h-6 w-6 flex-shrink-0 ${
                       isActive
-                        ? 'text-white'
+                        ? 'text-black'
                         : 'text-gray-500'
                     } ${!isCollapsed ? 'mr-3' : ''}`}
                   />
@@ -153,7 +153,7 @@ export default function Sidebar() {
                       to={subItem.path}
                       className={`block px-3 py-1 text-sm rounded-md ${
                         location.pathname === subItem.path
-                          ? 'text-white'
+                          ? 'text-black'
                           : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                       }`}
                     >
@@ -168,7 +168,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t text-white text-sm">
+      <div className="p-4 border-t text-black text-sm">
         {!isCollapsed && 'admin v1.0.0'}
       </div>
     </div>

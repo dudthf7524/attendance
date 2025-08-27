@@ -8,7 +8,7 @@ import Dashboard from "./page/admin/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
 import AttendanceManagement from "./page/admin/AttendanceManagement";
 import TimeRegister from "./page/admin/TimeRegister";
-import EmployeeList from "./page/admin/EmployeeList";
+import EmployeeList from "./page/admin/employee/EmployeeList";
 import MyPage from "./page/client/MyPage";
 import EmployeeRegister from "./page/admin/EmployeeRegister";
 import LoginSuccess from "./page/client/loginSuccess";
@@ -20,7 +20,7 @@ import WorkPlace from "./page/admin/WorkPlace";
 import TimeList from "./page/admin/TimeList";
 import Vacation from "./page/admin/Vacation";
 import VacationApproval from "./page/admin/VacationApproval";
-import EmployeeDetail from "./page/admin/EmployeeDetail";
+import EmployeeEdit from "./page/admin/employee/EmployeeEdit";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ function App() {
           <Route path="dashboard" element={< Dashboard />} />
           <Route path="attendance" element={< AttendanceManagement />} />
           <Route path="employee/list" element={< EmployeeList />} />
-          <Route path="employee/detail/:user_code" element={< EmployeeDetail />} />
+          <Route path="employee/edit/:user_code" element={< EmployeeEdit />} />
           <Route path="time/register" element={< TimeRegister />} />
           <Route path="employee/register" element={< EmployeeRegister />} />
           <Route path="setting/gps" element={< WorkPlace />} />

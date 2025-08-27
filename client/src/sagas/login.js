@@ -5,6 +5,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
 } from "../reducers/login";
+import toast from "react-hot-toast";
 
 
 
@@ -41,11 +42,11 @@ function* Login(action) {
         if (result.data) {
             yield put({
                 type: LOGIN_SUCCESS,
-                error: result.data,
+                payload: result.data,
             });
-            alert('로그인이 완료되었습니다.')
-            window.location.href = "/login/sucess"
-
+            // alert('로그인이 완료되었습니다.')
+            // toast.success('로그인이 완료되었습니다!', { position: 'top-center' });
+            // window.location.href = "/login/sucess"
         }
 
 

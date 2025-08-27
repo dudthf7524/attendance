@@ -30,6 +30,8 @@ const userInfoView = async (user_code) => {
     try {
         const result = await userInfo.findOne({
             attributes: [
+                'user_name',
+                'user_nickname',
                 'user_birth_date',
                 'user_annual_leave',
                 'user_blood_type',
@@ -38,21 +40,21 @@ const userInfoView = async (user_code) => {
                 'user_address_basic',
                 'user_address_detail'
             ],
-            include:[
+            include: [
                 {
                     model: country,
-                    attributes:['country_name'],
-                    required:true
+                    attributes: ['country_name'],
+                    required: true
                 },
                 {
                     model: department,
-                    attributes:['department_name'],
-                    required:true
+                    attributes: ['department_name'],
+                    required: true
                 },
                 {
                     model: educationLevel,
-                    attributes:['education_level_name'],
-                    required:true
+                    attributes: ['education_level_name'],
+                    required: true
                 }
             ],
 
@@ -79,8 +81,8 @@ const userInfoRegister = async (data, user_code, transaction) => {
             education_level_code: data.user_education,
             department_code: data.user_department,
             country_code: data.user_country,
-            user_blood_type : data.user_blood_type,
-            user_annual_leave :data.user_annual_leave,
+            user_blood_type: data.user_blood_type,
+            user_annual_leave: data.user_annual_leave,
             user_postcode: data.user_postcode,
             user_address_basic: data.user_address_basic,
             user_address_detail: data.user_address_detail,

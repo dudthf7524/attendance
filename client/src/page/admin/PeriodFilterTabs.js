@@ -57,109 +57,131 @@ const PeriodFilterTabs = () => {
   };
 
   return (
-    <div className="bg-white border border-gray-300 rounded-xl shadow-md px-6 py-6 w-full">
+    <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden w-full">
+      {/* 헤더 */}
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
+        <h3 className="text-lg font-bold text-gray-900">조회 기간 설정</h3>
+        <p className="text-sm text-gray-600 mt-1">원하는 기간을 선택하여 데이터를 조회하세요</p>
+      </div>
+
       {/* 탭 네비게이션 */}
-      <nav className="flex border-b border-gray-200">
-        {[
-          { key: "day", label: "일별" },
-          { key: "month", label: "월별" },
-          { key: "year", label: "연도별" },
-        ].map(({ key, label }) => (
-          <button
-            key={key}
-            className={`px-6 py-3 text-sm font-medium w-full transition ${activeTab === key
-              ? "border-b-2 border-blue-500 text-blue-600"
-              : "text-gray-600 hover:text-blue-500"
+      <div className="px-6 pt-6">
+        <nav className="flex bg-gray-100 rounded-lg p-1">
+          {[
+            { key: "day", label: "일별", icon: "📅" },
+            { key: "month", label: "월별", icon: "🗓️" },
+            { key: "year", label: "연도별", icon: "📊" },
+          ].map(({ key, label, icon }) => (
+            <button
+              key={key}
+              className={`flex-1 flex items-center justify-center space-x-2 px-4 py-2 text-sm font-semibold rounded-md transition-all duration-300 ${
+                activeTab === key
+                  ? "bg-black text-white shadow-lg"
+                  : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
               }`}
-            onClick={() => setActiveTab(key)}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
+              onClick={() => setActiveTab(key)}
+            >
+              <span className="text-base">{icon}</span>
+              <span>{label}</span>
+            </button>
+          ))}
+        </nav>
+      </div>
 
       {/* 탭 내용 */}
       <div className="p-6">
         {activeTab === "day" && (
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm mb-1 text-gray-600">시작일</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                시작일 <span className="text-red-500">*</span>
+              </label>
               <input
                 type="date"
                 name="startDay"
                 value={filters.startDay}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-md"
+                className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-300 bg-gray-50"
               />
             </div>
-            <div>
-              <label className="block text-sm mb-1 text-gray-600">종료일</label>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                종료일 <span className="text-red-500">*</span>
+              </label>
               <input
                 type="date"
                 name="endDay"
                 value={filters.endDay}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-md"
+                className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-300 bg-gray-50"
               />
             </div>
           </div>
         )}
 
         {activeTab === "month" && (
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm mb-1 text-gray-600">시작 년월</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                시작 년월 <span className="text-red-500">*</span>
+              </label>
               <input
                 type="month"
                 name="startMonth"
                 value={filters.startMonth}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-md"
+                className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-300 bg-gray-50"
               />
             </div>
-            <div>
-              <label className="block text-sm mb-1 text-gray-600">종료 년월</label>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                종료 년월 <span className="text-red-500">*</span>
+              </label>
               <input
                 type="month"
                 name="endMonth"
                 value={filters.endMonth}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-md"
+                className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-300 bg-gray-50"
               />
             </div>
           </div>
         )}
 
         {activeTab === "year" && (
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm mb-1 text-gray-600">시작 연도</label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                시작 연도 <span className="text-red-500">*</span>
+              </label>
               <select
                 name="startYear"
                 value={filters.startYear}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-md"
+                className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-300 bg-gray-50"
               >
-                <option value="">선택</option>
+                <option value="">연도를 선택하세요</option>
                 {years.map((year) => (
                   <option key={year} value={year}>
-                    {year}
+                    {year}년
                   </option>
                 ))}
               </select>
             </div>
-            <div>
-              <label className="block text-sm mb-1 text-gray-600">종료 연도</label>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">
+                종료 연도 <span className="text-red-500">*</span>
+              </label>
               <select
                 name="endYear"
                 value={filters.endYear}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-md"
+                className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-300 bg-gray-50"
               >
-                <option value="">선택</option>
+                <option value="">연도를 선택하세요</option>
                 {years.map((year) => (
                   <option key={year} value={year}>
-                    {year}
+                    {year}년
                   </option>
                 ))}
               </select>
@@ -167,12 +189,29 @@ const PeriodFilterTabs = () => {
           </div>
         )}
 
-        <button
-          onClick={handleSearch}
-          className="mt-6 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-        >
-          조회
-        </button>
+        <div className="mt-8 flex space-x-3">
+          <button
+            onClick={handleSearch}
+            className="flex-1 bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-2"
+          >
+            <span>🔍</span>
+            <span>조회</span>
+          </button>
+          <button
+            onClick={() => setFilters({
+              startDay: "",
+              endDay: "",
+              startMonth: "",
+              endMonth: "",
+              startYear: "",
+              endYear: "",
+            })}
+            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-300 font-semibold flex items-center justify-center space-x-2"
+          >
+            <span>🔄</span>
+            <span>초기화</span>
+          </button>
+        </div>
       </div>
     </div>
   );

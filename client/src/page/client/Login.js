@@ -1,17 +1,41 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // next/link 제거
+import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+import { CheckIcon } from '@heroicons/react/24/outline';
 import { LOGIN_REQUEST } from '../../reducers/login';
 import { AUTH_REQUEST } from '../../reducers/auth';
 
 const Login = () => {
 
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const { login } = useSelector((state) => state.login);
+  const { login, login_done } = useSelector((state) => state.login);
   const { auth } = useSelector((state) => state.auth);
 
-  console.log(auth)
+  console.log(login_done)
+  const navigate = useNavigate();
+
+  // if (login_done) {
+  //   toast.success('로그인이 완료되었습니다!', { position: 'top-right' });
+  //   setTimeout(() => { window.location.href = "/login/sucess"; }, 2000);
+  // }
+
+  useEffect(() => {
+    if (!login_done) return;
+    const toastId = toast.success("로그인이 완료되었습니다!", {
+    });
+
+    const t = setTimeout(() => {
+      window.location.href = "/login/sucess"
+      // navigate("/login/sucess");
+    }, 2000);
+
+    return () => {
+      clearTimeout(t);
+      toast.dismiss(toastId);
+    };
+  }, [login_done, navigate]);
 
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -45,24 +69,7 @@ const Login = () => {
     dispatch({
       type: LOGIN_REQUEST,
       data: formData,
-
     });
-    // try {
-    //   const result = await axios.post("http://localhost:3060/auth/login", loginData, {
-    //     withCredentials: true,
-    //   });
-
-    //   if (result.data.user === "-1") {
-    //     alert(result.data.message);
-    //   } else if (result.data.user === "0") {
-    //     alert(result.data.message);
-    //   } else if (result.data.user === "1") {
-    //     alert(result.data.message);
-    //     window.location.href = "/";
-    //   }
-    // } catch (e) {
-    //   console.error(e);
-    // }
   };
 
   return (
@@ -83,7 +90,7 @@ const Login = () => {
             <span className="text-black">TicTec</span> 로그인
           </h1>
           <p className="text-gray-600 text-center mb-8">미래형 출결관리 솔루션에 오신 것을 환영합니다</p>
-          
+
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">아이디(e-mail)</label>
@@ -107,8 +114,8 @@ const Login = () => {
               />
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-full py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-medium transition duration-200 mb-4"
             >
               로그인

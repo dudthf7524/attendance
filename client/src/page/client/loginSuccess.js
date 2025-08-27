@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const LoginSuccess = () => {
     const navigate = useNavigate();
     const { auth } = useSelector((state) => state.auth);
+    console.log(auth)
     useEffect(() => {
         if (auth?.auth_code === "A1") {
             navigate('/admin/attendance');

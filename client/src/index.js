@@ -6,15 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import { BrowserRouter } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 const store = configureStore();
 
- window.addEventListener("unhandledrejection", (event) => {
-    console.log("🔥 Uncaught (in promise):", event.reason);
-  });
+window.addEventListener("unhandledrejection", (event) => {
+  console.log("🔥 Uncaught (in promise):", event.reason);
+});
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
+      <Toaster position='top-right' />
       <App />
     </BrowserRouter>
   </Provider>
