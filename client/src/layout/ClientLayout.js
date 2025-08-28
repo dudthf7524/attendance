@@ -13,11 +13,11 @@ export default function ClientLayout() {
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
-      <Navbar/>
+      <Navbar />
 
       <div className="flex flex-1 overflow-hidden">
         <main className={`flex-1 overflow-y-auto transition-all duration-300 `}>
-          <div className="mx-auto ">
+          <div className="mx-auto">
             <Outlet />
           </div>
         </main>

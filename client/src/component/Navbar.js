@@ -47,7 +47,7 @@ export default function Navbar({ user }) {
         <nav className="border-b border-gray-20">
             <div className="max-w-[100%] px-4 sm:px-6 lg:px-8 ">
                 <div className="flex py-4 justify-between items-center">
-                    <Link to="/" className="font-bold text-2xl text-blue-600">
+                    <Link to="/" className="font-bold text-2xl text-neutral-700">
                         tictec
                     </Link>
 

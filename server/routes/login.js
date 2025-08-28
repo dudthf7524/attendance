@@ -81,8 +81,7 @@ router.post("/aaa", async (req, res) => {
 
     }
 
-    console.log(refreshToken)
-    console.log(accessToken)
+
 
 });
 

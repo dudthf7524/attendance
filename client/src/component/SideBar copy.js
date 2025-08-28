@@ -1,6 +1,6 @@
 // Sidebar.jsx
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -29,7 +29,7 @@ const navigationItems = [
   },
   {
     name: '시간관리',
-    path: '/admin/time/',
+    path: '/admin/time',
     icon: ClockIcon,
     subItems: [
       { name: '시간등록', path: '/admin/time/register' },
@@ -52,30 +52,13 @@ const navigationItems = [
   },
 ];
 
-export default function Sidebar({ onMenuClick }) {
+export default function Sidebar() {
   const location = useLocation();
-  const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState({});
 
   const toggleCollapse = () => setIsCollapsed((prev) => !prev);
   const toggleSubMenu = (name) => {
-    // 해당 아이템을 찾아서 부모 컴포넌트에 전달
-
-    const clickedItem = navigationItems.find(item => item.name === name);
-    if (onMenuClick && clickedItem) {
-      onMenuClick(clickedItem);
-    }
-
-    // 페이지 이동 - 서브아이템이 있으면 첫 번째 서브아이템으로, 없으면 메인 경로로
-    if (clickedItem) {
-      if (clickedItem.subItems && clickedItem.subItems.length > 0) {
-        navigate(clickedItem.subItems[0].path);
-      } else {
-        navigate(clickedItem.path);
-      }
-    }
-
     setExpandedMenus((prev) => ({
       ...prev,
       [name]: !prev[name],
@@ -104,28 +87,74 @@ export default function Sidebar({ onMenuClick }) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto">
+      <nav className="flex-1 px-2 py-4 overflow-y-auto">
         {navigationItems.map((item) => {
           const isActive = location.pathname.startsWith(item.path);
+          const isExpanded = expandedMenus[item.name];
+          const hasSubItems = item.subItems.length > 0;
+
           return (
             <div key={item.name}>
-              <button
-                onClick={() => toggleSubMenu(item.name)}
-                className={`w-full flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md ${isActive
-                  ? 'text-white bg-neutral-800'
-                  : 'text-white hover:bg-neutral-800 hover:text-white'
-                  }`}
-              >
-                <div className="flex items-center px-2 py-2">
+              {hasSubItems ? (
+                <button
+                  onClick={() => toggleSubMenu(item.name)}
+                  className={`w-full flex items-center justify-between px-2 py-2 text-sm font-medium rounded-md ${isActive
+                    ? 'text-white'
+                    : 'text-gray-500 hover:bg-neutral-800 hover:text-white'
+                    }`}
+                >
+                  <div className="flex items-center">
+                    <item.icon
+                      className={`h-6 w-6 flex-shrink-0 ${isActive
+                        ? 'text-white'
+                        : 'text-gray-500'
+                        } ${!isCollapsed ? 'mr-3' : ''}`}
+                    />
+                    {!isCollapsed && <span>{item.name}</span>}
+                  </div>
+                  {!isCollapsed && (
+                    isExpanded ? (
+                      <ChevronDownIcon className="h-4 w-4 text-black" />
+                    ) : (
+                      <ChevronRightIcon className="h-4 w-4 text-black" />
+                    )
+                  )}
+                </button>
+              ) : (
+                <Link
+                  to={item.path}
+                  className={`flex items-center px-2 py-2 text-sm font-medium rounded-md ${isActive
+                    ? 'text-white'
+                    : 'text-white hover:bg-neutral-800 hover:text-white'
+                    }`}
+                >
                   <item.icon
                     className={`h-6 w-6 flex-shrink-0 ${isActive
-                      ? 'text-white'
-                      : 'text-white'
+                      ? 'text-black'
+                      : 'text-gray-500'
                       } ${!isCollapsed ? 'mr-3' : ''}`}
                   />
                   {!isCollapsed && <span>{item.name}</span>}
+                </Link>
+              )}
+
+              {/* Sub Items */}
+              {!isCollapsed && hasSubItems && isExpanded && (
+                <div className="ml-8 mt-1 space-y-1">
+                  {item.subItems.map((subItem) => (
+                    <Link
+                      key={subItem.name}
+                      to={subItem.path}
+                      className={`block px-3 py-1 text-sm rounded-md ${location.pathname === subItem.path
+                        ? 'text-black'
+                        : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                        }`}
+                    >
+                      {subItem.name}
+                    </Link>
+                  ))}
                 </div>
-              </button>
+              )}
             </div>
           );
         })}

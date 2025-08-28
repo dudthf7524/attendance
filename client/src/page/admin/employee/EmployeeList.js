@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { PencilSquareIcon, TrashIcon, EyeIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, TrashIcon, EyeIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_DELETE_REQUEST, USER_LIST_REQUEST } from "../../../reducers/user";
 import EmployeeEditModal from "../../modal/EmployeeEditModal";
@@ -205,6 +205,17 @@ const EmployeeList = () => {
   }
 
 
+  const navigate = useNavigate();
+
+  const handleTimeSettingClick = (user) => {
+    navigate('/admin/time/register', {
+      state: {
+        user_code: user.user_code,
+        user_name: user.user_info.user_name
+      }
+    });
+  };
+
   function EmployDetail(user_code, user_name) {
     console.log(user_code, user_name)
     setIsModalOpen(true)
@@ -231,12 +242,13 @@ const EmployeeList = () => {
         </div>
         <div className="overflow-x-auto">
           <div className="min-w-full text-sm flex flex-col border-b">
-            <div className="grid grid-cols-6 border-b text-left font-medium border-t">
+            <div className="grid grid-cols-7 border-b text-left font-medium border-t">
               <div className="px-4 py-4">직원명</div>
               <div className="px-4 py-4">닉네임</div>
               <div className="px-4 py-4">입사일</div>
               <div className="px-4 py-4">직책</div>
               <div className="px-4 py-4">권한</div>
+              <div className="px-4 py-4 text-purple-700">시간설정</div>
               <div className="px-4 py-4 text-blue-700">상세보기</div>
             </div>
 
@@ -244,7 +256,7 @@ const EmployeeList = () => {
             {userList?.map((user, i) => (
               <div
                 key={i}
-                className="grid grid-cols-6 items-center hover:bg-gray-50 transition"
+                className="grid grid-cols-7 items-center hover:bg-gray-50 transition"
               >
                 <div className="px-4 py-4">
                   {user.user_info.user_name}
@@ -267,9 +279,17 @@ const EmployeeList = () => {
                 </div>
                 <div className="px-4 py-4">
                   <button
+                    onClick={() => handleTimeSettingClick(user)}
+                    className="text-purple-500 hover:text-purple-700"
+                    title="시간 설정"
+                  >
+                    <ClockIcon className="w-5 h-5 inline-block" />
+                  </button>
+                </div>
+                <div className="px-4 py-4">
+                  <button
                     onClick={() => EmployDetail(user.user_code, user.user_info.user_name)}
                     className="text-blue-500 hover:text-blue-700"
-                    title="상세보기"
                   >
                     <EyeIcon className="w-5 h-5 inline-block" />
                   </button>
@@ -286,7 +306,7 @@ const EmployeeList = () => {
             {[1, 2, 3, 4, 5].map((n) => (
               <button
                 key={n}
-                className={`px-3 py-1 rounded ${n === 1 ? "bg-black text-white" : "text-gray-500 hover:bg-gray-200"}`}
+                className={`px-3 py-1 rounded ${n === 1 ? "bg-gray-200" : "text-gray-500 hover:bg-gray-50"}`}
               >
                 {n}
               </button>
@@ -295,49 +315,6 @@ const EmployeeList = () => {
           </nav>
         </div>
       </div>
-
-      {/* <div className="bg-white flex-1 overflow-y-auto">
-          {userList?.map((user, i) => (
-            <div
-              key={i}
-              className="grid grid-cols-7 items-center px-6 py-4 text-sm text-gray-700 border-t border-blue-100 hover:bg-blue-50 transition"
-            >
-              <span>{i+1}</span>
-              <span className="text-gray-800 font-medium">{user.user_info.user_name}</span>
-              <span>{user.user_info.user_nickname}</span>
-              <span>{user.user_info.user_position}</span>
-              <span>{user.user_info.user_hire_date}</span>
-              <span>{user.auth.auth_name}</span>
-              <span className="text-center">
-                <button
-                  onClick={() => handleEdit(user)}
-                  className="text-purple-600 hover:text-purple-800"
-                  title="수정하기"
-                >
-                  <PencilSquareIcon className="w-5 h-5 inline-block" />
-                </button>
-              </span>
-              <span className="text-center">
-                <button
-                  onClick={() => handleDelete(user)}
-                  className="text-red-500 hover:text-red-700"
-                  title="삭제하기"
-                >
-                  <TrashIcon className="w-5 h-5 inline-block" />
-                </button>
-              </span>
-              <span className="text-center">
-                <button
-                  onClick={() => EmployDetail(user.user_code)}
-                  className="text-blue-500 hover:text-blue-700"
-                  title="상세보기"
-                >
-                  <EyeIcon className="w-5 h-5 inline-block" />
-                </button>
-              </span>
-            </div>
-          ))}
-        </div> */}
       {/* 수정 모달 */}
       {/* {isModalOpen && (
         <EmployeeEditModal

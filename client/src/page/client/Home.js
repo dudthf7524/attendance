@@ -1,13 +1,46 @@
 import { Link } from "react-router-dom";
 import Footer from "../../component/Footer";
+import Orb from './Orb';
 
 const Home = () => {
     return (
         <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
-            {/* Hero Section */}
+            {/* <div className="min-h-screen bg-black flex items-center justify-center">
+                <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+                    <Orb
+                        hoverIntensity={0.5}
+                        rotateOnHover={true}
+                        hue={0}
+                        forceHoverState={false}
+                    />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+                    <Link
+                        to="/join"
+                        className="px-10 py-4 bg-white text-black text-lg font-semibold rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                    >
+                        30일 무료 체험 시작
+                    </Link>
+                    <Link
+                        to="/login"
+                        className="px-8 py-4 border-2 border-gray-600 text-gray-600 text-lg font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-all duration-300"
+                    >
+                        로그인
+                    </Link>
+                </div>
+            </div> */}
+
             <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(0,0,0,0.02),transparent_70%)]"></div>
                 <div className="relative text-center max-w-6xl mx-auto px-6">
+
+                    {/* <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+                        <Orb
+                            hoverIntensity={0.5}
+                            rotateOnHover={true}
+                            hue={0}
+                            forceHoverState={false}
+                        />
+                    </div> */}
                     <div className="inline-block mb-6">
                         <span className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-full">
                             ✨ 새로운 출결 관리의 시작
@@ -93,20 +126,20 @@ const Home = () => {
                         <p className="text-xl text-gray-600">출결 자동화, 위·변조 방지, 관리자 로그 확인 등 보안 강화</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <TechCard 
+                        <TechCard
                             icon="🤖"
-                            title="완전 자동화" 
-                            desc="지정된 시간에 자동 체크인/아웃. 휴게시간, 연장근무까지 자동 인식하여 정확한 근무 기록을 생성합니다." 
+                            title="완전 자동화"
+                            desc="지정된 시간에 자동 체크인/아웃. 휴게시간, 연장근무까지 자동 인식하여 정확한 근무 기록을 생성합니다."
                         />
-                        <TechCard 
+                        <TechCard
                             icon="🔒"
-                            title="고도 보안 시스템" 
-                            desc="다중 보안 기술로 데이터 담조 방지. 모든 접속과 수정 내역을 실시간 로깅하여 투명한 관리를 지원합니다." 
+                            title="고도 보안 시스템"
+                            desc="다중 보안 기술로 데이터 담조 방지. 모든 접속과 수정 내역을 실시간 로깅하여 투명한 관리를 지원합니다."
                         />
-                        <TechCard 
+                        <TechCard
                             icon="🌐"
-                            title="글로벌 인프라" 
-                            desc="AWS 기반 전 세계 서비스. 99.9% 가동률과 24/7 모니터링으로 언제나 안정적인 서비스를 제공합니다." 
+                            title="글로벌 인프라"
+                            desc="AWS 기반 전 세계 서비스. 99.9% 가동률과 24/7 모니터링으로 언제나 안정적인 서비스를 제공합니다."
                         />
                     </div>
                 </div>
@@ -163,21 +196,21 @@ const Home = () => {
                         <p className="text-xl text-gray-600">TicTec에 대해 궁금한 내용을 즐거운 방식으로 알아보세요</p>
                     </div>
                     <div className="space-y-6">
-                        <FAQ 
-                            q="앱 설치가 필요한가요?" 
-                            a="전혀 필요없습니다! 웹 브라우저만 있으면 언제 어디서나 사용 가능하며, 모바일과 PC 모두에서 원활하게 동작합니다." 
+                        <FAQ
+                            q="앱 설치가 필요한가요?"
+                            a="전혀 필요없습니다! 웹 브라우저만 있으면 언제 어디서나 사용 가능하며, 모바일과 PC 모두에서 원활하게 동작합니다."
                         />
-                        <FAQ 
-                            q="기존 출결 시스템과 연동이 가능한가요?" 
-                            a="네, API를 통해 대부분의 기존 출결 시스템 및 ERP와 연동 가능합니다. 전담 개발자가 연동 지원을 도와드립니다." 
+                        <FAQ
+                            q="기존 출결 시스템과 연동이 가능한가요?"
+                            a="네, API를 통해 대부분의 기존 출결 시스템 및 ERP와 연동 가능합니다. 전담 개발자가 연동 지원을 도와드립니다."
                         />
-                        <FAQ 
-                            q="GPS 정보 보안은 어떻게 처리되나요?" 
-                            a="모든 위치 데이터는 암호화되어 저장되며, 사전 동의 없이는 절대 수집하지 않습니다. 국제 보안 인증(ISO 27001) 기준을 준수합니다." 
+                        <FAQ
+                            q="GPS 정보 보안은 어떻게 처리되나요?"
+                            a="모든 위치 데이터는 암호화되어 저장되며, 사전 동의 없이는 절대 수집하지 않습니다. 국제 보안 인증(ISO 27001) 기준을 준수합니다."
                         />
-                        <FAQ 
-                            q="비용은 어떻게 체계를 가지고 있나요?" 
-                            a="사용자 수에 따른 유연한 요금제로 소규모부터 대기업까지 모두 부담 없이 사용할 수 있습니다. 30일 무료 체험도 제공합니다." 
+                        <FAQ
+                            q="비용은 어떻게 체계를 가지고 있나요?"
+                            a="사용자 수에 따른 유연한 요금제로 소규모부터 대기업까지 모두 부담 없이 사용할 수 있습니다. 30일 무료 체험도 제공합니다."
                         />
                     </div>
                 </div>

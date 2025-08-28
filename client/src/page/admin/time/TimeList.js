@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { TIME_LIST_INNER_REQUEST } from "../../reducers/time";
-import TimeEditModal from "../modal/TimeEditModal";
+import { TIME_LIST_INNER_REQUEST } from "../../../reducers/time";
+import TimeEditModal from "../../modal/TimeEditModal";
 
 const TimeList = () => {
   const dispatch = useDispatch();

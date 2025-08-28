@@ -4,6 +4,7 @@ import SearchBox from "./SearchBox";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { EyeIcon } from "@heroicons/react/24/outline";
+import DateSearchFilter from "../../component/DateSearchFilter";
 
 const AttendanceManagement = () => {
   const [keyword, setKeyword] = useState("");
@@ -197,20 +198,23 @@ const AttendanceManagement = () => {
     <div className="min-w-[1000px] w-full overflow-x-auto">
       <main className="flex-1">
         <div className="bg-white rounded-xl shadow p-5 flex flex-col space-y-4">
-          {/* 타이틀 */}
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-semibold text-blue-600">근태 기록</h2>
-              <p className="text-sm text-gray-400 mt-1">
-                이름으로 검색하고 지각 여부를 확인할 수 있습니다.
-              </p>
+
+          <div className="mb-3">
+            <div className="inline-block mb-3">
+              <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                👤 근태 관리 시스템
+              </span>
             </div>
+            <h1 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
+              근태기록
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">
+              이름으로 검색하고 지각 여부를 확인할 수 있습니다.
+            </p>
           </div>
-
-          <PeriodFilterTabs />
+          <DateSearchFilter />
+          {/* <PeriodFilterTabs /> */}
           <SearchBox keyword={keyword} onChange={setKeyword} />
-
-
           <div className="overflow-x-auto">
             <div className="min-w-full text-sm flex flex-col border-b">
               <div className="grid grid-cols-7 border-b text-left font-medium border-t">
