@@ -20,14 +20,14 @@ const navigationItems = [
       { name: '직원목록', path: '/admin/employee/list' },
     ],
   },
-  {
-    name: '시간관리',
-    path: '/admin/time',
-    subItems: [
-      { name: '시간등록', path: '/admin/time/register' },
-      { name: '시간목록', path: '/admin/time/list' },
-    ],
-  },
+  // {
+  //   name: '시간관리',
+  //   path: '/admin/time',
+  //   subItems: [
+  //     { name: '시간등록', path: '/admin/time/register' },
+  //     { name: '시간목록', path: '/admin/time/list' },
+  //   ],
+  // },
   {
     name: '설정',
     path: '/admin/setting',

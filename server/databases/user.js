@@ -56,8 +56,6 @@ const userList = async (company_code) => {
             ],
             where: { company_code: company_code },
         })
-        console.log(result)
-
         return result;
     } catch (error) {
         console.error(error);

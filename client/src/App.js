@@ -7,8 +7,8 @@ import Attendance from "./page/client/Attendance";
 import Dashboard from "./page/admin/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
 import AttendanceManagement from "./page/admin/AttendanceManagement";
-import TimeRegister from "./page/admin/time/TimeRegister";
-import EmployeeList from "./page/admin/employee/EmployeeList";
+import TimeSetting from "./page/admin/time/Setting";
+import EmployeeList from "./page/admin/employee/List";
 import MyPage from "./page/client/MyPage";
 import EmployeeRegister from "./page/admin/EmployeeRegister";
 import LoginSuccess from "./page/client/loginSuccess";
@@ -17,10 +17,10 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ClientLayout from "./layout/ClientLayout";
 import WorkPlace from "./page/admin/WorkPlace";
-import TimeList from "./page/admin/time/TimeList";
+import TimeEdit from "./page/admin/time/Edit";
 import Vacation from "./page/admin/Vacation";
 import VacationApproval from "./page/admin/VacationApproval";
-import EmployeeEdit from "./page/admin/employee/EmployeeEdit";
+import EmployeeEdit from "./page/admin/employee/Edit";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,10 +60,10 @@ function App() {
           <Route path="attendance" element={< AttendanceManagement />} />
           <Route path="employee/list" element={< EmployeeList />} />
           <Route path="employee/edit/:user_code" element={< EmployeeEdit />} />
-          <Route path="time/register" element={< TimeRegister />} />
+          <Route path="time/setting" element={< TimeSetting />} />
           <Route path="employee/register" element={< EmployeeRegister />} />
           <Route path="setting/gps" element={< WorkPlace />} />
-          <Route path="time/list" element={< TimeList />} />
+          <Route path="time/edit" element={< TimeEdit />} />
           <Route path="vacation" element={< Vacation />} />
           <Route path="vacation/approval" element={< VacationApproval />} />
         </Route>

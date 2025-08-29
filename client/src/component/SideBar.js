@@ -16,7 +16,9 @@ const navigationItems = [
     name: '근태관리',
     path: '/admin/attendance',
     icon: ClipboardDocumentCheckIcon,
-    subItems: [],
+    subItems: [
+      { name: '출근/퇴근', path: '/admin/attendance' },
+    ],
   },
   {
     name: '직원관리',
@@ -27,15 +29,15 @@ const navigationItems = [
       { name: '직원목록', path: '/admin/employee/list' },
     ],
   },
-  {
-    name: '시간관리',
-    path: '/admin/time/',
-    icon: ClockIcon,
-    subItems: [
-      { name: '시간등록', path: '/admin/time/register' },
-      { name: '시간목록', path: '/admin/time/list' },
-    ],
-  },
+  // {
+  //   name: '시간관리',
+  //   path: '/admin/time/',
+  //   icon: ClockIcon,
+  //   subItems: [
+  //     { name: '시간등록', path: '/admin/time/register' },
+  //     { name: '시간목록', path: '/admin/time/list' },
+  //   ],
+  // },
   {
     name: '설정',
     path: '/admin/setting',
@@ -48,7 +50,9 @@ const navigationItems = [
     name: '휴가관리',
     path: '/admin/vacation',
     icon: CalendarDaysIcon,
-    subItems: [],
+    subItems: [
+      { name: '휴가승인', path: '/admin/vacation' },
+    ],
   },
 ];
 

@@ -40,7 +40,7 @@ function* timeRegister(action) {
             data: result.data,
         });
         if (result.data) {
-            window.location.href = "/admin/time/list"
+            alert("시간등록이 완료되었습니다.")
         }
     } catch (err) {
         console.error(err);
@@ -121,7 +121,6 @@ function* timeEdit(action) {
         });
         if (result.data) {
             alert('시간 수정이 완료되었습니다.')
-            window.location.href = "/admin/time/list";
         }
 
     } catch (err) {
@@ -137,14 +136,14 @@ function* watchTimeDetail() {
     yield takeLatest(TIME_DETAIL_REQUEST, timeDetail);
 }
 
-function timeDetailListAPI() {
+function timeDetailAPI(data) {
 
-    return axios.get("/time/detail");
+    return axios.get("/time/detail", { params: data });
 }
 
-function* timeDetail() {
+function* timeDetail(action) {
     try {
-        const result = yield call(timeDetailListAPI,);
+        const result = yield call(timeDetailAPI, action.data);
         if (result.data === 'common') {
             alert('로그인이 필요합니다.')
             window.location.href = "/";

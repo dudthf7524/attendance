@@ -67,7 +67,8 @@ router.post("/edit", async (req, res) => {
 });
 
 router.get("/detail", authMiddlewareSession, async (req, res) => {
-    const user_code = req.user.user_code;
+    const user_code = req.query.user_code;
+
     try {
         const result = await time.timeDetail(user_code);
         res.json(result);

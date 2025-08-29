@@ -208,7 +208,7 @@ const EmployeeList = () => {
   const navigate = useNavigate();
 
   const handleTimeSettingClick = (user) => {
-    navigate('/admin/time/register', {
+    navigate('/admin/time/setting', {
       state: {
         user_code: user.user_code,
         user_name: user.user_info.user_name
@@ -216,8 +216,8 @@ const EmployeeList = () => {
     });
   };
 
+
   function EmployDetail(user_code, user_name) {
-    console.log(user_code, user_name)
     setIsModalOpen(true)
     setSelectedDetailUser(user_code);
     setUserNmae(user_name)
@@ -281,7 +281,7 @@ const EmployeeList = () => {
                   <button
                     onClick={() => handleTimeSettingClick(user)}
                     className="text-purple-500 hover:text-purple-700"
-                    title="시간 설정"
+                    title="시간 설정/수정"
                   >
                     <ClockIcon className="w-5 h-5 inline-block" />
                   </button>
