@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Marker, Circle, Autocomplete } from "@react-google-maps/api";
 import { GlobeAltIcon, MapIcon, MapPinIcon } from "@heroicons/react/24/outline";
-import { WORK_PLACE_REGISTER_REQUEST } from "../../reducers/workplace";
+import { WORK_PLACE_REGISTER_REQUEST } from "../../../reducers/workplace";
 import { useDispatch } from "react-redux";
 
 const containerStyle = {

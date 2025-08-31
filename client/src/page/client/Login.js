@@ -6,12 +6,19 @@ import toast, { Toaster } from 'react-hot-toast';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import { LOGIN_REQUEST } from '../../reducers/login';
 import { AUTH_REQUEST } from '../../reducers/auth';
+import { validateUserId, validateUserPassword } from '../../hooks/validate/Login';
 
 const Login = () => {
 
   const [loggedInUser, setLoggedInUser] = useState(null);
   const { login, login_done } = useSelector((state) => state.login);
   const { auth } = useSelector((state) => state.auth);
+
+  const [userIdError, setUserIdError] = useState(false);
+  const [userIdText, setUserIdText] = useState(null);
+
+  const [userPassWordError, setuserPassWordError] = useState(false);
+  const [userPassWordText, setuserPassWordText] = useState(null);
 
   console.log(login_done)
   const navigate = useNavigate();
@@ -61,10 +68,31 @@ const Login = () => {
     });
   };
 
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    const validateUserIdResult = validateUserId(formData.user_id)
+    if (!(validateUserIdResult === "")) {
+      setUserIdText(validateUserIdResult)
+      setUserIdError(true);
+      return;
 
-    console.log(formData)
+    } else {
+      setUserIdError(false);
+      setUserIdText(null)
+    }
+
+    const validateUserPasswordResult = validateUserPassword(formData.user_password)
+    if (!(validateUserPasswordResult === "")) {
+      setuserPassWordText(validateUserPasswordResult)
+      setuserPassWordError(true);
+      return;
+
+    } else {
+      setuserPassWordError(false);
+      setuserPassWordText(null)
+    }
 
     dispatch({
       type: LOGIN_REQUEST,
@@ -101,6 +129,7 @@ const Login = () => {
                 className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                 placeholder="이메일을 입력하세요"
               />
+              {userIdError && <span className='text-red-500'>{userIdText} </span>}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">비밀번호</label>
@@ -112,6 +141,7 @@ const Login = () => {
                 className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
                 placeholder="비밀번호를 입력하세요"
               />
+              {userPassWordError && <span className='text-red-500'>{userPassWordText} </span>}
             </div>
 
             <button

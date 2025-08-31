@@ -16,7 +16,7 @@ import { AUTH_REQUEST } from "./reducers/auth";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ClientLayout from "./layout/ClientLayout";
-import WorkPlace from "./page/admin/WorkPlace";
+import WorkPlace from "./page/admin/setting/WorkPlace";
 import TimeEdit from "./page/admin/time/Edit";
 import Vacation from "./page/admin/Vacation";
 import VacationApproval from "./page/admin/VacationApproval";
