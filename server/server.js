@@ -24,14 +24,12 @@ const emailRoutes = require('./routes/email');
 const joinRoutes = require('./routes/join');
 const logoutRoutes = require('./routes/logout');
 const vacationRoutes = require('./routes/vacation');
-
-
-
 const appUserRoutes = require('./routesApp/user');
 const appUserInfoRoutes = require('./routesApp/userInfo');
 const appTimeRoutes = require('./routesApp/time');
 const appAttendanceRoutes = require('./routesApp/attendance');
 const appVacationRoutes = require('./routesApp/vacation');
+const appWorkPlaceRoutes = require('./routesApp/workPlace');
 
 const authData = require("./modelsInitializeData/authData");
 const companyTypeData = require("./modelsInitializeData/companyTypeData");
@@ -39,10 +37,9 @@ const departmentData = require('./modelsInitializeData/departmentData');
 const countryData = require('./modelsInitializeData/countryData');
 const educationLevelData = require('./modelsInitializeData/educationLevelData');
 
-
 passportConfig();
-app.use(express.json());
 
+app.use(express.json());
 // CORS 설정
 app.use(cors({
   origin: ['http://localhost:3000', 'http://localhost:3001', 'http://49.50.135.16:3070'],
@@ -53,8 +50,6 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-
 
 sequelize
   .sync({ force: false })
@@ -135,6 +130,7 @@ app.use('/app/userInfo', appUserInfoRoutes);
 app.use('/app/time', appTimeRoutes);
 app.use('/app/attendance', appAttendanceRoutes);
 app.use('/app/vacation', appVacationRoutes);
+app.use('/app/workPlace', appWorkPlaceRoutes);
 
 
 

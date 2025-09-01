@@ -25,8 +25,6 @@ const EmployeeList = () => {
     });
   };
 
-  console.log(userList)
-
   // const userList = [
   //   {
   //     auth: {

@@ -1,18 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PeriodFilterTabs from "./PeriodFilterTabs";
 import SearchBox from "./SearchBox";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import DateSearchFilter from "../../component/DateSearchFilter";
+import { ATTENDANCE_TODAY_LIST_REQUEST } from "../../reducers/attendance";
 
 const AttendanceManagement = () => {
+
+  const today = dayjs();
+  const yyyyMmDd = today.format('YYYY-MM-DD');
+
+
+  const dispatch = useDispatch();
   const [keyword, setKeyword] = useState("");
   const { attendanceDay } = useSelector((state) => state.attendance);
+  const { attendanceTodayList } = useSelector((state) => state.attendance);
 
+  console.log("attendanceTodayList", attendanceTodayList)
   const filteredData = attendanceDay?.filter((attendance) =>
     attendance?.user?.user_name?.includes(keyword)
   );
+  
+  useEffect(() => {
+    attendanceTodayListDB();
+  }, [])
+
+  const attendanceTodayListDB = () => {
+    const data = {
+      today: yyyyMmDd
+    }
+    dispatch({
+      type: ATTENDANCE_TODAY_LIST_REQUEST,
+      data: data,
+    })
+  }
 
   const calculateWorkTime = (
     attendance_start_date,

@@ -43,11 +43,16 @@ function userListAPI() {
 function* userList() {
     try {
         const result = yield call(userListAPI);
+        if (result.data === "common") {
+            alert("세션이 만료되어 로그인이 필요합니다.")
+            window.location.href = "/login"
+            return;
+        }
         yield put({
             type: USER_LIST_SUCCESS,
             data: result.data,
         });
-        if (result.data) { }
+
     } catch (err) {
         console.error(err);
         yield put({
@@ -100,7 +105,7 @@ function* userRegister(action) {
             window.location.href = "/admin/employee/list";
         }
         console.log(result.data)
-        if (result.data === "common"){
+        if (result.data === "common") {
             alert('로그인 만료 로그인이 필요합니다.')
             window.location.href = "/login"
         }

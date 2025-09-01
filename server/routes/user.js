@@ -36,7 +36,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 
-router.get("/list", async (req, res) => {
+router.get("/list", authMiddlewareSession, async (req, res) => {
     const company_code = req.user.company_code;
     try {
         const result = await user.userList(company_code)

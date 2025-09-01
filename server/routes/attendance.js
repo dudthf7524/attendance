@@ -36,6 +36,19 @@ router.post("/update", authMiddlewareSession, async (req, res) => {
     }
 });
 
+router.get("/today/list", authMiddlewareSession, async (req, res) => {
+    console.log(req.query)
+
+    const data = req.query;
+    const company_code = req.user.company_code;
+    try {
+        const result = await attendance.attendanceTodayList(data, company_code);
+        return res.json(result);
+    } catch (error) {
+        console.error(error)
+    }
+});
+
 router.get("/search", async (req, res) => {
     const activeTab = req.query.activeTab;
     const company_code = req.user.company_code;

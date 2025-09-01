@@ -72,27 +72,27 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const validateUserIdResult = validateUserId(formData.user_id)
-    if (!(validateUserIdResult === "")) {
-      setUserIdText(validateUserIdResult)
-      setUserIdError(true);
-      return;
+    // const validateUserIdResult = validateUserId(formData.user_id)
+    // if (!(validateUserIdResult === "")) {
+    //   setUserIdText(validateUserIdResult)
+    //   setUserIdError(true);
+    //   return;
 
-    } else {
-      setUserIdError(false);
-      setUserIdText(null)
-    }
+    // } else {
+    //   setUserIdError(false);
+    //   setUserIdText(null)
+    // }
 
-    const validateUserPasswordResult = validateUserPassword(formData.user_password)
-    if (!(validateUserPasswordResult === "")) {
-      setuserPassWordText(validateUserPasswordResult)
-      setuserPassWordError(true);
-      return;
+    // const validateUserPasswordResult = validateUserPassword(formData.user_password)
+    // if (!(validateUserPasswordResult === "")) {
+    //   setuserPassWordText(validateUserPasswordResult)
+    //   setuserPassWordError(true);
+    //   return;
 
-    } else {
-      setuserPassWordError(false);
-      setuserPassWordText(null)
-    }
+    // } else {
+    //   setuserPassWordError(false);
+    //   setuserPassWordText(null)
+    // }
 
     dispatch({
       type: LOGIN_REQUEST,

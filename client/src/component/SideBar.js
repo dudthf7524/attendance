@@ -43,7 +43,7 @@ const navigationItems = [
     path: '/admin/setting',
     icon: WrenchScrewdriverIcon,
     subItems: [
-      { name: 'GPS 근무지 설정', path: '/admin/setting/gps' },
+      { name: 'GPS 근무지 설정', path: '/admin/setting/workplace' },
     ],
   },
   {

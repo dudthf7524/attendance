@@ -14,7 +14,7 @@ const AdminSubNavbar = ({ subItems }) => {
                     {/* 서브 네비게이션 */}
                     <div className="flex items-center space-x-4 ml-4">
                         {subItems.map((item, index) => {
-                            const isActive = location.pathname === item.path;
+                            const isActive = location.pathname.startsWith(item.path);
                             return (
                                 <React.Fragment key={item.path}>
                                     <Link

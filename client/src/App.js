@@ -16,11 +16,13 @@ import { AUTH_REQUEST } from "./reducers/auth";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ClientLayout from "./layout/ClientLayout";
-import WorkPlace from "./page/admin/setting/WorkPlace";
+import WorkPlace from "./page/admin/setting/workPlace/WorkPlace";
 import TimeEdit from "./page/admin/time/Edit";
 import Vacation from "./page/admin/Vacation";
 import VacationApproval from "./page/admin/VacationApproval";
 import EmployeeEdit from "./page/admin/employee/Edit";
+import Register from "./page/admin/setting/workPlace/Register";
+import Edit from "./page/admin/setting/workPlace/Edit";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,10 +64,12 @@ function App() {
           <Route path="employee/edit/:user_code" element={< EmployeeEdit />} />
           <Route path="time/setting" element={< TimeSetting />} />
           <Route path="employee/register" element={< EmployeeRegister />} />
-          <Route path="setting/gps" element={< WorkPlace />} />
+          <Route path="setting/workplace" element={< WorkPlace />} />
           <Route path="time/edit" element={< TimeEdit />} />
           <Route path="vacation" element={< Vacation />} />
           <Route path="vacation/approval" element={< VacationApproval />} />
+          <Route path="setting/workplace/register" element={< Register />} />
+          <Route path="setting/workplace/edit" element={< Edit />} />
         </Route>
       </Routes>
     </>

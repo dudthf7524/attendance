@@ -4,7 +4,7 @@ import { CalendarDaysIcon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/rea
 const DateSearchFilter = ({ onDateChange, onSearch, className = "" }) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-
+    
     const handleStartDateChange = (e) => {
         const newStartDate = e.target.value;
         setStartDate(newStartDate);

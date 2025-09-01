@@ -32,7 +32,7 @@ const navigationItems = [
     name: '설정',
     path: '/admin/setting',
     subItems: [
-      { name: 'GPS 근무지 설정', path: '/admin/setting/gps' },
+      { name: 'GPS 근무지 설정', path: '/admin/setting/workplace' },
     ],
   },
   {

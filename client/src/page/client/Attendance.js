@@ -24,11 +24,13 @@ const Attendance = () => {
         })
     }
 
+
+
     const { attendanceToday } = useSelector((state) => state.attendance);
     useEffect(() => {
         attendanceTodayDB();
     }, [])
-    
+
     const attendanceTodayDB = () => {
         dispatch({
             type: ATTENDANCE_TODAY_REQUEST

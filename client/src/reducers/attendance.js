@@ -18,7 +18,13 @@ export const initialState = {
     attendance_search_error: null,
 
     attendanceToday: null,
-    attendanceDay:null,
+    attendanceDay: null,
+    attendanceTodayList:null,
+
+    attendance_today_list_Loading: false,
+    attendance_today_list_done: false,
+    attendance_today_list_error: null,
+
 };
 
 export const ATTENDANCE_REGISTER_REQUEST = "ATTENDANCE_REGISTER_REQUEST";
@@ -37,6 +43,9 @@ export const ATTENDANCE_SEARCH_REQUEST = "ATTENDANCE_SEARCH_REQUEST";
 export const ATTENDANCE_SEARCH_SUCCESS = "ATTENDANCE_SEARCH_SUCCESS";
 export const ATTENDANCE_SEARCH_FAILURE = "ATTENDANCE_SEARCH_FAILURE";
 
+export const ATTENDANCE_TODAY_LIST_REQUEST = "ATTENDANCE_TODAY_LIST_REQUEST";
+export const ATTENDANCE_TODAY_LIST_SUCCESS = "ATTENDANCE_TODAY_LIST_SUCCESS";
+export const ATTENDANCE_TODAY_LIST_FAILURE = "ATTENDANCE_TODAY_LIST_FAILURE";
 
 const reducer = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -109,6 +118,20 @@ const reducer = (state = initialState, action) => {
             case ATTENDANCE_SEARCH_FAILURE:
                 draft.attendance_day_Loading = false;
                 draft.attendance_day_error = action.error;
+                break;
+            case ATTENDANCE_TODAY_LIST_REQUEST:
+                draft.attendance_today_list_Loading = true;
+                draft.attendance_today_list_error = null;
+                draft.attendance_today_list_done = false;
+                break;
+            case ATTENDANCE_TODAY_LIST_SUCCESS:
+                draft.attendance_today_list_Loading = false;
+                draft.attendanceTodayList = action.data;
+                draft.attendance_today_list_done = true;
+                break;
+            case ATTENDANCE_TODAY_LIST_FAILURE:
+                draft.attendance_today_list_Loading = false;
+                draft.attendance_today_list_error = action.error;
                 break;
             default:
                 return state;

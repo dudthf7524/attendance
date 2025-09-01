@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { attendance, user, company } = require("../models");
+const { attendance, user, company, userInfo } = require("../models");
 const dayjs = require('dayjs');
 
 const attendanceRegister = async (data, user_code) => {
@@ -9,6 +9,7 @@ const attendanceRegister = async (data, user_code) => {
             attendance_start_time: data.attendance_start_time,
             attendance_start_state: data.attendance_start_state,
             start_time: data.start_time,
+            end_time: data.end_time,
             rest_start_time: data.rest_start_time,
             rest_end_time: data.rest_end_time,
             user_code: user_code,
@@ -95,9 +96,47 @@ const attendanceDay = async (startDay, endDay, company_code) => {
         console.error(error);
     }
 };
+
+const attendanceTodayList = async (data, company_code) => {
+    const now = dayjs(); // 여기에 새로 선언
+    const attendance_start_date = now.format('YYYY-MM-DD');
+    console.log("data", data)
+    console.log("company_code", company_code)
+    try {
+        const result = await attendance.findAll({
+            include: [
+                {
+                    model: user,
+                    required: true,
+                    attributes: ["user_code"],
+                    where: { company_code: company_code },
+                    include: [
+                        {
+                            model: userInfo,
+                            attributes: [
+                                'user_name',
+                            ],
+                            required: true,
+                        },
+                    ],
+                },
+            ],
+            where: {
+                attendance_start_date: data.today
+            },
+            order: [['attendance_id', 'DESC']],
+        });
+        console.log("result", result)
+        return result;
+    } catch (error) {
+        console.error(error)
+    }
+};
+
 module.exports = {
     attendanceRegister,
     attendanceToday,
     attendanceUpdate,
     attendanceDay,
+    attendanceTodayList,
 }
