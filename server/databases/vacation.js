@@ -1,4 +1,4 @@
-const { vacation, user } = require("../models");
+const { vacation, user, userInfo } = require("../models");
 
 const vacationRegister = async (data, user_code, company_code) => {
     console.log('data', data)
@@ -26,7 +26,7 @@ const vacationList = async (company_code) => {
                 {
                     model: user,
                     required: true,
-                    attributes: ['user_name'], 
+                    attributes: ['user_name'],
                     where: { company_code: company_code },
                 },
             ],
@@ -43,7 +43,7 @@ const vacationApproval = async (vacation_id) => {
     try {
         const result = await vacation.update(
             {
-               vacation_state: 1
+                vacation_state: 1
             },
             {
                 where: { vacation_id: vacation_id }
@@ -60,7 +60,7 @@ const vacationReject = async (vacation_id) => {
     try {
         const result = await vacation.update(
             {
-               vacation_state: -1
+                vacation_state: -1
             },
             {
                 where: { vacation_id: vacation_id }
@@ -81,8 +81,17 @@ const vacationUserList = async (user_code) => {
                 {
                     model: user,
                     required: true,
-                    attributes: ['user_name'], 
+                    attributes: ['user_code'],
                     where: { user_code: user_code },
+                    include: [
+                        {
+                            model: userInfo,
+                            attributes: [
+                                'user_name',
+                            ],
+                            required: true,
+                        },
+                    ],
                 },
             ],
         });

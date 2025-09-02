@@ -118,11 +118,12 @@ const EmployeeRegister = () => {
   const closeModal = () => setShowPostcode(false);
 
   return (
-    <div className="w-full min-w-[700px] overflow-x-auto">
-      <div className="bg-white rounded-xl shadow p-5 flex flex-col">
-        <div className="mb-3">
+    <div className="w-full h-full bg-gray-100 flex flex-col">
+      <div className="p-5 flex flex-1 gap-4">
+        {/* 직원 관리 시스템 정보 박스 */}
+        <div className="bg-white shadow p-5 w-1/5 flex flex-col">
           <div className="inline-block mb-3">
-            <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+            <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-2 rounded-full">
               👤 직원 관리 시스템
             </span>
           </div>
@@ -133,264 +134,166 @@ const EmployeeRegister = () => {
             새로운 직원의 상세 정보를 입력하여 시스템에 등록할 수 있습니다
           </p>
         </div>
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-          <div className="flex justify-between items-center p-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">직원 정보 입력</h2>
-              <p className="text-sm text-gray-600 mt-1">
-                모든 필수 항목을 입력해주세요
-              </p>
+
+        {/* 오른쪽 영역 */}
+        <div className="w-4/5 flex flex-col gap-4">
+          {/* 직원 정보 입력 헤더 박스 */}
+          <div className="bg-white shadow px-6 py-3">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">직원 정보 입력</h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  모든 필수 항목을 입력해주세요
+                </p>
+              </div>
+              <button
+                form="employee-form"
+                type="submit"
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+              >
+                직원 등록
+              </button>
             </div>
-            <button
-              form="employee-form"
-              type="submit"
-              className="px-6 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-            >
-              직원 등록
-            </button>
           </div>
-          <form id="employee-form" onSubmit={userRegister} className="p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">로그인 정보</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">아이디</label>
-                      <div className="flex gap-3">
-                        <input
-                          name="user_id"
-                          value={formData.user_id}
-                          onChange={handleChange}
-                          onBlur={() => {
-                            const errorMessage = validateUserId(formData.user_id);
-                            user_id_setError(errorMessage);
-                          }}
-                          readOnly={isAvailable}
-                          className="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                          placeholder="아이디를 입력하세요"
-                        />
-                        <button
-                          type="button"
-                          onClick={checkId}
-                          disabled={isAvailable}
-                          className={`px-6 py-3 text-white font-semibold rounded-lg transition-all duration-300 ${isAvailable
-                            ? "bg-green-500 cursor-not-allowed"
-                            : "bg-black hover:bg-gray-800 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                            }`}
-                        >
-                          {isAvailable ? "확인완료" : "중복확인"}
-                        </button>
-                      </div>
-                      {user_id_error && <p className="text-red-500 text-sm mt-2">{user_id_error}</p>}
-                      {checkIdState && (
-                        <p className={`text-sm mt-2 ${isAvailable ? "text-green-600" : "text-red-600"}`}>
-                          {isAvailable ? "사용 가능한 아이디입니다" : "이미 사용중인 아이디입니다"}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">비밀번호</label>
+
+          <form id="employee-form" onSubmit={userRegister} className="flex gap-4 flex-1">
+            {/* 왼쪽 박스: 로그인 정보 + 개인 정보 */}
+            <div className="bg-white shadow p-4 flex-1 space-y-4">
+              <div className="p-1">
+                <h3 className="text-base font-semibold text-gray-900 mb-2">로그인 정보</h3>
+                <div className="space-y-2">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">아이디</label>
+                    <div className="flex gap-3">
                       <input
-                        type="password"
-                        name="user_password"
-                        value={formData.user_password}
+                        name="user_id"
+                        value={formData.user_id}
                         onChange={handleChange}
                         onBlur={() => {
-                          const errorMessage = validateUserPassword(formData.user_password);
-                          user_password_setError(errorMessage);
+                          const errorMessage = validateUserId(formData.user_id);
+                          user_id_setError(errorMessage);
                         }}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                        placeholder="비밀번호를 입력하세요"
+                        readOnly={isAvailable}
+                        className="flex-1 border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                        placeholder="아이디를 입력하세요"
                       />
-                      {user_password_error && <p className="text-red-500 text-sm mt-2">{user_password_error}</p>}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">기본 정보</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">이름</label>
-                      <input
-                        type="text"
-                        name="user_name"
-                        value={formData.user_name}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                        placeholder="이름을 입력해주세요"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">닉네임</label>
-                      <input
-                        name="user_nickname"
-                        value={formData.user_nickname}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                        placeholder="닉네임을 입력하세요"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">생년월일</label>
-                      <input
-                        type="date"
-                        name="user_birth_date"
-                        value={formData.user_birth_date}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">국가</label>
-                      <select
-                        name="user_country"
-                        value={formData.user_country}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                      <button
+                        type="button"
+                        onClick={checkId}
+                        disabled={isAvailable}
+                        className={`px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 ${isAvailable
+                          ? "bg-green-500 hover:bg-green-600 text-white cursor-not-allowed"
+                          : "bg-blue-600 hover:bg-blue-700 text-white"
+                          }`}
                       >
-                        {Countries.map((type) => (
-                          <option key={type.value} value={type.value}>{type.label}</option>
-                        ))}
-                      </select>
+                        {isAvailable ? "확인완료" : "중복확인"}
+                      </button>
                     </div>
+                    {user_id_error && <p className="text-red-500 text-sm mt-2">{user_id_error}</p>}
+                    {checkIdState && (
+                      <p className={`text-sm mt-2 ${isAvailable ? "text-green-600" : "text-red-600"}`}>
+                        {isAvailable ? "사용 가능한 아이디입니다" : "이미 사용중인 아이디입니다"}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">비밀번호</label>
+                    <input
+                      type="password"
+                      name="user_password"
+                      value={formData.user_password}
+                      onChange={handleChange}
+                      onBlur={() => {
+                        const errorMessage = validateUserPassword(formData.user_password);
+                        user_password_setError(errorMessage);
+                      }}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                      placeholder="비밀번호를 입력하세요"
+                    />
+                    {user_password_error && <p className="text-red-500 text-sm mt-2">{user_password_error}</p>}
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">근무 정보</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">직책</label>
-                      <input
-                        type="text"
-                        name="user_position"
-                        value={formData.user_position}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                        placeholder="직책을 입력해주세요"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">입사일</label>
-                      <input
-                        type="date"
-                        name="user_hire_date"
-                        value={formData.user_hire_date}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">부서</label>
-                      <select
-                        name="user_department"
-                        value={formData.user_department}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                      >
-                        {Departments.map((type) => (
-                          <option key={type.value} value={type.value}>{type.label}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">연차수</label>
-                      <input
-                        type="number"
-                        name="user_annual_leave"
-                        value={formData.user_annual_leave}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                        placeholder="연차수를 입력해주세요"
-                      />
-                    </div>
+              <div className="p-1">
+                <h3 className="text-base font-semibold text-gray-900 mb-2">개인 정보</h3>
+                <div className="space-y-2">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">혈액형</label>
+                    <select
+                      name="user_blood_type"
+                      value={formData.user_blood_type}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                    >
+                      {BloodTypes.map((type) => (
+                        <option key={type.value} value={type.value}>{type.label}</option>
+                      ))}
+                    </select>
                   </div>
-                </div>
-
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">개인 정보</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">혈액형</label>
-                      <select
-                        name="user_blood_type"
-                        value={formData.user_blood_type}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                      >
-                        {BloodTypes.map((type) => (
-                          <option key={type.value} value={type.value}>{type.label}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">최종학력</label>
-                      <select
-                        name="user_education"
-                        value={formData.user_education}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                      >
-                        {EducationLevels.map((type) => (
-                          <option key={type.value} value={type.value}>{type.label}</option>
-                        ))}
-                      </select>
-                    </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">최종학력</label>
+                    <select
+                      name="user_education"
+                      value={formData.user_education}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                    >
+                      {EducationLevels.map((type) => (
+                        <option key={type.value} value={type.value}>{type.label}</option>
+                      ))}
+                    </select>
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">연락처</label>
-                    <div className="flex gap-3 items-center">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">연락처</label>
+                    <div className="flex gap-2 items-center">
                       <input
                         type="text"
                         name="phone_1"
                         maxLength={3}
                         value={phoneData.phone_1}
                         onChange={phoneDataChange}
-                        className="w-1/3 px-3 py-3 border border-gray-300 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                        className="w-1/3 px-2 py-2 text-sm border border-gray-300 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                         placeholder="010"
                       />
-                      <span className="text-gray-500 text-lg">-</span>
+                      <span className="text-gray-500">-</span>
                       <input
                         type="text"
                         name="phone_2"
                         maxLength={4}
                         value={phoneData.phone_2}
                         onChange={phoneDataChange}
-                        className="w-1/3 px-3 py-3 border border-gray-300 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                        className="w-1/3 px-2 py-2 text-sm border border-gray-300 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                         placeholder="1234"
                       />
-                      <span className="text-gray-500 text-lg">-</span>
+                      <span className="text-gray-500">-</span>
                       <input
                         type="text"
                         name="phone_3"
                         maxLength={4}
                         value={phoneData.phone_3}
                         onChange={phoneDataChange}
-                        className="w-1/3 px-3 py-3 border border-gray-300 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                        className="w-1/3 px-2 py-2 text-sm border border-gray-300 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                         placeholder="5678"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">주소</label>
-                    <div className="space-y-3">
-                      <div className="flex gap-3">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">주소</label>
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
                         <input
                           type="text"
                           value={formData.user_postcode}
                           readOnly
                           onClick={() => setShowPostcode(true)}
-                          placeholder="우편번호 찾기 클릭"
-                          className="w-1/3 border border-gray-300 rounded-lg px-4 py-3 cursor-pointer bg-gray-50 focus:outline-none"
+                          placeholder="우편번호"
+                          className="w-2/3 border border-gray-300 rounded-lg px-2 py-2 text-sm cursor-pointer focus:outline-none"
                         />
                         <button
                           type="button"
                           onClick={() => setShowPostcode(true)}
-                          className="flex-1 px-4 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                          className="flex-1 p-2 font-semibold bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors duration-200 hover:shadow-md"
                         >
                           주소 검색
                         </button>
@@ -400,15 +303,15 @@ const EmployeeRegister = () => {
                         value={formData.user_address_basic}
                         readOnly
                         placeholder="기본주소"
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 bg-gray-50"
+                        className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm"
                       />
                       <input
                         type="text"
                         name="user_address_detail"
                         value={formData.user_address_detail}
                         onChange={handleChange}
-                        placeholder="상세주소 입력 (예: 101호)"
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                        placeholder="상세주소"
+                        className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                       />
                     </div>
                   </div>
@@ -416,31 +319,136 @@ const EmployeeRegister = () => {
               </div>
             </div>
 
-            {showPostcode && (
-              <div
-                className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-                onClick={closeModal}
-              >
-                <div
-                  className="bg-white p-6 rounded-2xl shadow-2xl relative w-[600px] h-[500px]"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-bold text-gray-900">주소 검색</h3>
-                    <button
-                      className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-all duration-200"
-                      onClick={closeModal}
-                    >
-                      ✕
-                    </button>
+            {/* 오른쪽 박스: 기본 정보 + 근무 정보 */}
+            <div className="bg-white shadow p-4 flex-1 space-y-4">
+              <div className="p-1">
+                <h3 className="text-base font-semibold text-gray-900 mb-2">기본 정보</h3>
+                <div className="space-y-2">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">이름</label>
+                    <input
+                      type="text"
+                      name="user_name"
+                      value={formData.user_name}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                      placeholder="이름을 입력해주세요"
+                    />
                   </div>
-                  <div className="h-[calc(100%-60px)]">
-                    <DaumPostcode onComplete={handleComplete} style={{ width: '100%', height: '100%' }} />
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">닉네임</label>
+                    <input
+                      name="user_nickname"
+                      value={formData.user_nickname}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                      placeholder="닉네임을 입력하세요"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">생년월일</label>
+                    <input
+                      type="date"
+                      name="user_birth_date"
+                      value={formData.user_birth_date}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">국가</label>
+                    <select
+                      name="user_country"
+                      value={formData.user_country}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                    >
+                      {Countries.map((type) => (
+                        <option key={type.value} value={type.value}>{type.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
-            )}
+
+              <div className="p-1">
+                <h3 className="text-base font-semibold text-gray-900 mb-2">근무 정보</h3>
+                <div className="space-y-2">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">직책</label>
+                    <input
+                      type="text"
+                      name="user_position"
+                      value={formData.user_position}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                      placeholder="직책을 입력해주세요"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">입사일</label>
+                    <input
+                      type="date"
+                      name="user_hire_date"
+                      value={formData.user_hire_date}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">부서</label>
+                    <select
+                      name="user_department"
+                      value={formData.user_department}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                    >
+                      {Departments.map((type) => (
+                        <option key={type.value} value={type.value}>{type.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700 mb-1">연차수</label>
+                    <input
+                      type="number"
+                      name="user_annual_leave"
+                      value={formData.user_annual_leave}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                      placeholder="연차수를 입력해주세요"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
+
+          {showPostcode && (
+            <div
+              className="fixed inset-0 bg-gray-200 bg-opacity-50 z-50 flex items-center justify-center"
+              onClick={closeModal}
+            >
+              <div
+                className="bg-white p-6 shadow-2xl relative w-[600px] h-[500px]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-xl font-bold text-gray-900">주소 검색</h3>
+                  <button
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 hover:bg-red-200 text-red-500 hover:text-red-700 transition-all duration-200 hover:shadow-md"
+                    onClick={closeModal}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div className="h-[calc(100%-60px)]">
+                  <DaumPostcode onComplete={handleComplete} style={{ width: '100%', height: '100%' }} />
+                </div>
+              </div>
+            </div>
+
+          )}
         </div>
       </div>
     </div>

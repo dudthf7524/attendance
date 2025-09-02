@@ -9,17 +9,17 @@ import {
     ATTENDANCE_TODAY_SUCCESS,
     ATTENDANCE_TODAY_FAILURE,
 
-    ATTENDANCE_UPDATE_REQUEST,
-    ATTENDANCE_UPDATE_SUCCESS,
-    ATTENDANCE_UPDATE_FAILURE,
+    ATTENDANCE_EDIT_REQUEST,
+    ATTENDANCE_EDIT_SUCCESS,
+    ATTENDANCE_EDIT_FAILURE,
 
     ATTENDANCE_SEARCH_REQUEST,
     ATTENDANCE_SEARCH_SUCCESS,
     ATTENDANCE_SEARCH_FAILURE,
 
-    ATTENDANCE_TODAY_LIST_REQUEST,
-    ATTENDANCE_TODAY_LIST_SUCCESS,
-    ATTENDANCE_TODAY_LIST_FAILURE,
+    ATTENDANCE_LIST_REQUEST,
+    ATTENDANCE_LIST_SUCCESS,
+    ATTENDANCE_LIST_FAILURE,
 
 } from "../reducers/attendance";
 
@@ -88,35 +88,37 @@ function* attendanceToday() {
     }
 }
 
-function* watchAttendanceUpdate() {
-    yield takeLatest(ATTENDANCE_UPDATE_REQUEST, attendanceUpdate);
+function* watchAttendanceEdit() {
+    yield takeLatest(ATTENDANCE_EDIT_REQUEST, attendanceEdit);
 }
 
-function attendanceUpdateAPI(data) {
+function attendanceEditAPI(data) {
 
-    return axios.post("/attendance/update", data);
+    return axios.post("/attendance/edit", data);
 }
 
-function* attendanceUpdate(action) {
+function* attendanceEdit(action) {
     try {
-        const result = yield call(attendanceUpdateAPI, action.data);
+        const result = yield call(attendanceEditAPI, action.data);
 
         if (result.data === 'common') {
             alert('로그인이 필요합니다.')
             window.location.href = "/";
+            return;
         }
         if (result.data) {
-            window.location.href = "/attendance";
+            alert('시간 수정이 완료되었습니다.')
+            window.location.href = "/admin/attendance";
         }
         yield put({
-            type: ATTENDANCE_UPDATE_SUCCESS,
+            type: ATTENDANCE_EDIT_SUCCESS,
             data: result.data,
         });
         if (result.data) { }
     } catch (err) {
         console.error(err);
         yield put({
-            type: ATTENDANCE_UPDATE_FAILURE,
+            type: ATTENDANCE_EDIT_FAILURE,
             error: err.response.data,
         });
     }
@@ -153,32 +155,32 @@ function* attendanceSearch(action) {
     }
 }
 
-function* watchAttendanceTodayList() {
-    yield takeLatest(ATTENDANCE_TODAY_LIST_REQUEST, attendanceTodayList);
+function* watchAttendanceList() {
+    yield takeLatest(ATTENDANCE_LIST_REQUEST, attendanceList);
 }
 
-function attendanceTodayListAPI(data) {
+function attendanceListAPI(data) {
 
-    return axios.get("/attendance/today/list", { params: data });
+    return axios.get("/attendance/list", { params: data });
 }
 
-function* attendanceTodayList(action) {
+function* attendanceList(action) {
     try {
-        const result = yield call(attendanceTodayListAPI, action.data);
+        const result = yield call(attendanceListAPI, action.data);
 
         if (result.data === 'common') {
             alert('로그인이 필요합니다.')
             window.location.href = "/";
         }
         yield put({
-            type: ATTENDANCE_TODAY_LIST_SUCCESS,
+            type: ATTENDANCE_LIST_SUCCESS,
             data: result.data,
         });
         if (result.data) { }
     } catch (err) {
         console.error(err);
         yield put({
-            type: ATTENDANCE_TODAY_LIST_FAILURE,
+            type: ATTENDANCE_LIST_FAILURE,
             error: err.response.data,
         });
     }
@@ -188,8 +190,8 @@ export default function* attendanceSaga() {
     yield all([
         fork(watchAttendanceRegister),
         fork(watchAttendanceToday),
-        fork(watchAttendanceUpdate),
+        fork(watchAttendanceEdit),
         fork(watchAttendanceSearch),
-        fork(watchAttendanceTodayList),
+        fork(watchAttendanceList),
     ]);
 } 

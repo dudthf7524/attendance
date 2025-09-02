@@ -7,7 +7,7 @@ import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { TIME_DETAIL_REQUEST } from "../../reducers/time";
 import dayjs from 'dayjs';
-import { ATTENDANCE_REGISTER_REQUEST, ATTENDANCE_TODAY_REQUEST, ATTENDANCE_UPDATE_REQUEST } from "../../reducers/attendance";
+import { ATTENDANCE_REGISTER_REQUEST, ATTENDANCE_TODAY_REQUEST } from "../../reducers/attendance";
 
 
 const Attendance = () => {
@@ -103,10 +103,10 @@ const Attendance = () => {
             attendance_end_state: attendance_end_state,
         }
 
-        dispatch({
-            type: ATTENDANCE_UPDATE_REQUEST,
-            data: data
-        });
+        // dispatch({
+        //     type: ATTENDANCE_UPDATE_REQUEST,
+        //     data: data
+        // });
     }
     const hasStarted = !!attendanceToday?.attendance_start_time;
     const hasEnded = !!attendanceToday?.attendance_end_time;

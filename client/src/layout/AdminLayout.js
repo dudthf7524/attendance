@@ -16,8 +16,8 @@ const navigationItems = [
     name: '직원관리',
     path: '/admin/employee',
     subItems: [
-      { name: '직원등록', path: '/admin/employee/register' },
       { name: '직원목록', path: '/admin/employee/list' },
+      { name: '직원등록', path: '/admin/employee/register' },
     ],
   },
   // {
@@ -80,8 +80,8 @@ export default function AdminLayout() {
           )}
 
           {/* 메인 컨텐츠 */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="mx-auto">
+          <div className="flex-1 overflow-hidden">
+            <div className="mx-auto h-full">
               <Outlet />
             </div>
           </div>

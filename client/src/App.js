@@ -6,7 +6,7 @@ import Home from "./page/client/Home";
 import Attendance from "./page/client/Attendance";
 import Dashboard from "./page/admin/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
-import AttendanceManagement from "./page/admin/AttendanceManagement";
+import AttendanceManagement from "./page/admin/attendance/AttendanceManagement";
 import TimeSetting from "./page/admin/time/Setting";
 import EmployeeList from "./page/admin/employee/List";
 import MyPage from "./page/client/MyPage";

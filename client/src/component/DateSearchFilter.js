@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CalendarDaysIcon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { ATTENDANCE_LIST_REQUEST } from "../reducers/attendance";
+import { useDispatch, useSelector } from "react-redux";
+import dayjs from "dayjs";
 
-const DateSearchFilter = ({ onDateChange, onSearch, className = "" }) => {
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    
+const DateSearchFilter = ({ onSearch, yyyyMmDd }) => {
+
+    // const today = dayjs();
+    // const yyyyMmDd = today.format('YYYY-MM-DD');
+
+
+    const [startDate, setStartDate] = useState(yyyyMmDd);
+    const [endDate, setEndDate] = useState(yyyyMmDd);
+
+
     const handleStartDateChange = (e) => {
         const newStartDate = e.target.value;
         setStartDate(newStartDate);
@@ -16,39 +25,17 @@ const DateSearchFilter = ({ onDateChange, onSearch, className = "" }) => {
     };
 
     const handleSearch = () => {
-        const dateRange = {
-            startDate: startDate,
-            endDate: endDate
-        };
-
-        if (onDateChange) {
-            onDateChange(dateRange);
-        }
-
-        if (onSearch) {
-            onSearch(dateRange);
-        }
+        const dateRange = { startDate, endDate };
+        onSearch?.(dateRange); // ✅ 부모로 전달
     };
 
     const clearDates = () => {
         setStartDate("");
         setEndDate("");
-        const emptyDateRange = {
-            startDate: "",
-            endDate: ""
-        };
-
-        if (onDateChange) {
-            onDateChange(emptyDateRange);
-        }
-
-        if (onSearch) {
-            onSearch(emptyDateRange);
-        }
     };
 
     return (
-        <div className={`rounded-xl p-6 border border-gray-200 ${className}`}>
+        <div className="p-2">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
                     <CalendarDaysIcon className="w-5 h-5 text-gray-600" />
@@ -63,7 +50,7 @@ const DateSearchFilter = ({ onDateChange, onSearch, className = "" }) => {
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 gap-4 mb-4">
                 <div>
                     <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-2">
                         시작일

@@ -25,8 +25,9 @@ const navigationItems = [
     path: '/admin/employee',
     icon: UsersIcon,
     subItems: [
+            { name: '직원목록', path: '/admin/employee/list' },
       { name: '직원등록', path: '/admin/employee/register' },
-      { name: '직원목록', path: '/admin/employee/list' },
+
     ],
   },
   // {

@@ -39,11 +39,12 @@ const attendanceToday = async (user_code) => {
     }
 };
 
-const attendanceUpdate = async (data) => {
+const attendanceEdit = async (data) => {
     try {
         const result = await attendance.update(
             {
-                attendance_end_date: data.attendance_end_date,
+                attendance_start_time: data.attendance_start_time,
+                attendance_start_state: data.attendance_start_state,
                 attendance_end_time: data.attendance_end_time,
                 attendance_end_state: data.attendance_end_state,
             },
@@ -97,11 +98,9 @@ const attendanceDay = async (startDay, endDay, company_code) => {
     }
 };
 
-const attendanceTodayList = async (data, company_code) => {
-    const now = dayjs(); // 여기에 새로 선언
-    const attendance_start_date = now.format('YYYY-MM-DD');
-    console.log("data", data)
-    console.log("company_code", company_code)
+const attendanceList = async (data, company_code) => {
+    console.log(data.startDate, data.endDate)
+    console.log(company_code)
     try {
         const result = await attendance.findAll({
             include: [
@@ -122,11 +121,12 @@ const attendanceTodayList = async (data, company_code) => {
                 },
             ],
             where: {
-                attendance_start_date: data.today
+                attendance_start_date: {
+                    [Op.between]: [data.startDate, data.endDate]
+                }
             },
             order: [['attendance_id', 'DESC']],
         });
-        console.log("result", result)
         return result;
     } catch (error) {
         console.error(error)
@@ -136,7 +136,7 @@ const attendanceTodayList = async (data, company_code) => {
 module.exports = {
     attendanceRegister,
     attendanceToday,
-    attendanceUpdate,
+    attendanceEdit,
     attendanceDay,
-    attendanceTodayList,
+    attendanceList,
 }

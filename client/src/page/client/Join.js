@@ -299,7 +299,7 @@ const Join = () => {
                     <button
                         onClick={verifyBusinessNumber}
                         disabled={isBizVerified}
-                        className={`w-full mt-3 py-3 rounded-lg font-medium transition duration-200 ${isBizVerified ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-black hover:bg-gray-800 text-white'}`}
+                        className={`w-full mt-3 py-3 rounded-lg font-medium transition duration-200 ${isBizVerified ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-blue-600 text-white'}`}
                     >
                         {isBizVerified ? "사업자 등록번호 인증 완료" : isVerifyingBiz ? "인증 중..." : "사업자 등록번호 인증"}
                     </button>
@@ -441,7 +441,7 @@ const Join = () => {
                     </div>
                     <button
                         onClick={sendEmail}
-                        className={`w-full mt-3 py-3 rounded-lg font-medium transition duration-200 ${isVerify ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-black hover:bg-gray-800 text-white'}`}
+                        className={`w-full mt-3 py-3 rounded-lg font-medium transition duration-200 ${isVerify ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-blue-600 text-white'}`}
                         disabled={isVerify}
                     >
                         {isVerify ? "이메일 인증 완료" : "이메일 인증"}
@@ -502,7 +502,7 @@ const Join = () => {
                     )}
                 </div>
 
-                <button onClick={onSubmit} className="w-full mt-6 py-4 bg-black hover:bg-gray-800 text-white text-lg font-medium rounded-lg transition duration-200">
+                <button onClick={onSubmit} className="w-full mt-6 py-4 bg-blue-600 text-white font-semibold">
                     가입하기
                 </button>
             </div>

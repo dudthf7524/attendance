@@ -87,238 +87,201 @@ export default function Vacation() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 p-6 relative">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(0,0,0,0.02),transparent_70%)] pointer-events-none"></div>
-
-            <div className="relative max-w-7xl mx-auto z-10">
-                {/* 상단 헤더 */}
-                <div className="mb-8">
-                    <div className="inline-block mb-4">
-                        <span className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-full">
-                            🏖️ 휴가 관리 시스템
-                        </span>
-                    </div>
-                    <h1 className="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
-                        휴가 관리
-                    </h1>
-                    <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-                        직원들의 휴가 일정을 한눈에 확인하고 효율적으로 관리하세요
-                    </p>
-                </div>
-
-                {/* 통계 카드 */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-gray-600">총 휴가 신청</p>
-                                <p className="text-2xl font-bold text-gray-900">{vacationList.length}건</p>
-                            </div>
-                            <div className="p-3 rounded-full bg-blue-100">
-                                <CalendarDaysIcon className="w-6 h-6 text-blue-600" />
-                            </div>
+        <div className="w-full h-full bg-gray-100 flex flex-col">
+            <div className="p-5 flex flex-1 gap-4">
+                <div className="w-1/5 flex flex-col gap-4">
+                    {/* <div className="bg-white shadow p-5 flex-1">
+                        <div className="inline-block mb-3">
+                            <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                                🏖️ 휴가 관리 시스템
+                            </span>
                         </div>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-gray-600">승인된 휴가</p>
-                                <p className="text-2xl font-bold text-green-600">
-                                    {vacationList.filter(v => v.status === 'approved').length}건
-                                </p>
+                        <h1 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
+                            휴가 관리
+                        </h1>
+                        <p className="text-sm text-gray-500 mt-1">
+                            직원들의 휴가 일정을 한눈에 확인하고 효율적으로 관리하세요
+                        </p>
+                    </div> */}
+                    
+                    {/* 통계 박스 */}
+                    <div className="bg-white shadow p-5 flex-1">
+                        <h3 className="text-base font-semibold text-gray-900 mb-3">휴가 현황</h3>
+                        <div className="space-y-3">
+                            <div className="bg-gray-50 rounded-lg p-3">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="text-xs text-gray-600">총 신청</p>
+                                        <p className="text-lg font-bold text-gray-900">{vacationList.length}건</p>
+                                    </div>
+                                    <CalendarDaysIcon className="w-5 h-5 text-blue-600" />
+                                </div>
                             </div>
-                            <div className="p-3 rounded-full bg-green-100">
-                                <CheckCircleIcon className="w-6 h-6 text-green-600" />
+                            <div className="bg-gray-50 rounded-lg p-3">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="text-xs text-gray-600">승인</p>
+                                        <p className="text-lg font-bold text-green-600">
+                                            {vacationList.filter(v => v.status === 'approved').length}건
+                                        </p>
+                                    </div>
+                                    <CheckCircleIcon className="w-5 h-5 text-green-600" />
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-gray-600">대기 중인 휴가</p>
-                                <p className="text-2xl font-bold text-yellow-600">
-                                    {vacationList.filter(v => v.status === 'pending').length}건
-                                </p>
+                            <div className="bg-gray-50 rounded-lg p-3">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="text-xs text-gray-600">대기</p>
+                                        <p className="text-lg font-bold text-yellow-600">
+                                            {vacationList.filter(v => v.status === 'pending').length}건
+                                        </p>
+                                    </div>
+                                    <ClockIcon className="w-5 h-5 text-yellow-600" />
+                                </div>
                             </div>
-                            <div className="p-3 rounded-full bg-yellow-100">
-                                <ClockIcon className="w-6 h-6 text-yellow-600" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-medium text-gray-600">오늘 휴가자</p>
-                                <p className="text-2xl font-bold text-purple-600">
-                                    {vacationList.filter(v => v.date === format(new Date(), 'yyyy-MM-dd')).length}명
-                                </p>
-                            </div>
-                            <div className="p-3 rounded-full bg-purple-100">
-                                <UserGroupIcon className="w-6 h-6 text-purple-600" />
+                            <div className="bg-gray-50 rounded-lg p-3">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="text-xs text-gray-600">오늘 휴가</p>
+                                        <p className="text-lg font-bold text-purple-600">
+                                            {vacationList.filter(v => v.date === format(new Date(), 'yyyy-MM-dd')).length}명
+                                        </p>
+                                    </div>
+                                    <UserGroupIcon className="w-5 h-5 text-purple-600" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    {/* 캘린더 섹션 */}
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-                        <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
-                                <CalendarDaysIcon className="w-7 h-7 mr-3" />
+                {/* 오른쪽 영역 */}
+                <div className="w-4/5 flex flex-col gap-4">
+                    {/* 상단 액션 버튼 박스 */}
+                    <div className="bg-white shadow p-4">
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-lg font-bold text-gray-900">휴가 관리 대시보드</h2>
+                            <button
+                                onClick={() => navigate('/admin/vacation/approval')}
+                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors duration-200 flex items-center space-x-2"
+                            >
+                                <PlusIcon className="w-4 h-4" />
+                                <span>휴가 승인</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* 메인 콘텐츠 영역 */}
+                    <div className="flex gap-4 flex-1">
+                        {/* 캘린더 박스 */}
+                        <div className="bg-white shadow p-5 flex-1">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                                <CalendarDaysIcon className="w-5 h-5 mr-2" />
                                 휴가 캘린더
-                            </h2>
-                            <p className="text-gray-600">날짜를 선택하여 해당일의 휴가자를 확인하세요</p>
-                        </div>
-
-                        <div className="p-8">
+                            </h3>
                             <VacationCalendar
                                 vacationData={vacationList}
                                 selectedDate={selectedDate}
                                 onDateSelect={setSelectedDate}
-                                className=""
                             />
                         </div>
-                    </div>
 
-                    {/* 휴가 정보 섹션 */}
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-                        <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
-                                        <UserGroupIcon className="w-7 h-7 mr-3" />
-                                        {selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '날짜 선택'} 휴가 정보
-                                    </h2>
-                                    <p className="text-gray-600">선택한 날짜의 휴가 신청 내역</p>
-                                </div>
-                                <button
-                                    onClick={() => navigate('/admin/vacation/approval')}
-                                    className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center space-x-2"
-                                >
-                                    <PlusIcon className="w-5 h-5" />
-                                    <span>휴가 등록</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="p-8">
+                        {/* 선택된 날짜 정보 박스 */}
+                        <div className="bg-white shadow p-5 flex-1">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                                <UserGroupIcon className="w-5 h-5 mr-2" />
+                                {selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '날짜 선택'} 휴가 정보
+                            </h3>
                             {selectedDate ? (
                                 vacationOfDay.length > 0 ? (
-                                    <div className="space-y-4">
+                                    <div className="space-y-3 max-h-80 overflow-y-auto">
                                         {vacationOfDay.map((item, idx) => (
-                                            <div
-                                                key={idx}
-                                                className="bg-gray-50 rounded-xl p-6 border border-gray-200 hover:shadow-md transition-all duration-300"
-                                            >
-                                                <div className="flex items-start justify-between mb-4">
-                                                    <div className="flex items-center space-x-3">
-                                                        <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center">
-                                                            <span className="text-white font-bold text-lg">
+                                            <div key={idx} className="bg-gray-50 rounded-lg p-4 border">
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <div className="flex items-center space-x-2">
+                                                        <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                                            <span className="text-white font-bold text-sm">
                                                                 {item.name.charAt(0)}
                                                             </span>
                                                         </div>
                                                         <div>
-                                                            <h3 className="text-lg font-bold text-gray-900">{item.name}</h3>
-                                                            <p className="text-sm text-gray-600">{item.department}</p>
+                                                            <span className="font-medium text-gray-900 text-sm">{item.name}</span>
+                                                            <p className="text-xs text-gray-600">{item.department}</p>
                                                         </div>
                                                     </div>
-                                                    <div className="flex space-x-2">
-                                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}`}>
+                                                    <div className="flex space-x-1">
+                                                        <span className={`px-2 py-1 text-xs rounded-full ${getTypeColor(item.type)}`}>
                                                             {item.type}
                                                         </span>
-                                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(item.status)} space-x-1`}>
+                                                        <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(item.status)} flex items-center space-x-1`}>
                                                             {getStatusIcon(item.status)}
                                                             <span>{item.status === 'approved' ? '승인' : item.status === 'pending' ? '대기' : '거절'}</span>
                                                         </span>
                                                     </div>
                                                 </div>
-
-                                                <div className="space-y-2">
-                                                    <div className="flex items-center text-sm text-gray-600">
-                                                        <CalendarDaysIcon className="w-4 h-4 mr-2" />
-                                                        <span>{item.period}</span>
-                                                    </div>
-                                                    <div className="flex items-start text-sm text-gray-600">
-                                                        <span className="mr-2 mt-0.5">📝</span>
-                                                        <span>{item.reason}</span>
-                                                    </div>
+                                                <div className="text-xs text-gray-600 space-y-1">
+                                                    <div>📅 {item.period}</div>
+                                                    <div>📝 {item.reason}</div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="text-center py-12">
-                                        <div className="text-gray-400 text-6xl mb-4">📅</div>
-                                        <p className="text-gray-500 text-lg">선택한 날짜에 휴가자가 없습니다.</p>
-                                        <p className="text-gray-400 text-sm mt-2">다른 날짜를 선택해보세요</p>
+                                    <div className="text-center py-8">
+                                        <div className="text-gray-400 text-4xl mb-2">📅</div>
+                                        <p className="text-gray-500 text-sm">선택한 날짜에 휴가자가 없습니다.</p>
                                     </div>
                                 )
                             ) : (
-                                <div className="text-center py-12">
-                                    <div className="text-gray-400 text-6xl mb-4">🗓️</div>
-                                    <p className="text-gray-500 text-lg">날짜를 선택하면 휴가 정보를 볼 수 있어요.</p>
-                                    <p className="text-gray-400 text-sm mt-2">왼쪽 캘린더에서 날짜를 클릭해주세요</p>
+                                <div className="text-center py-8">
+                                    <div className="text-gray-400 text-4xl mb-2">🗓️</div>
+                                    <p className="text-gray-500 text-sm">날짜를 선택하면 휴가 정보를 볼 수 있습니다.</p>
                                 </div>
                             )}
                         </div>
                     </div>
-                </div>
 
-                {/* 최근 휴가 신청 목록 */}
-                <div className="mt-8 bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-                    <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
-                        <h2 className="text-2xl font-bold text-gray-900 mb-2">최근 휴가 신청</h2>
-                        <p className="text-gray-600">최근에 신청된 휴가 내역을 확인하세요</p>
-                    </div>
-
-                    <div className="p-8">
+                    {/* 최근 휴가 신청 목록 박스 */}
+                    <div className="bg-white shadow p-5">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">최근 휴가 신청</h3>
                         <div className="overflow-x-auto">
-                            <table className="min-w-full">
-                                <thead>
-                                    <tr className="border-b border-gray-200">
-                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">직원명</th>
-                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">부서</th>
-                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">휴가 유형</th>
-                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">기간</th>
-                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">사유</th>
-                                        <th className="text-left py-3 px-4 font-semibold text-gray-700">상태</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {vacationList.map((item, idx) => (
-                                        <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
-                                            <td className="py-4 px-4">
-                                                <div className="flex items-center space-x-3">
-                                                    <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
-                                                        <span className="text-white font-bold text-sm">
-                                                            {item.name.charAt(0)}
-                                                        </span>
-                                                    </div>
-                                                    <span className="font-medium text-gray-900">{item.name}</span>
+                            <div className="min-w-full text-sm flex flex-col">
+                                <div className="grid grid-cols-6 border-b text-left font-medium bg-gray-50 rounded-t-lg">
+                                    <div className="px-3 py-3">직원명</div>
+                                    <div className="px-3 py-3">부서</div>
+                                    <div className="px-3 py-3">유형</div>
+                                    <div className="px-3 py-3">기간</div>
+                                    <div className="px-3 py-3">사유</div>
+                                    <div className="px-3 py-3">상태</div>
+                                </div>
+                                {vacationList.map((item, idx) => (
+                                    <div key={idx} className="grid grid-cols-6 items-center hover:bg-gray-50 transition border-b border-gray-100">
+                                        <div className="px-3 py-3">
+                                            <div className="flex items-center space-x-2">
+                                                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                                                    <span className="text-white font-bold text-xs">
+                                                        {item.name.charAt(0)}
+                                                    </span>
                                                 </div>
-                                            </td>
-                                            <td className="py-4 px-4 text-gray-600">{item.department}</td>
-                                            <td className="py-4 px-4">
-                                                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${getTypeColor(item.type)}`}>
-                                                    {item.type}
-                                                </span>
-                                            </td>
-                                            <td className="py-4 px-4 text-gray-600">{item.period}</td>
-                                            <td className="py-4 px-4 text-gray-600">{item.reason}</td>
-                                            <td className="py-4 px-4">
-                                                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(item.status)} space-x-1`}>
-                                                    {getStatusIcon(item.status)}
-                                                    <span>{item.status === 'approved' ? '승인' : item.status === 'pending' ? '대기' : '거절'}</span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                                <span className="font-medium text-gray-900">{item.name}</span>
+                                            </div>
+                                        </div>
+                                        <div className="px-3 py-3 text-gray-600">{item.department}</div>
+                                        <div className="px-3 py-3">
+                                            <span className={`px-2 py-1 text-xs rounded-full ${getTypeColor(item.type)}`}>
+                                                {item.type}
+                                            </span>
+                                        </div>
+                                        <div className="px-3 py-3 text-gray-600">{item.period}</div>
+                                        <div className="px-3 py-3 text-gray-600">{item.reason}</div>
+                                        <div className="px-3 py-3">
+                                            <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(item.status)} flex items-center space-x-1`}>
+                                                {getStatusIcon(item.status)}
+                                                <span>{item.status === 'approved' ? '승인' : item.status === 'pending' ? '대기' : '거절'}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

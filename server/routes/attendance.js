@@ -26,23 +26,22 @@ router.get("/today", authMiddlewareSession, async (req, res) => {
     }
 });
 
-router.post("/update", authMiddlewareSession, async (req, res) => {
+router.post("/edit", authMiddlewareSession, async (req, res) => {
     try {
         const data = req.body;
-        const result = await attendance.attendanceUpdate(data);
+        const result = await attendance.attendanceEdit(data);
         return res.json(result);
     } catch (error) {
         console.error(error)
     }
 });
 
-router.get("/today/list", authMiddlewareSession, async (req, res) => {
-    console.log(req.query)
-
+router.get("/list", authMiddlewareSession, async (req, res) => {
     const data = req.query;
+    console.log(req.query)
     const company_code = req.user.company_code;
     try {
-        const result = await attendance.attendanceTodayList(data, company_code);
+        const result = await attendance.attendanceList(data, company_code);
         return res.json(result);
     } catch (error) {
         console.error(error)
