@@ -1,6 +1,6 @@
 import { all, fork } from "redux-saga/effects";
 import axios from "axios";
-import { API_URL } from "../constant/Contants";
+import { API_URL } from "../constant/Constants";
 import loginSaga from "./login";
 import authSaga from "./auth";
 import userSaga from "./user";
