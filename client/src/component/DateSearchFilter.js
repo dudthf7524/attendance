@@ -35,10 +35,10 @@ const DateSearchFilter = ({ onSearch, yyyyMmDd }) => {
     };
 
     return (
-        <div className="p-2">
+        <div className="">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                    <CalendarDaysIcon className="w-5 h-5 text-gray-600" />
+                    <CalendarDaysIcon className="w-5 h-5 text-blue-600" />
                     <h3 className="text-lg font-semibold text-gray-900">날짜 검색</h3>
                 </div>
                 <button

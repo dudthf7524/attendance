@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import DateSearchFilter from "../../../component/DateSearchFilter";
 import { ATTENDANCE_LIST_REQUEST } from "../../../reducers/attendance";
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, TrashIcon, ClockIcon, UserGroupIcon, CalendarDaysIcon, CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import Edit from "./Edit";
 
 const AttendanceManagement = () => {
@@ -85,45 +85,39 @@ const AttendanceManagement = () => {
   }
   return (
     <div className="w-full h-full bg-gray-100 flex flex-col">
-      <div className="p-5 flex flex-col lg:flex-row flex-1 gap-4">
-        {/* 왼쪽 영역 */}
-        <div className="w-full lg:w-1/5 flex flex-col gap-4">
-          {/* 근태 관리 시스템 정보 박스 */}
-          {/* <div className="bg-white shadow p-5 flex flex-col flex-2">
-            <div className="inline-block mb-3">
-              <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                👤 근태 관리 시스템
-              </span>
+      <div className="p-5 flex flex-col lg:flex-row flex-1 gap-6">
+        <div className="w-full lg:w-1/4 flex flex-col gap-6">
+          <div className="bg-white p-5 border border-gray-200 h-full flex flex-col">
+            <div className="flex-1">
+              <DateSearchFilter yyyyMmDd={yyyyMmDd} onSearch={handleDateSearch} />
             </div>
-            <h1 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
-              근태기록
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              이름으로 검색하고 지각 여부를 확인할 수 있습니다.
-            </p>
-          </div> */}
-
-          {/* 날짜 검색 박스 */}
-          <div className="bg-white shadow p-5 flex-1">
-            <DateSearchFilter yyyyMmDd={yyyyMmDd} onSearch={handleDateSearch} />
           </div>
         </div>
-
-        {/* 오른쪽 영역 */}
-        <div className="w-full lg:w-4/5 flex flex-col min-w-0 space-y-4">
-          {/* 이름 검색 박스 */}
-          <div className="bg-white shadow p-5">
+        <div className="w-full lg:w-3/4 flex flex-col min-w-0 space-y-6">
+          <div className="bg-white p-6 border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+              <UserGroupIcon className="w-5 h-5 mr-2 text-blue-600" />
+              직원 검색
+            </h3>
             <SearchBox keyword={keyword} onChange={setKeyword} />
           </div>
-
-          {/* 근태 기록 목록 박스 */}
-          <div className="bg-white shadow p-5 flex flex-col flex-1 min-h-0">
+          <div className="bg-white p-6 flex flex-col flex-1 min-h-0 border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+              <ClockIcon className="w-5 h-5 mr-2 text-blue-600" />
+              근태 기록 목록
+            </h3>
             <div className="flex-1 overflow-y-auto">
               <div className="overflow-x-auto">
-                <div className="min-w-[800px] text-sm flex flex-col border-b ">
-                  <div className="grid grid-cols-10 border-b text-left font-medium border-t">
-                    <div className="px-4 py-4">이름</div>
-                    <div className="px-4 py-4">날짜</div>
+                <div className="min-w-[1000px] text-sm flex flex-col border border-gray-200">
+                  <div className="grid grid-cols-10 bg-gradient-to-r from-gray-50 to-blue-50 text-left font-bold text-gray-800 border-b-2 border-blue-200">
+                    <div className="px-4 py-4 flex items-center">
+                      <UserGroupIcon className="w-4 h-4 mr-2 text-blue-600" />
+                      이름
+                    </div>
+                    <div className="px-4 py-4 flex items-center">
+                      <CalendarDaysIcon className="w-4 h-4 mr-2 text-blue-600" />
+                      날짜
+                    </div>
                     <div className="px-4 py-4">출근 시간</div>
                     <div className="px-4 py-4">퇴근 시간</div>
                     <div className="px-4 py-4">쉬는 시간</div>
@@ -133,64 +127,69 @@ const AttendanceManagement = () => {
                     <div className="px-4 py-4 text-blue-600">수정</div>
                     <div className="px-4 py-4 text-red-600">삭제</div>
                   </div>
-
-                  {/* 테이블 바디 */}
                   {filteredData?.map((attendance, i) => (
                     <div
                       key={i}
-                      className="grid grid-cols-10 items-center hover:bg-gray-50 transition"
+                      className="grid grid-cols-10 items-center border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200"
                     >
-                      <div className="px-4 py-4">
+                      <div className="px-4 py-4 font-medium text-gray-800">
                         {attendance.user.user_info.user_name}
                       </div>
-                      <div className="px-4 py-4">
+                      <div className="px-4 py-4 text-gray-700">
                         {attendance.attendance_start_date}
                       </div>
-                      <div className="px-4 py-4">
+                      <div className="px-4 py-4 text-gray-700">
                         {attendance.attendance_start_time}
                       </div>
-                      <div className="px-4 py-4">
-                        {attendance.attendance_end_time}
+                      <div className="px-4 py-4 text-gray-700">
+                        {attendance.attendance_end_time || '-'}
                       </div>
                       <div className="px-4 py-4">
-                        <span className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                        <span className="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 font-medium">
                           {attendance.rest_start_time} ~ {attendance.rest_end_time}
+                        </span>
+                      </div>
+                      <div className="px-4 py-4">
+                        <span className="bg-green-100 text-green-800 text-xs px-3 py-1 font-medium">
+                          {
+                            calculateWorkTime(
+                              attendance.attendance_start_date,
+                              attendance.attendance_start_time,
+                              attendance.attendance_end_date,
+                              attendance.attendance_end_time,
+                              attendance.rest_start_time,
+                              attendance.rest_end_time
+                            )
+                          }
+                        </span>
+                      </div>
+                      <div className="px-4 py-4">
+                        <span className={`text-xs px-3 py-1 font-medium ${attendance.attendance_start_state === '정상'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
+                          }`}>
+                          {attendance.attendance_start_state}
+                        </span>
+                      </div>
+                      <div className="px-4 py-4">
+                        <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 font-medium">
+                          {attendance.attendance_end_state || '근무중'}
                         </span>
                       </div>
 
                       <div className="px-4 py-4">
-                        {
-                          calculateWorkTime(
-                            attendance.attendance_start_date,
-                            attendance.attendance_start_time,
-                            attendance.attendance_end_date,
-                            attendance.attendance_end_time,
-                            attendance.rest_start_time,
-                            attendance.rest_end_time
-                          )
-                        }
-                      </div>
-                      <div className="px-4 py-4">
-                        {attendance.attendance_start_state}
-                      </div>
-                      <div className="px-4 py-4">
-                        {attendance.attendance_end_state}
-                      </div>
-
-                      <div className="px-4 py-4 text-blue-600">
                         <button
                           onClick={() => handleEdit(attendance)}
-                          className="text-blue-500 hover:text-blue-700"
+                          className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 transition-all duration-200 transform hover:scale-110"
                         >
-                          <PencilSquareIcon className="w-5 h-5 inline-block" />
+                          <PencilSquareIcon className="w-5 h-5" />
                         </button>
                       </div>
-                      <div className="px-4 py-4 text-red-600">
+                      <div className="px-4 py-4">
                         <button
-                        // onClick={() => EmployDetail(user.user_code, user.user_info.user_name)}
-                        // className="text-blue-500 hover:text-blue-700"
+                          className="text-red-600 hover:text-red-800 hover:bg-red-50 p-2 transition-all duration-200 transform hover:scale-110"
                         >
-                          <TrashIcon className="w-5 h-5 inline-block" />
+                          <TrashIcon className="w-5 h-5" />
                         </button>
                       </div>
                     </div>

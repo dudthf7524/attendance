@@ -1,46 +1,10 @@
 import { Link } from "react-router-dom";
 import Footer from "../../component/Footer";
-import Orb from './Orb';
-
 const Home = () => {
     return (
-        <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
-            {/* <div className="min-h-screen bg-black flex items-center justify-center">
-                <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-                    <Orb
-                        hoverIntensity={0.5}
-                        rotateOnHover={true}
-                        hue={0}
-                        forceHoverState={false}
-                    />
-                </div>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-                    <Link
-                        to="/join"
-                        className="px-10 py-4 bg-white text-black text-lg font-semibold rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                    >
-                        30일 무료 체험 시작
-                    </Link>
-                    <Link
-                        to="/login"
-                        className="px-8 py-4 border-2 border-gray-600 text-gray-600 text-lg font-medium rounded-full hover:border-gray-400 hover:bg-gray-50 transition-all duration-300"
-                    >
-                        로그인
-                    </Link>
-                </div>
-            </div> */}
-
+        <div className="min-h-screen bg-white text-gray-900 overflow-y-auto">
             <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100">
                 <div className="relative text-center max-w-6xl mx-auto px-6">
-
-                    {/* <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-                        <Orb
-                            hoverIntensity={0.5}
-                            rotateOnHover={true}
-                            hue={0}
-                            forceHoverState={false}
-                        />
-                    </div> */}
                     <div className="inline-block mb-6">
                         <span className="text-sm font-medium text-gray-600 bg-gray-100 px-4 py-2 rounded-full">
                             ✨ 새로운 출결 관리의 시작

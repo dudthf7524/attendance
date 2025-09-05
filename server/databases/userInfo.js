@@ -32,8 +32,10 @@ const userInfoView = async (user_code) => {
             attributes: [
                 'user_name',
                 'user_nickname',
+                'user_hire_date',
                 'user_birth_date',
                 'user_annual_leave',
+                'user_position',
                 'user_blood_type',
                 'user_phone',
                 'user_postcode',
@@ -43,17 +45,17 @@ const userInfoView = async (user_code) => {
             include: [
                 {
                     model: country,
-                    attributes: ['country_name'],
+                    attributes: ['country_name', 'country_code'],
                     required: true
                 },
                 {
                     model: department,
-                    attributes: ['department_name'],
+                    attributes: ['department_name', 'department_code'],
                     required: true
                 },
                 {
                     model: educationLevel,
-                    attributes: ['education_level_name'],
+                    attributes: ['education_level_name', 'education_level_code'],
                     required: true
                 }
             ],

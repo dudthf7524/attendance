@@ -1,364 +1,397 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeftIcon, UserIcon, BuildingOfficeIcon, CalendarIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
-import { USER_EDIT_REQUEST, USER_VIEW_REQUEST } from "../../../reducers/user";
+import { USER_CHECK_ID_REQUEST, USER_REGISTER_REQUEST } from "../../../reducers/user";
+import { UserIcon, PhoneIcon, BriefcaseIcon } from "@heroicons/react/24/outline";
 import { Countries } from "../../../constant/Countries";
+import { Departments } from "../../../constant/Departments";
+import { BloodTypes } from "../../../constant/BloodTypes";
+import { EducationLevels } from "../../../constant/EducationLevels";
+import DaumPostcode from 'react-daum-postcode';
+import { validateUserId, validateUserPassword } from "../../../hooks/validate/EmployeeRegister";
+import { useLocation } from "react-router-dom";
 
-const EmployeeEdit = () => {
+const Edit = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { user_code } = useParams();
-    const { userView } = useSelector((state) => state.user);
-    console.log(userView)
+    const location = useLocation();
+    const detailedUserData = location.state; // navigate에서 넘긴 데이터가 여기 들어옴
+
+    const phone = detailedUserData?.user_phone?.split("-") ?? ["010", "", ""];
+
+    const [checkIdState, setCheckIdState] = useState(false);
+    const [isAvailable, setIsAvailable] = useState(false);
+    const [user_id_error, user_id_setError] = useState(null);
+    const [user_password_error, user_password_setError] = useState(null);
+
     const [formData, setFormData] = useState({
-        user_code: "",
-        user_name: "",
-        user_nickname: "",
-        user_position: "",
-        user_hire_date: "",
-        user_birth_date: "",
-        user_blood_type: "",
+        user_name: detailedUserData?.user_name || "",
+        user_nickname: detailedUserData?.user_nickname || "",
+        user_position: detailedUserData?.user_position || "",
+        user_hire_date: detailedUserData?.user_hire_date || "",
+        user_birth_date: detailedUserData?.user_birth_date || "",
+        user_annual_leave: detailedUserData?.user_annual_leave || "",
+        user_country: detailedUserData?.country.country_code || "",
+        user_department: detailedUserData?.department.department_code || "",
+        user_blood_type: detailedUserData?.user_blood_type || "",
+        user_education: detailedUserData?.education_level.education_level_code || "",
         user_phone: "",
-        user_annual_leave: "",
-        user_country: "",
-        user_postcode: "",
-        user_address_basic: "",
-        user_address_detail: "",
-        department_code: "",
-        education_level_code: "",
+        user_postcode: detailedUserData?.user_postcode || "",
+        user_address_basic: detailedUserData?.user_address_basic || "",
+        user_address_detail: detailedUserData?.user_address_detail || "",
     });
-
-    useEffect(() => {
-        if (user_code) {
-            dispatch({
-                type: USER_VIEW_REQUEST,
-                data: user_code
-            });
-        }
-    }, [user_code, dispatch]);
-
-    useEffect(() => {
-        if (userView) {
-            setFormData({
-                user_code: userView.user_code || "",
-                user_name: userView.user_name || "",
-                user_nickname: userView.user_nickname || "",
-                user_position: userView.user_position || "",
-                user_hire_date: userView.user_hire_date || "",
-                user_birth_date: userView.user_birth_date || "",
-                user_blood_type: userView.user_blood_type || "",
-                user_phone: userView.user_phone || "",
-                user_annual_leave: userView.user_annual_leave || "",
-                user_country: userView.user_country || "",
-                user_postcode: userView.user_postcode || "",
-                user_address_basic: userView.user_address_basic || "",
-                user_address_detail: userView.user_address_detail || "",
-                department_code: userView.department?.department_code || "",
-                education_level_code: userView.education_level?.education_level_code || "",
-            });
-        }
-    }, [userView]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+
+    const userRegister = (e) => {
         e.preventDefault();
-        console.log("수정할 데이터:", formData);
+
+        const phone = phoneData.phone_1 + "-" + phoneData.phone_2 + "-" + phoneData.phone_3;
+        formData.user_phone = phone;
+
+        const data = formData;
+
+
+        console.log(data)
 
         dispatch({
-            type: USER_EDIT_REQUEST,
-            data: formData
+            type: USER_REGISTER_REQUEST,
+            data: data
         });
+    }
+    const [showPostcode, setShowPostcode] = useState(false);
 
-        // 수정 후 목록으로 돌아가기
-        navigate('/admin/employee/list');
+    const [phoneData, setPhoneData] = useState({
+        phone_1: "010",
+        phone_2: phone[1] || '',
+        phone_3: phone[2] || '',
+    })
+    const phoneDataChange = (e) => {
+        const { name, value } = e.target;
+        setPhoneData({
+            ...phoneData,
+            [name]: value
+        });
     };
 
-    const bloodTypes = [
-        { value: "", label: "선택해주세요" },
-        { value: "A", label: "A형" },
-        { value: "B", label: "B형" },
-        { value: "AB", label: "AB형" },
-        { value: "O", label: "O형" },
-    ];
+    const checkId = () => {
+        const data = {
+            user_id: formData.user_id
+        }
+        dispatch({
+            type: USER_CHECK_ID_REQUEST,
+            data: data
+        });
+    }
+
+    const { userCheckId } = useSelector((state) => state.user);
+    useEffect(() => {
+        if (userCheckId === 0) {
+            setIsAvailable(true);
+            setCheckIdState(true)
+        } else if (userCheckId === 1) {
+            setIsAvailable(false);
+            setCheckIdState(true)
+        }
+    }, [userCheckId])
+
+    const handleComplete = (data) => {
+        let fullAddress = data.address;
+        let extraAddress = '';
+
+        if (data.addressType === 'R') {
+            if (data.bname !== '') {
+                extraAddress += data.bname;
+            }
+            if (data.buildingName !== '') {
+                extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+            }
+            if (extraAddress !== '') {
+                fullAddress += ` (${extraAddress})`;
+            }
+        }
+        setFormData(prev => ({
+            ...prev,
+            user_postcode: data.zonecode,
+            user_address_basic: fullAddress,
+        }));
+        setShowPostcode(false);
+    };
+    const closeModal = () => setShowPostcode(false);
+
+    if (!detailedUserData) {
+        return (
+            <div>직원목록에서 직원을 선택해주세요</div>
+        )
+    }
 
     return (
-        <div className="w-full min-w-[700px] overflow-x-auto">
-            <div className="bg-white rounded-xl shadow p-5 flex flex-col space-y-4">
-                {/* 상단 헤더 */}
-                <div className="mb-3">
-                    <button
-                        onClick={() => navigate('/admin/employee/list')}
-                        className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-4 transition-colors duration-200"
-                    >
-                        <ArrowLeftIcon className="w-5 h-5 mr-2" />
-                        직원 목록으로 돌아가기
-                    </button>
-
-                    <h1 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
-                        {formData.user_name} 님의 정보 수정
-                    </h1>
-                    <p className="text-sm text-gray-500 mt-1">
-                        직원의 상세 정보를 수정하여 최신 상태로 유지하세요
-                    </p>
-                </div>
-
-                <form onSubmit={handleSubmit}>
-                    <div className="space-y-8">
-                        {/* 기본 정보 섹션 */}
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-                            <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
-                                    <UserIcon className="w-7 h-7 mr-3" />
-                                    기본 정보
-                                </h2>
-                                <p className="text-gray-600">직원의 기본적인 개인 정보를 입력하세요</p>
-                            </div>
-
-                            <div className="p-8">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            이름 <span className="text-red-500">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="user_name"
-                                            value={formData.user_name}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            닉네임 <span className="text-red-500">*</span>
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="user_nickname"
-                                            value={formData.user_nickname}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            생년월일
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="user_birth_date"
-                                            value={formData.user_birth_date}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            혈액형
-                                        </label>
-                                        <select
-                                            name="user_blood_type"
-                                            value={formData.user_blood_type}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                        >
-                                            {bloodTypes.map((type) => (
-                                                <option key={type.value} value={type.value}>
-                                                    {type.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            국적
-                                        </label>
-                                        <select
-                                            name="user_country"
-                                            value={formData.user_country}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                        >
-                                            <option value="">국가를 선택해주세요</option>
-                                            {Countries.map((country) => (
-                                                <option key={country.value} value={country.value}>
-                                                    {country.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            전화번호
-                                        </label>
-                                        <input
-                                            type="tel"
-                                            name="user_phone"
-                                            value={formData.user_phone}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                            placeholder="010-1234-5678"
-                                        />
-                                    </div>
+        <div className="w-full h-full bg-gradient-to-br from-slate-50 to-blue-50">
+            <div className="p-6 flex flex-1 flex-col gap-6 h-full">
+                <form id="employee-form" onSubmit={userRegister} className="flex gap-6 flex-1 h-full">
+                    {/* 첫 번째 박스: 기본 정보 */}
+                    <div className="bg-white shadow-lg p-6 w-1/3 space-y-4 h-full flex flex-col border border-gray-200">
+                        <div className="flex-1">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <UserIcon className="w-5 h-5 mr-2 text-blue-600" />
+                                기본 정보
+                            </h3>
+                            <div className="space-y-4">
+                                <div className="bg-blue-50 p-4 border-l-4 border-blue-400">
+                                    <label className="block text-sm font-medium text-blue-800 mb-2">이름</label>
+                                    <input
+                                        type="text"
+                                        name="user_name"
+                                        value={formData.user_name}
+                                        onChange={handleChange}
+                                        className="w-full border border-blue-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        placeholder="이름을 입력해주세요"
+                                    />
+                                </div>
+                                <div className="bg-blue-50 p-4 border-l-4 border-blue-400">
+                                    <label className="block text-sm font-medium text-blue-800 mb-2">닉네임</label>
+                                    <input
+                                        name="user_nickname"
+                                        value={formData.user_nickname}
+                                        onChange={handleChange}
+                                        className="w-full border border-blue-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        placeholder="닉네임을 입력하세요"
+                                    />
+                                </div>
+                                <div className="bg-blue-50 p-4 border-l-4 border-blue-400">
+                                    <label className="block text-sm font-medium text-blue-800 mb-2">생년월일</label>
+                                    <input
+                                        type="date"
+                                        name="user_birth_date"
+                                        value={formData.user_birth_date}
+                                        onChange={handleChange}
+                                        className="w-full border border-blue-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="bg-blue-50 p-4 border-l-4 border-blue-400">
+                                    <label className="block text-sm font-medium text-blue-800 mb-2">국가</label>
+                                    <select
+                                        name="user_country"
+                                        value={formData.user_country}
+                                        onChange={handleChange}
+                                        className="w-full border border-blue-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    >
+                                        {Countries.map((type) => (
+                                            <option key={type.value} value={type.value}>{type.label}</option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        {/* 근무 정보 섹션 */}
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-                            <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
-                                    <BuildingOfficeIcon className="w-7 h-7 mr-3" />
-                                    근무 정보
-                                </h2>
-                                <p className="text-gray-600">직원의 근무와 관련된 정보를 입력하세요</p>
-                            </div>
-
-                            <div className="p-8">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            직책 <span className="text-red-500">*</span>
-                                        </label>
+                    {/* 두 번째 박스: 개인 정보 */}
+                    <div className="bg-white shadow-lg p-6 w-1/3 space-y-4 h-full flex flex-col border border-gray-200">
+                        <div className="flex-1">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <PhoneIcon className="w-5 h-5 mr-2 text-blue-600" />
+                                개인 정보
+                            </h3>
+                            <div className="space-y-4">
+                                <div className="bg-green-50 p-4 border-l-4 border-green-400">
+                                    <label className="block text-sm font-medium text-green-800 mb-2">혈액형</label>
+                                    <select
+                                        name="user_blood_type"
+                                        value={formData.user_blood_type}
+                                        onChange={handleChange}
+                                        className="w-full border border-green-200 px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                    >
+                                        {BloodTypes.map((type) => (
+                                            <option key={type.value} value={type.value}>{type.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="bg-green-50 p-4 border-l-4 border-green-400">
+                                    <label className="block text-sm font-medium text-green-800 mb-2">최종학력</label>
+                                    <select
+                                        name="user_education"
+                                        value={formData.user_education}
+                                        onChange={handleChange}
+                                        className="w-full border border-green-200 px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                    >
+                                        {EducationLevels.map((type) => (
+                                            <option key={type.value} value={type.value}>{type.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="bg-green-50 p-4 border-l-4 border-green-400">
+                                    <label className="block text-sm font-medium text-green-800 mb-2">연락처</label>
+                                    <div className="flex gap-2 items-center">
                                         <input
                                             type="text"
-                                            name="user_position"
-                                            value={formData.user_position}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                            placeholder="예: 팀장, 대리, 사원"
-                                            required
+                                            name="phone_1"
+                                            maxLength={3}
+                                            value={phoneData.phone_1}
+                                            onChange={phoneDataChange}
+                                            className="w-1/3 px-2 py-2 text-sm border border-green-200 text-center focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="010"
                                         />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            입사일 <span className="text-red-500">*</span>
-                                        </label>
+                                        <span className="text-green-600">-</span>
                                         <input
-                                            type="date"
-                                            name="user_hire_date"
-                                            value={formData.user_hire_date}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                                            required
+                                            type="text"
+                                            name="phone_2"
+                                            maxLength={4}
+                                            value={phoneData.phone_2}
+                                            onChange={phoneDataChange}
+                                            className="w-1/3 px-2 py-2 text-sm border border-green-200 text-center focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="1234"
                                         />
-                                    </div>
-
-                                    <div className="space-y-2 md:col-span-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            연차 수
-                                        </label>
+                                        <span className="text-green-600">-</span>
                                         <input
-                                            type="number"
-                                            name="user_annual_leave"
-                                            value={formData.user_annual_leave}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg "
-                                            placeholder="연차 일수를 입력해주세요"
-                                            min="0"
+                                            type="text"
+                                            name="phone_3"
+                                            maxLength={4}
+                                            value={phoneData.phone_3}
+                                            onChange={phoneDataChange}
+                                            className="w-1/3 px-2 py-2 text-sm border border-green-200 text-center focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="5678"
                                         />
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        {/* 주소 정보 섹션 */}
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-                            <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
-                                <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
-                                    <GlobeAltIcon className="w-7 h-7 mr-3" />
-                                    주소 정보
-                                </h2>
-                                <p className="text-gray-600">직원의 거주 주소를 입력하세요</p>
-                            </div>
-
-                            <div className="p-8">
-                                <div className="grid grid-cols-1 gap-6">
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        <div className="space-y-2">
-                                            <label className="block text-sm font-semibold text-gray-700">
-                                                우편번호
-                                            </label>
+                                <div className="bg-green-50 p-4 border-l-4 border-green-400">
+                                    <label className="block text-sm font-medium text-green-800 mb-2">주소</label>
+                                    <div className="space-y-3">
+                                        <div className="flex gap-2">
                                             <input
                                                 type="text"
-                                                name="user_postcode"
                                                 value={formData.user_postcode}
-                                                onChange={handleChange}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg "
-                                                placeholder="12345"
+                                                readOnly
+                                                onClick={() => setShowPostcode(true)}
+                                                placeholder="우편번호"
+                                                className="w-2/3 border border-green-200 px-3 py-2 text-sm cursor-pointer focus:outline-none bg-white"
                                             />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPostcode(true)}
+                                                className="flex-1 px-4 py-2 font-semibold bg-green-600 hover:bg-green-700 text-white text-sm transition-colors"
+                                            >
+                                                주소 검색
+                                            </button>
                                         </div>
-
-                                        <div className="space-y-2 md:col-span-2">
-                                            <label className="block text-sm font-semibold text-gray-700">
-                                                기본 주소
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="user_address_basic"
-                                                value={formData.user_address_basic}
-                                                onChange={handleChange}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg "
-                                                placeholder="예: 서울특별시 중구 세종대로"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <label className="block text-sm font-semibold text-gray-700">
-                                            상세 주소
-                                        </label>
+                                        <input
+                                            type="text"
+                                            value={formData.user_address_basic}
+                                            readOnly
+                                            placeholder="기본주소"
+                                            className="w-full border border-green-200 px-3 py-2 text-sm bg-white"
+                                        />
                                         <input
                                             type="text"
                                             name="user_address_detail"
                                             value={formData.user_address_detail}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg "
-                                            placeholder="예: 101동 1502호"
+                                            placeholder="상세주소"
+                                            className="w-full border border-green-200 px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500"
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        {/* 버튼 섹션 */}
-                        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-                            <div className="p-8">
-                                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-end">
-                                    <button
-                                        type="button"
-                                        onClick={() => navigate('/admin/employee/list')}
-                                        className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-300 font-semibold"
+                    {/* 세 번째 박스: 근무 정보 */}
+                    <div className="bg-white shadow-lg p-6 w-1/3 space-y-4 h-full flex flex-col border border-gray-200">
+                        <div className="flex-1">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <BriefcaseIcon className="w-5 h-5 mr-2 text-blue-600" />
+                                근무 정보
+                            </h3>
+                            <div className="space-y-4">
+                                <div className="bg-purple-50 p-4 border-l-4 border-purple-400">
+                                    <label className="block text-sm font-medium text-purple-800 mb-2">직책</label>
+                                    <input
+                                        type="text"
+                                        name="user_position"
+                                        value={formData.user_position}
+                                        onChange={handleChange}
+                                        className="w-full border border-purple-200 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        placeholder="직책을 입력해주세요"
+                                    />
+                                </div>
+                                <div className="bg-purple-50 p-4 border-l-4 border-purple-400">
+                                    <label className="block text-sm font-medium text-purple-800 mb-2">입사일</label>
+                                    <input
+                                        type="date"
+                                        name="user_hire_date"
+                                        value={formData.user_hire_date}
+                                        onChange={handleChange}
+                                        className="w-full border border-purple-200 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                    />
+                                </div>
+                                <div className="bg-purple-50 p-4 border-l-4 border-purple-400">
+                                    <label className="block text-sm font-medium text-purple-800 mb-2">부서</label>
+                                    <select
+                                        name="user_department"
+                                        value={formData.user_department}
+                                        onChange={handleChange}
+                                        className="w-full border border-purple-200 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                                     >
-                                        취소
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="px-8 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                                    >
-                                        수정 완료
-                                    </button>
+                                        {Departments.map((type) => (
+                                            <option key={type.value} value={type.value}>{type.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="bg-purple-50 p-4 border-l-4 border-purple-400">
+                                    <label className="block text-sm font-medium text-purple-800 mb-2">연차수</label>
+                                    <input
+                                        type="number"
+                                        name="user_annual_leave"
+                                        value={formData.user_annual_leave}
+                                        onChange={handleChange}
+                                        className="w-full border border-purple-200 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        placeholder="연차수를 입력해주세요"
+                                    />
                                 </div>
                             </div>
                         </div>
+                        {/* 직원 수정 버튼 - 박스 하단에 고정 */}
+                        <button
+                            form="employee-form"
+                            type="submit"
+                            className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                        >
+                            <div className="flex items-center justify-center">
+                                <UserIcon className="w-5 h-5 mr-2" />
+                                직원 정보 수정
+                            </div>
+                        </button>
                     </div>
                 </form>
+
+                {showPostcode && (
+                    <div
+                        className="fixed inset-0 bg-gray-200 bg-opacity-50 z-50 flex items-center justify-center"
+                        onClick={closeModal}
+                    >
+                        <div
+                            className="bg-white p-6 shadow-2xl relative w-[600px] h-[500px]"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-xl font-bold text-gray-900">주소 검색</h3>
+                                <button
+                                    className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100 hover:bg-red-200 text-red-500 hover:text-red-700 transition-all duration-200 hover:shadow-md"
+                                    onClick={closeModal}
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <div className="h-[calc(100%-60px)]">
+                                <DaumPostcode onComplete={handleComplete} style={{ width: '100%', height: '100%' }} />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
 };
 
-export default EmployeeEdit;
+export default Edit;

@@ -1,6 +1,6 @@
 const Footer = () => {
     return (
-        <footer className="w-full border-t border-gray-700 pt-6 mt-16 text-sm text-gray-400">
+        <footer className="w-full border-t border-gray-700 pt-6 mt-16 text-sm text-gray-400 mb-6">
             <div className="max-w-2xl mx-auto px-4 grid grid-cols-1 md:grid-cols-1 gap-y-2 gap-x-8">
                 <div>
                     <p className="font-semibold">상호명</p>

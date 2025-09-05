@@ -1,17 +1,15 @@
 // import './App.css';
 import { Routes, Route } from "react-router-dom";
-import Join from './page/client/Join';
-import Login from './page/client/Login';
-import Home from "./page/client/Home";
-import Attendance from "./page/client/Attendance";
+import Join from './page/join/Join';
+import Login from './page/login/Login';
+import Home from "./page/home/Home";
 import Dashboard from "./page/admin/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
 import AttendanceManagement from "./page/admin/attendance/AttendanceManagement";
 import TimeSetting from "./page/admin/time/Setting";
 import EmployeeList from "./page/admin/employee/List";
-import MyPage from "./page/client/MyPage";
-import EmployeeRegister from "./page/admin/EmployeeRegister";
-import LoginSuccess from "./page/client/loginSuccess";
+import EmployeeRegister from "./page/admin/employee/Register";
+import LoginSuccess from "./page/login/LoginSuccess";
 import { AUTH_REQUEST } from "./reducers/auth";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -36,15 +34,6 @@ function App() {
       type: AUTH_REQUEST,
     });
   };
-
-  // const location = useLocation();
-  // const showBottomBar =
-  //   location.pathname !== '/' &&
-  //   location.pathname !== '/join' &&
-  //   location.pathname !== '/login/sucess' &&
-  //   location.pathname !== '/change/id' &&
-  //   location.pathname !== '/change/password';
-
   return (
     <>
       <Routes>
@@ -52,8 +41,6 @@ function App() {
           <Route path="join" element={<Join />} />
           <Route path="login" element={<Login />} />
           <Route path="" element={<Home />} />
-          <Route path="attendance" element={<Attendance />} />
-          <Route path="mypage" element={<MyPage />} />
           <Route path="/login/sucess" element={<LoginSuccess />} />
         </Route>
 
@@ -61,7 +48,7 @@ function App() {
           <Route path="dashboard" element={< Dashboard />} />
           <Route path="attendance" element={< AttendanceManagement />} />
           <Route path="employee/list" element={< EmployeeList />} />
-          <Route path="employee/edit/:user_code" element={< EmployeeEdit />} />
+          <Route path="employee/edit" element={< EmployeeEdit />} />
           <Route path="time/setting" element={< TimeSetting />} />
           <Route path="employee/register" element={< EmployeeRegister />} />
           <Route path="setting/workplace" element={< WorkPlace />} />

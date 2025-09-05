@@ -12,7 +12,7 @@ export default function Navbar({ user }) {
     const { auth } = useSelector((state) => state.auth);
     const menuItems = auth?.auth_code === 'A3'
         ? ['로그아웃']
-        : ['관리자', '근로자', '로그아웃'];
+        : ['관리자', '로그아웃'];
     const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -29,7 +29,6 @@ export default function Navbar({ user }) {
         } else {
             // 예시: 메뉴 항목에 따라 다른 페이지 이동
             if (item === '관리자') navigate('/admin/attendance');
-            if (item === '근로자') navigate('/attendance');
         }
 
         setIsDropdownOpen(false);
@@ -45,9 +44,9 @@ export default function Navbar({ user }) {
 
     return (
         <nav className="border-b border-gray-20">
-            <div className="max-w-[100%] px-4 sm:px-6 lg:px-8 ">
+            <div className="max-w-[100%] px-4 sm:px-6 lg:px-8">
                 <div className="flex py-4 justify-between items-center">
-                    <Link to="/" className="font-bold text-2xl text-neutral-700">
+                    <Link to="/" className="font-bold text-2xl text-blue-600">
                         tictec
                     </Link>
 
