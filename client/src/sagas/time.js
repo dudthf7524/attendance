@@ -5,13 +5,9 @@ import {
     TIME_REGISTER_SUCCESS,
     TIME_REGISTER_FAILURE,
 
-    TIME_LIST_OUTER_REQUEST,
-    TIME_LIST_OUTER_SUCCESS,
-    TIME_LIST_OUTER_FAILURE,
-
-    TIME_LIST_INNER_REQUEST,
-    TIME_LIST_INNER_SUCCESS,
-    TIME_LIST_INNER_FAILURE,
+    TIME_VIEW_REQUEST,
+    TIME_VIEW_SUCCESS,
+    TIME_VIEW_FAILURE,
 
     TIME_EDIT_REQUEST,
     TIME_EDIT_SUCCESS,
@@ -51,57 +47,37 @@ function* timeRegister(action) {
     }
 }
 
-function* watchTimeListOuter() {
-    yield takeLatest(TIME_LIST_OUTER_REQUEST, timeListOuter);
+function* watchTimeView() {
+    yield takeLatest(TIME_VIEW_REQUEST, timeView);
 }
 
-function timeListOuterAPI() {
-
-    return axios.get("/time/list/outer");
+function timeViewAPI(data) {
+    return axios.get("/time/view", { params: data });
 }
 
-function* timeListOuter() {
+function* timeView(action) {
     try {
-        const result = yield call(timeListOuterAPI);
+        const result = yield call(timeViewAPI, action.data);
+        if (result.data === 'common') {
+            alert('로그인이 필요합니다.')
+            window.location.href = "/";
+            return;
+        }
         yield put({
-            type: TIME_LIST_OUTER_SUCCESS,
+            type: TIME_VIEW_SUCCESS,
             data: result.data,
         });
 
     } catch (err) {
         console.error(err);
         yield put({
-            type: TIME_LIST_OUTER_FAILURE,
+            type: TIME_VIEW_FAILURE,
             error: err.response.data,
         });
     }
 }
 
-function* watchTimeListInner() {
-    yield takeLatest(TIME_LIST_INNER_REQUEST, timeListInner);
-}
 
-function timeListInnerAPI() {
-
-    return axios.get("/time/list/inner");
-}
-
-function* timeListInner() {
-    try {
-        const result = yield call(timeListInnerAPI);
-        yield put({
-            type: TIME_LIST_INNER_SUCCESS,
-            data: result.data,
-        });
-
-    } catch (err) {
-        console.error(err);
-        yield put({
-            type: TIME_LIST_INNER_FAILURE,
-            error: err.response.data,
-        });
-    }
-}
 
 function* watchTimeEdit() {
     yield takeLatest(TIME_EDIT_REQUEST, timeEdit);
@@ -131,6 +107,8 @@ function* timeEdit(action) {
         });
     }
 }
+
+
 
 function* watchTimeDetail() {
     yield takeLatest(TIME_DETAIL_REQUEST, timeDetail);
@@ -168,8 +146,7 @@ function* timeDetail(action) {
 export default function* timeSaga() {
     yield all([
         fork(watchTimeRegister),
-        fork(watchTimeListOuter),
-        fork(watchTimeListInner),
+        fork(watchTimeView),
         fork(watchTimeEdit),
         fork(watchTimeDetail),
     ]);

@@ -98,8 +98,41 @@ const userInfoRegister = async (data, user_code, transaction) => {
     }
 }
 
+const userInfoEdit = async (data) => {
+    console.log("data", data)
+
+    try {
+        const result = await userInfo.update(
+            {
+                user_name: data.user_name,
+                user_nickname: data.user_nickname,
+                user_position: data.user_position,
+                user_hire_date: data.user_hire_date,
+                user_phone: data.user_phone,
+                user_birth_date: data.user_birth_date,
+                user_position: data.user_position,
+                education_level_code: data.user_education,
+                department_code: data.user_department,
+                country_code: data.user_country,
+                user_blood_type: data.user_blood_type,
+                user_annual_leave: data.user_annual_leave,
+                user_postcode: data.user_postcode,
+                user_address_basic: data.user_address_basic,
+                user_address_detail: data.user_address_detail,
+            },
+            {
+                where: { user_code: data.user_code }
+            }
+        )
+        return result;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 module.exports = {
     join,
     userInfoView,
-    userInfoRegister
+    userInfoRegister,
+    userInfoEdit,
 };

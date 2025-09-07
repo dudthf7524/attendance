@@ -27,3 +27,18 @@ export const validateUserPassword = (user_password) => {
 
     return "";
 };
+
+export const validateUserName = (user_name) => {
+    const regex =
+        /^(?=.{1,10}$)[A-Za-z\uAC00-\uD7A3]+$/;
+
+    if (!user_name || user_name.trim() === "") {
+        return "이름을 입력해주세요.";
+    }
+
+    if (!regex.test(user_name.trim())) {
+        return "이름은 1~10자리의 영문 또는 한글만 포함해야 합니다.";
+    }
+
+    return "";
+};

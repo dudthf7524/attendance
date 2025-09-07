@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { UserIcon, PhoneIcon, MapPinIcon, CalendarDaysIcon, BuildingOfficeIcon, AcademicCapIcon, HeartIcon, GlobeAsiaAustraliaIcon, BriefcaseIcon, ClockIcon } from "@heroicons/react/24/outline";
+import { UserIcon, PhoneIcon, MapPinIcon, CalendarDaysIcon, BuildingOfficeIcon, AcademicCapIcon, HeartIcon, GlobeAsiaAustraliaIcon, BriefcaseIcon, ClockIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
-const View = ({ selectedUser, detailedUserData, isLoading }) => {
+const View = ({ selectedUser, detailedUserData, isLoading, timeView }) => {
   const navigate = useNavigate();
-
+  console.log(selectedUser)
   if (!selectedUser) {
     return null;
   }
@@ -11,8 +11,29 @@ const View = ({ selectedUser, detailedUserData, isLoading }) => {
 
 
   function handleEdit() {
+    const user_code = selectedUser.user_code;
+
     navigate("/admin/employee/edit", {
-      state: detailedUserData, // <- 여기에 객체를 담아서 보냄
+      state: {
+        detailedUserData,
+        user_code
+      }  
+    });
+  }
+
+  function handleTimeRegitser() {
+    navigate("/admin/time/register", {
+      state: selectedUser,
+    });
+  }
+
+  function handleTimeEdit() {
+    const user_name = selectedUser.user_info.user_name;
+    navigate("/admin/time/edit", {
+      state: {
+        timeView,
+        user_name
+      }
     });
   }
 
@@ -45,7 +66,7 @@ const View = ({ selectedUser, detailedUserData, isLoading }) => {
                     <div className="mb-2">
                       <p className="text-gray-600 text-xs mb-2">생년월일</p>
                       <p className="text-gray-800 font-medium">
-                        {detailedUserData?.education_level?.education_level_name}
+                        {detailedUserData?.user_birth_date}
                       </p>
                     </div>
                     <div className="mb-2">
@@ -139,12 +160,12 @@ const View = ({ selectedUser, detailedUserData, isLoading }) => {
             </div>
 
             <button
-              className="mt-6 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-6 transition-all duration-200 shadow-md hover: transform hover:-translate-y-0.5"
+              className="mt-6 w-full border border-gray-300  font-semibold py-3 px-6 transition-all duration-200"
               onClick={() => handleEdit()}
             >
               <div className="flex items-center justify-center">
-                <UserIcon className="w-5 h-5 mr-2" />
                 직원 수정
+                <ArrowRightIcon className="w-5 h-5 ml-2" />
               </div>
             </button>
           </div>
@@ -160,50 +181,78 @@ const View = ({ selectedUser, detailedUserData, isLoading }) => {
                   </h3>
                 </div>
 
-                {/* 시간표 정보 (현재는 임시 데이터) */}
-                <div className="space-y-4">
-                  <div className="p-4 ">
-                    <h4 className="font-semibold text-gray-800 mb-3">표준 근무시간</h4>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600 text-sm">출근 시간</span>
-                        <span className="text-indigo-500 px-3 py-1 text-sm font-medium">
-                          09:00
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600 text-sm">퇴근 시간</span>
-                        <span className="text-indigo-500 px-3 py-1 text-sm font-medium">
-                          18:00
-                        </span>
+                {timeView ? (
+                  /* 시간표 정보 */
+                  <div className="space-y-4">
+                    <div className="p-4 ">
+                      <h4 className="font-semibold text-gray-800 mb-3">표준 근무시간</h4>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600 text-sm">출근 시간</span>
+                          <span className="text-indigo-500 px-3 py-1 text-sm font-medium">
+                            {timeView.start_time}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600 text-sm">퇴근 시간</span>
+                          <span className="text-indigo-500 px-3 py-1 text-sm font-medium">
+                            {timeView.end_time}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="p-4">
-                    <h4 className="font-semibold text-gray-800 mb-3">휴게 시간</h4>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-600 text-sm">점심시간</span>
-                        <span className="text-indigo-500 px-3 py-1 text-sm font-medium">
-                          12:00 - 13:00
-                        </span>
+                    <div className="p-4">
+                      <h4 className="font-semibold text-gray-800 mb-3">휴게 시간</h4>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600 text-sm">점심시간</span>
+                          <span className="text-indigo-500 px-3 py-1 text-sm font-medium">
+                            {timeView.rest_start_time} ~ {timeView.rest_end_time}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  /* 시간 등록 요청 메시지 */
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <ClockIcon className="w-16 h-16 text-gray-300 mb-4" />
+                    <h4 className="text-lg font-semibold text-gray-600 mb-2">근무 시간이 등록되지 않았습니다</h4>
+                    <p className="text-gray-500 text-sm mb-6">
+                      이 직원의 근무 시간을 등록해주세요.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
-            <button
-              className="mt-6 w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-3 px-6 transition-all duration-200 shadow-md hover: transform hover:-translate-y-0.5"
-              onClick={() => handleEdit()}
-            >
-              <div className="flex items-center justify-center">
-                <ClockIcon className="w-5 h-5 mr-2" />
-                시간 수정
-              </div>
-            </button>
+            {
+              timeView ?
+                (
+                  <button
+                    className="mt-6 w-full border border-gray-300  font-semibold py-3 px-6 transition-all duration-200"
+                    onClick={() => handleTimeEdit()}
+                  >
+                    <div className="flex items-center justify-center">
+                      시간 수정
+                      <ArrowRightIcon className="w-5 h-5 ml-2" />
+                    </div>
+                  </button>
+                )
+                :
+                (
+                  <button
+                    className="mt-6 w-full border border-gray-300  font-semibold py-3 px-6 transition-all duration-200"
+                    onClick={() => handleTimeRegitser()}
+                  >
+                    <div className="flex items-center justify-center">
+                      시간 등록
+                      <ArrowRightIcon className="w-5 h-5 ml-2" />
+                    </div>
+                  </button>
+                )
+            }
           </div>
         </div>
       )}

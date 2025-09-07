@@ -1,202 +1,163 @@
-import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/outline"
 import { useState } from "react";
-import { TIME_REGISTER_REQUEST } from "../../../reducers/time";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  ClockIcon,
+  UserIcon,
+  CheckCircleIcon
+} from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { TIME_REGISTER_REQUEST } from "../../../reducers/time";
+
+const TimeRegister = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const selectedUser = location.state;
+  console.log(selectedUser)
+  const [timeData, setTimeData] = useState({
+    start_time: "09:00",
+    end_time: "18:00",
+    rest_start_time: "12:00",
+    rest_end_time: "13:00",
+    user_code: selectedUser?.user_code
+  });
+
+  const handleTimeChange = (e) => {
+    const { name, value } = e.target;
+    setTimeData(prev => ({ ...prev, [name]: value }));
+  };
 
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const data = timeData;
 
-const Register = ({ user_code, user_name }) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    async function handleSave() {
-        const data = formData;
-
-        dispatch({
-            type: TIME_REGISTER_REQUEST,
-            data: data
-        });
-
-        navigate('/admin/employee/list');
-
-    }
-
-    const hourOptions = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
-    const minuteOptions = Array.from({ length: 6 }, (_, i) => (i * 10).toString().padStart(2, '0'));
-
-    const [formData, setFormData] = useState({
-        startHour: "00",
-        startMin: "00",
-        endHour: "00",
-        endMin: "00",
-        breakStartHour: "00",
-        breakStartMin: "00",
-        breakEndHour: "00",
-        breakEndMin: "00",
-        user_code: user_code,
+    dispatch({
+      type: TIME_REGISTER_REQUEST,
+      data: data
     });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+    navigate('/admin/employee/list');
 
-    return (
-        <div className="bg-gray-50 rounded-xl p-4">
-            <div className="flex justify-between items-center mb-4">
-                <div>
-                    <h3 className="text-lg font-bold text-gray-900">
-                        {user_name ? `${user_name}님 ` : ''}근무시간
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-1">출근, 퇴근, 휴게시간을 설정해주세요</p>
-                </div>
+  }
 
-                <button
-                    onClick={handleSave}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-white rounded-lg transition-all duration-200"
-                >
-                    <CheckCircleIcon className="w-5 h-5" />
-                    <span>저장하기</span>
-                </button>
+
+  return (
+    <div className="w-full h-full bg-gray-100">
+      <div className="p-5 flex flex-1 flex-col gap-4 h-full">
+        <form id="time-register-form" onSubmit={handleSubmit} className="flex gap-4 flex-1 h-full">
+          <div className="bg-white p-6 w-1/3 h-full flex flex-col border border-gray-200">
+            <div className="mb-6">
+              <div className="flex items-center mb-4">
+                <UserIcon className="w-5 h-5 text-blue-600 mr-2" />
+                <h3 className="text-lg font-bold text-gray-900">직원 정보</h3>
+              </div>
+              <p className="text-xs text-gray-500">시간을 등록할 직원 정보</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* 출근시간 */}
-                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                    <div className="flex items-center mb-3">
-                        <ClockIcon className="w-5 h-5 text-green-600 mr-2" />
-                        <h4 className="text-base font-semibold text-gray-900">출근시간</h4>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                        <select
-                            name="startHour"
-                            value={formData.startHour}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
-                        >
-                            <option value="">시</option>
-                            {hourOptions.map((h) => (
-                                <option key={h} value={h}>{h}시</option>
-                            ))}
-                        </select>
-                        <span className="text-gray-500 font-medium">:</span>
-                        <select
-                            name="startMin"
-                            value={formData.startMin}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
-                        >
-                            <option value="">분</option>
-                            {minuteOptions.map((m) => (
-                                <option key={m} value={m}>{m}분</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-
-                {/* 퇴근시간 */}
-                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                    <div className="flex items-center mb-3">
-                        <ClockIcon className="w-5 h-5 text-red-600 mr-2" />
-                        <h4 className="text-base font-semibold text-gray-900">퇴근시간</h4>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                        <select
-                            name="endHour"
-                            value={formData.endHour}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
-                        >
-                            <option value="">시</option>
-                            {hourOptions.map((h) => (
-                                <option key={h} value={h}>{h}시</option>
-                            ))}
-                        </select>
-                        <span className="text-gray-500 font-medium">:</span>
-                        <select
-                            name="endMin"
-                            value={formData.endMin}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
-                        >
-                            <option value="">분</option>
-                            {minuteOptions.map((m) => (
-                                <option key={m} value={m}>{m}분</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-
-                {/* 휴게 시작 */}
-                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                    <div className="flex items-center mb-3">
-                        <ClockIcon className="w-5 h-5 text-blue-600 mr-2" />
-                        <h4 className="text-base font-semibold text-gray-900">휴게 시작</h4>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                        <select
-                            name="breakStartHour"
-                            value={formData.breakStartHour}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                        >
-                            <option value="">시</option>
-                            {hourOptions.map((h) => (
-                                <option key={h} value={h}>{h}시</option>
-                            ))}
-                        </select>
-                        <span className="text-gray-500 font-medium">:</span>
-                        <select
-                            name="breakStartMin"
-                            value={formData.breakStartMin}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                        >
-                            <option value="">분</option>
-                            {minuteOptions.map((m) => (
-                                <option key={m} value={m}>{m}분</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-
-                {/* 휴게 종료 */}
-                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                    <div className="flex items-center mb-3">
-                        <ClockIcon className="w-5 h-5 text-purple-600 mr-2" />
-                        <h4 className="text-base font-semibold text-gray-900">휴게 종료</h4>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                        <select
-                            name="breakEndHour"
-                            value={formData.breakEndHour}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-                        >
-                            <option value="">시</option>
-                            {hourOptions.map((h) => (
-                                <option key={h} value={h}>{h}시</option>
-                            ))}
-                        </select>
-                        <span className="text-gray-500 font-medium">:</span>
-                        <select
-                            name="breakEndMin"
-                            value={formData.breakEndMin}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
-                        >
-                            <option value="">분</option>
-                            {minuteOptions.map((m) => (
-                                <option key={m} value={m}>{m}분</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
+            <div className="space-y-4 flex-1">
+              <div className="py-4">
+                <label className="block text-sm font-semibold text-gray-800 mb-3">
+                  직원명
+                </label>
+                <input
+                  type="text"
+                  value={selectedUser?.user_info.user_name || ""}
+                  readOnly
+                  className="w-full border-2 border-gray-300 px-3 py-2.5 text-sm bg-gray-100"
+                />
+              </div>
             </div>
-        </div>
-    )
-}
-export default Register
+          </div>
 
+          <div className="bg-white p-6 w-1/3 h-full flex flex-col border border-gray-200">
+            <div className="mb-6">
+              <div className="flex items-center mb-4">
+                <ClockIcon className="w-5 h-5 text-green-600 mr-2" />
+                <h3 className="text-lg font-bold text-gray-900">근무 시간</h3>
+              </div>
+              <p className="text-xs text-gray-500">출근 및 퇴근 시간 설정</p>
+            </div>
 
+            <div className="space-y-6 flex-1">
+              <div className=" py-4">
+                <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                  출근 시간
+                </label>
+                <input
+                  type="time"
+                  name="start_time"
+                  value={timeData.start_time}
+                  onChange={handleTimeChange}
+                  className="w-full border-2 border-gray-300 px-3 py-2.5 text-sm"
+                />
+              </div>
+
+              <div className=" py-4">
+                <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                  퇴근 시간
+                </label>
+                <input
+                  type="time"
+                  name="end_time"
+                  value={timeData.end_time}
+                  onChange={handleTimeChange}
+                  className="w-full border-2 border-gray-300  px-3 py-2.5 text-sm"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 w-1/3 h-full flex flex-col border border-gray-200">
+            <div className="mb-6">
+              <div className="flex items-center mb-4">
+                <ClockIcon className="w-5 h-5 text-orange-600 mr-2" />
+                <h3 className="text-lg font-bold text-gray-900">휴계 시간</h3>
+              </div>
+              <p className="text-xs text-gray-500">점심시간 및 휴계시간 설정</p>
+            </div>
+
+            <div className="space-y-6 flex-1">
+              <div className=" py-4">
+                <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                  휴계 시작
+                </label>
+                <input
+                  type="time"
+                  name="rest_start_time"
+                  value={timeData.rest_start_time}
+                  onChange={handleTimeChange}
+                  className="w-full border-2 border-gray-300 px-3 py-2.5 text-sm"
+                />
+              </div>
+
+              <div className=" py-4">
+                <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                  휴계 종료
+                </label>
+                <input
+                  type="time"
+                  name="rest_end_time"
+                  value={timeData.rest_end_time}
+                  onChange={handleTimeChange}
+                  className="w-full border-2 border-gray-300 focus:border-purple-500 px-3 py-2.5 text-sm"
+                />
+              </div>
+            </div>
+
+            <button
+              form="time-register-form"
+              type="submit"
+              className="mt-6 w-full border border-gray-300 font-bold py-4 px-6 flex items-center justify-center"
+            >
+              <CheckCircleIcon className="w-5 h-5 mr-2" />
+              시간 등록하기
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default TimeRegister;

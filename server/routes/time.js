@@ -5,14 +5,7 @@ const authMiddlewareSession = require('../middleware/authMiddlewareSession');
 const verifyToken = require('../token/verityToken');
 
 router.post("/register", async (req, res) => {
-    console.log(req.body);
-    const data = {
-        start_time: req.body.startHour + ":" + req.body.startMin,
-        end_time: req.body.endHour + ":" + req.body.endMin,
-        rest_start_time: req.body.breakStartHour + ":" + req.body.breakStartMin,
-        rest_end_time: req.body.breakEndHour + ":" + req.body.breakEndMin,
-        user_code: req.body.user_code
-    };
+    const data = req.body;
 
     try {
         const result = await time.timeRegister(data)
@@ -23,39 +16,20 @@ router.post("/register", async (req, res) => {
     }
 });
 
-router.get("/list/outer", async (req, res) => {
-    console.log(req.user.company_code)
-    const company_code = req.user.company_code;
+router.get("/view", async (req, res) => {
+    console.log(req.query);
+    const data = req.query;
+
     try {
-        const result = await time.timeListOuter(company_code)
-        console.log("result", result)
+        const result = await time.timeView(data)
         res.json(result);
-
-    } catch (error) {
-        console.error(error)
-    }
-});
-
-router.get("/list/inner", async (req, res) => {
-    const company_code = req.user.company_code;
-    try {
-        const result = await time.timeListInner(company_code)
-        res.json(result);
-
     } catch (error) {
         console.error(error)
     }
 });
 
 router.post("/edit", async (req, res) => {
-    console.log(req.body);
-    const data = {
-        start_time: req.body.startHour + ":" + req.body.startMin,
-        end_time: req.body.endHour + ":" + req.body.endMin,
-        rest_start_time: req.body.breakStartHour + ":" + req.body.breakStartMin,
-        rest_end_time: req.body.breakEndHour + ":" + req.body.breakEndMin,
-        time_id: req.body.time_id
-    };
+    const data = req.body;
 
     try {
         const result = await time.timeEdit(data)

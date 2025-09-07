@@ -5,21 +5,16 @@ export const initialState = {
     time_register_done: false,
     time_register_error: null,
 
-    time_list_outer_Loading: false,
-    time_list_outer_done: false,
-    time_list_outer_error: null,
-
-    time_list_inner_Loading: false,
-    time_list_inner_done: false,
-    time_list_inner_error: null,
+    time_view_Loading: false,
+    time_view_done: false,
+    time_view_error: null,
 
     time_detail_Loading: false,
     time_detail_done: false,
     time_detail_error: null,
-
-    timeListOuter: null,
-    timeListInner: null,
-    timeDetail:null,
+    
+    timeDetail: null,
+    timeView: null,
 
 };
 
@@ -27,13 +22,9 @@ export const TIME_REGISTER_REQUEST = "TIME_REGISTER_REQUEST";
 export const TIME_REGISTER_SUCCESS = "TIME_REGISTER_SUCCESS";
 export const TIME_REGISTER_FAILURE = "TIME_REGISTER_FAILURE";
 
-export const TIME_LIST_OUTER_REQUEST = "TIME_LIST_OUTER_REQUEST";
-export const TIME_LIST_OUTER_SUCCESS = "TIME_LIST_OUTER_SUCCESS";
-export const TIME_LIST_OUTER_FAILURE = "TIME_LIST_OUTER_FAILURE";
-
-export const TIME_LIST_INNER_REQUEST = "TIME_LIST_INNER_REQUEST";
-export const TIME_LIST_INNER_SUCCESS = "TIME_LIST_INNER_SUCCESS";
-export const TIME_LIST_INNER_FAILURE = "TIME_LIST_INNER_FAILURE";
+export const TIME_VIEW_REQUEST = "TIME_VIEW_REQUEST";
+export const TIME_VIEW_SUCCESS = "TIME_VIEW_SUCCESS";
+export const TIME_VIEW_FAILURE = "TIME_VIEW_FAILURE";
 
 export const TIME_EDIT_REQUEST = "TIME_EDIT_REQUEST";
 export const TIME_EDIT_SUCCESS = "TIME_EDIT_SUCCESS";
@@ -60,33 +51,19 @@ const reducer = (state = initialState, action) => {
                 draft.time_register_Loading = false;
                 draft.time_register_error = action.error;
                 break;
-            case TIME_LIST_OUTER_REQUEST:
-                draft.time_list_outer_Loading = true;
-                draft.time_list_outer_error = null;
-                draft.time_list_outer_done = false;
+            case TIME_VIEW_REQUEST:
+                draft.time_view_Loading = true;
+                draft.time_view_error = null;
+                draft.time_view_done = false;
                 break;
-            case TIME_LIST_OUTER_SUCCESS:
-                draft.time_list_outer_Loading = false;
-                draft.timeListOuter = action.data;
-                draft.time_list_outer_done = true;
+            case TIME_VIEW_SUCCESS:
+                draft.time_view_Loading = false;
+                draft.timeView = action.data;
+                draft.time_view_done = true;
                 break;
-            case TIME_LIST_OUTER_FAILURE:
-                draft.time_list_outer_Loading = false;
-                draft.time_list_outer_error = action.error;
-                break;
-            case TIME_LIST_INNER_REQUEST:
-                draft.time_list_inner_Loading = true;
-                draft.time_list_inner_error = null;
-                draft.time_list_inner_done = false;
-                break;
-            case TIME_LIST_INNER_SUCCESS:
-                draft.time_list_inner_Loading = false;
-                draft.timeListInner = action.data;
-                draft.time_list_inner_done = true;
-                break;
-            case TIME_LIST_INNER_FAILURE:
-                draft.time_list_inner_Loading = false;
-                draft.time_list_inner_error = action.error;
+            case TIME_VIEW_FAILURE:
+                draft.time_view_Loading = false;
+                draft.time_view_error = action.error;
                 break;
             case TIME_EDIT_REQUEST:
                 draft.time_edit_Loading = true;

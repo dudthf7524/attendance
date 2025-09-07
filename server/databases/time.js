@@ -16,47 +16,11 @@ const timeRegister = async (data) => {
     }
 };
 
-const timeListOuter = async (company_code) => {
+const timeView = async (data) => {
     try {
-        const result = await user.findAll({
-            attributes: ['user_code'],
-            include: [
-                {
-                    model: time,
-                    required: false,
-                },
-                {
-                    model: userInfo,
-                    attributes: ['user_name', 'user_nickname', 'user_hire_date', 'user_position'],
-                    required: true,
-                },
-            ],
-            where: { company_code: company_code },
-        })
-        console.log(result)
-        return result;
-    } catch (error) {
-        console.error(error);
-    } 
-};
-
-const timeListInner = async (company_code) => {
-    try {
-        const result = await user.findAll({
-            attributes: ['user_code'],
-            include: [
-                {
-                    model: time,
-                    required: true,
-                },
-                {
-                    model: userInfo,
-                    attributes: ['user_name', 'user_nickname', 'user_hire_date', 'user_position'],
-                    required: true,
-                },
-            ],
-            where: { company_code: company_code },
-
+        const result = await time.findOne({
+            where: { user_code: data.user_code },
+            raw: true
         })
         return result;
     } catch (error) {
@@ -95,8 +59,7 @@ const timeDetail = async (user_code) => {
 
 module.exports = {
     timeRegister,
-    timeListOuter,
-    timeListInner,
+    timeView,
     timeEdit,
     timeDetail,
 };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { USER_CHECK_ID_REQUEST, USER_REGISTER_REQUEST } from "../../../reducers/user";
+import { USER_CHECK_ID_REQUEST, USER_EDIT_REQUEST, USER_REGISTER_REQUEST } from "../../../reducers/user";
 import { UserIcon, PhoneIcon, BriefcaseIcon } from "@heroicons/react/24/outline";
 import { Countries } from "../../../constant/Countries";
 import { Departments } from "../../../constant/Departments";
@@ -13,14 +13,9 @@ import { useLocation } from "react-router-dom";
 const Edit = () => {
     const dispatch = useDispatch();
     const location = useLocation();
-    const detailedUserData = location.state; // navigate에서 넘긴 데이터가 여기 들어옴
-
+    const detailedUserData = location.state.detailedUserData; // navigate에서 넘긴 데이터가 여기 들어옴  
+    const user_code = location.state.user_code;
     const phone = detailedUserData?.user_phone?.split("-") ?? ["010", "", ""];
-
-    const [checkIdState, setCheckIdState] = useState(false);
-    const [isAvailable, setIsAvailable] = useState(false);
-    const [user_id_error, user_id_setError] = useState(null);
-    const [user_password_error, user_password_setError] = useState(null);
 
     const [formData, setFormData] = useState({
         user_name: detailedUserData?.user_name || "",
@@ -37,6 +32,7 @@ const Edit = () => {
         user_postcode: detailedUserData?.user_postcode || "",
         user_address_basic: detailedUserData?.user_address_basic || "",
         user_address_detail: detailedUserData?.user_address_detail || "",
+        user_code: user_code || '',
     });
 
     const handleChange = (e) => {
@@ -57,7 +53,7 @@ const Edit = () => {
         console.log(data)
 
         dispatch({
-            type: USER_REGISTER_REQUEST,
+            type: USER_EDIT_REQUEST,
             data: data
         });
     }
@@ -75,27 +71,6 @@ const Edit = () => {
             [name]: value
         });
     };
-
-    const checkId = () => {
-        const data = {
-            user_id: formData.user_id
-        }
-        dispatch({
-            type: USER_CHECK_ID_REQUEST,
-            data: data
-        });
-    }
-
-    const { userCheckId } = useSelector((state) => state.user);
-    useEffect(() => {
-        if (userCheckId === 0) {
-            setIsAvailable(true);
-            setCheckIdState(true)
-        } else if (userCheckId === 1) {
-            setIsAvailable(false);
-            setCheckIdState(true)
-        }
-    }, [userCheckId])
 
     const handleComplete = (data) => {
         let fullAddress = data.address;
@@ -128,7 +103,7 @@ const Edit = () => {
     }
 
     return (
-        <div className="w-full h-full bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="w-full h-full bg-gray-50">
             <div className="p-6 flex flex-1 flex-col gap-6 h-full">
                 <form id="employee-form" onSubmit={userRegister} className="flex gap-6 flex-1 h-full">
                     {/* 첫 번째 박스: 기본 정보 */}
@@ -139,44 +114,44 @@ const Edit = () => {
                                 기본 정보
                             </h3>
                             <div className="space-y-4">
-                                <div className="bg-blue-50 p-4 border-l-4 border-blue-400">
-                                    <label className="block text-sm font-medium text-blue-800 mb-2">이름</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">이름</label>
                                     <input
                                         type="text"
                                         name="user_name"
                                         value={formData.user_name}
                                         onChange={handleChange}
-                                        className="w-full border border-blue-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                         placeholder="이름을 입력해주세요"
                                     />
                                 </div>
-                                <div className="bg-blue-50 p-4 border-l-4 border-blue-400">
-                                    <label className="block text-sm font-medium text-blue-800 mb-2">닉네임</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">닉네임</label>
                                     <input
                                         name="user_nickname"
                                         value={formData.user_nickname}
                                         onChange={handleChange}
-                                        className="w-full border border-blue-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                         placeholder="닉네임을 입력하세요"
                                     />
                                 </div>
-                                <div className="bg-blue-50 p-4 border-l-4 border-blue-400">
-                                    <label className="block text-sm font-medium text-blue-800 mb-2">생년월일</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">생년월일</label>
                                     <input
                                         type="date"
                                         name="user_birth_date"
                                         value={formData.user_birth_date}
                                         onChange={handleChange}
-                                        className="w-full border border-blue-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                     />
                                 </div>
-                                <div className="bg-blue-50 p-4 border-l-4 border-blue-400">
-                                    <label className="block text-sm font-medium text-blue-800 mb-2">국가</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">국가</label>
                                     <select
                                         name="user_country"
                                         value={formData.user_country}
                                         onChange={handleChange}
-                                        className="w-full border border-blue-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                     >
                                         {Countries.map((type) => (
                                             <option key={type.value} value={type.value}>{type.label}</option>
@@ -191,38 +166,38 @@ const Edit = () => {
                     <div className="bg-white shadow-lg p-6 w-1/3 space-y-4 h-full flex flex-col border border-gray-200">
                         <div className="flex-1">
                             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                                <PhoneIcon className="w-5 h-5 mr-2 text-blue-600" />
+                                <PhoneIcon className="w-5 h-5 mr-2 text-red-600" />
                                 개인 정보
                             </h3>
                             <div className="space-y-4">
-                                <div className="bg-green-50 p-4 border-l-4 border-green-400">
-                                    <label className="block text-sm font-medium text-green-800 mb-2">혈액형</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">혈액형</label>
                                     <select
                                         name="user_blood_type"
                                         value={formData.user_blood_type}
                                         onChange={handleChange}
-                                        className="w-full border border-green-200 px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                     >
                                         {BloodTypes.map((type) => (
                                             <option key={type.value} value={type.value}>{type.label}</option>
                                         ))}
                                     </select>
                                 </div>
-                                <div className="bg-green-50 p-4 border-l-4 border-green-400">
-                                    <label className="block text-sm font-medium text-green-800 mb-2">최종학력</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">최종학력</label>
                                     <select
                                         name="user_education"
                                         value={formData.user_education}
                                         onChange={handleChange}
-                                        className="w-full border border-green-200 px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                     >
                                         {EducationLevels.map((type) => (
                                             <option key={type.value} value={type.value}>{type.label}</option>
                                         ))}
                                     </select>
                                 </div>
-                                <div className="bg-green-50 p-4 border-l-4 border-green-400">
-                                    <label className="block text-sm font-medium text-green-800 mb-2">연락처</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">연락처</label>
                                     <div className="flex gap-2 items-center">
                                         <input
                                             type="text"
@@ -230,7 +205,7 @@ const Edit = () => {
                                             maxLength={3}
                                             value={phoneData.phone_1}
                                             onChange={phoneDataChange}
-                                            className="w-1/3 px-2 py-2 text-sm border border-green-200 text-center focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            className="w-1/3 px-2 py-2 text-sm text-center border border-gray-300"
                                             placeholder="010"
                                         />
                                         <span className="text-green-600">-</span>
@@ -240,7 +215,7 @@ const Edit = () => {
                                             maxLength={4}
                                             value={phoneData.phone_2}
                                             onChange={phoneDataChange}
-                                            className="w-1/3 px-2 py-2 text-sm border border-green-200 text-center focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            className="w-1/3 px-2 py-2 text-sm text-center border border-gray-300"
                                             placeholder="1234"
                                         />
                                         <span className="text-green-600">-</span>
@@ -250,13 +225,13 @@ const Edit = () => {
                                             maxLength={4}
                                             value={phoneData.phone_3}
                                             onChange={phoneDataChange}
-                                            className="w-1/3 px-2 py-2 text-sm border border-green-200 text-center focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            className="w-1/3 px-2 py-2 text-sm text-center border border-gray-300"
                                             placeholder="5678"
                                         />
                                     </div>
                                 </div>
-                                <div className="bg-green-50 p-4 border-l-4 border-green-400">
-                                    <label className="block text-sm font-medium text-green-800 mb-2">주소</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">주소</label>
                                     <div className="space-y-3">
                                         <div className="flex gap-2">
                                             <input
@@ -265,12 +240,12 @@ const Edit = () => {
                                                 readOnly
                                                 onClick={() => setShowPostcode(true)}
                                                 placeholder="우편번호"
-                                                className="w-2/3 border border-green-200 px-3 py-2 text-sm cursor-pointer focus:outline-none bg-white"
+                                                className="w-2/3 border border-gray-300 px-3 py-2 text-sm cursor-pointer"
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowPostcode(true)}
-                                                className="flex-1 px-4 py-2 font-semibold bg-green-600 hover:bg-green-700 text-white text-sm transition-colors"
+                                                className="flex-1 px-4 py-2 font-semibold text-sm border border-gray-300"
                                             >
                                                 주소 검색
                                             </button>
@@ -280,7 +255,7 @@ const Edit = () => {
                                             value={formData.user_address_basic}
                                             readOnly
                                             placeholder="기본주소"
-                                            className="w-full border border-green-200 px-3 py-2 text-sm bg-white"
+                                            className="w-full border border-gray-300 px-3 py-2 text-sm"
                                         />
                                         <input
                                             type="text"
@@ -288,7 +263,7 @@ const Edit = () => {
                                             value={formData.user_address_detail}
                                             onChange={handleChange}
                                             placeholder="상세주소"
-                                            className="w-full border border-green-200 px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            className="w-full border border-gray-300 px-3 py-2 text-sm"
                                         />
                                     </div>
                                 </div>
@@ -300,52 +275,52 @@ const Edit = () => {
                     <div className="bg-white shadow-lg p-6 w-1/3 space-y-4 h-full flex flex-col border border-gray-200">
                         <div className="flex-1">
                             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                                <BriefcaseIcon className="w-5 h-5 mr-2 text-blue-600" />
+                                <BriefcaseIcon className="w-5 h-5 mr-2 text-green-600" />
                                 근무 정보
                             </h3>
                             <div className="space-y-4">
-                                <div className="bg-purple-50 p-4 border-l-4 border-purple-400">
-                                    <label className="block text-sm font-medium text-purple-800 mb-2">직책</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">직책</label>
                                     <input
                                         type="text"
                                         name="user_position"
                                         value={formData.user_position}
                                         onChange={handleChange}
-                                        className="w-full border border-purple-200 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                         placeholder="직책을 입력해주세요"
                                     />
                                 </div>
-                                <div className="bg-purple-50 p-4 border-l-4 border-purple-400">
-                                    <label className="block text-sm font-medium text-purple-800 mb-2">입사일</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">입사일</label>
                                     <input
                                         type="date"
                                         name="user_hire_date"
                                         value={formData.user_hire_date}
                                         onChange={handleChange}
-                                        className="w-full border border-purple-200 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                     />
                                 </div>
-                                <div className="bg-purple-50 p-4 border-l-4 border-purple-400">
-                                    <label className="block text-sm font-medium text-purple-800 mb-2">부서</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">부서</label>
                                     <select
                                         name="user_department"
                                         value={formData.user_department}
                                         onChange={handleChange}
-                                        className="w-full border border-purple-200 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                     >
                                         {Departments.map((type) => (
                                             <option key={type.value} value={type.value}>{type.label}</option>
                                         ))}
                                     </select>
                                 </div>
-                                <div className="bg-purple-50 p-4 border-l-4 border-purple-400">
-                                    <label className="block text-sm font-medium text-purple-800 mb-2">연차수</label>
+                                <div className="p-4">
+                                    <label className="block text-sm font-medium mb-2">연차수</label>
                                     <input
                                         type="number"
                                         name="user_annual_leave"
                                         value={formData.user_annual_leave}
                                         onChange={handleChange}
-                                        className="w-full border border-purple-200 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full border border-gray-300 px-3 py-2 text-sm"
                                         placeholder="연차수를 입력해주세요"
                                     />
                                 </div>
@@ -355,10 +330,9 @@ const Edit = () => {
                         <button
                             form="employee-form"
                             type="submit"
-                            className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                            className="w-full px-6 py-3 font-semibold border border-gary-300"
                         >
                             <div className="flex items-center justify-center">
-                                <UserIcon className="w-5 h-5 mr-2" />
                                 직원 정보 수정
                             </div>
                         </button>

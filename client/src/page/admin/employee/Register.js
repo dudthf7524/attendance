@@ -24,6 +24,7 @@ import {
   CheckCircleIcon,
   XCircleIcon
 } from "@heroicons/react/24/outline";
+import { validateUserName } from "../../../hooks/validate/Login";
 
 const UserEdit = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const UserEdit = () => {
   const [isAvailable, setIsAvailable] = useState(false);
   const [user_id_error, user_id_setError] = useState(null);
   const [user_password_error, user_password_setError] = useState(null);
+  const [user_name_error, user_name_setError] = useState(null);
 
   const [formData, setFormData] = useState({
     user_id: "",
@@ -94,6 +96,11 @@ const UserEdit = () => {
   };
 
   const checkId = () => {
+
+    if (user_id_error) {
+      return;
+    }
+
     const data = {
       user_id: formData.user_id
     }
@@ -151,9 +158,8 @@ const UserEdit = () => {
               <p className="text-xs text-gray-500">시스템 접근을 위한 계정 정보</p>
             </div>
             <div className="space-y-6 flex-1">
-              <div className="bg-blue-50 p-4">
+              <div className="bg-gray-50 p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
-                  <IdentificationIcon className="w-4 h-4 mr-2 text-blue-600" />
                   사용자 아이디
                 </label>
                 <div className="flex gap-2">
@@ -166,16 +172,16 @@ const UserEdit = () => {
                       user_id_setError(errorMessage);
                     }}
                     readOnly={isAvailable}
-                    className="flex-1 border-2 border-gray-300 focus:border-blue-500 focus:ring-blue-200 focus:ring-2 px-3 py-2.5 text-sm transition-all duration-200"
+                    className="flex-1 border-2 border-gray-300 px-3 py-2.5 text-sm "
                     placeholder="영문, 숫자 조합"
                   />
                   <button
                     type="button"
                     onClick={checkId}
                     disabled={isAvailable}
-                    className={`px-4 py-2.5 text-xs font-semibold transition-all duration-300 flex items-center-md ${isAvailable
-                        ? "bg-green-500 hover:bg-green-600 text-white"
-                        : "bg-blue-600 hover:bg-blue-700 text-white hover:shadow"
+                    className={`px-4 py-3 text-xs font-semibold transition-all duration-300 flex items-center-md ${isAvailable
+                      ? "bg-white border border-gray-300 text-gray-400"
+                      : "border border-gray-300 bg-white"
                       }`}
                   >
                     {isAvailable ? (
@@ -213,7 +219,6 @@ const UserEdit = () => {
 
               <div className="bg-gray-50 p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
-                  <KeyIcon className="w-4 h-4 mr-2 text-gray-600" />
                   비밀번호
                 </label>
                 <input
@@ -225,7 +230,7 @@ const UserEdit = () => {
                     const errorMessage = validateUserPassword(formData.user_password);
                     user_password_setError(errorMessage);
                   }}
-                  className="w-full border-2 border-gray-300 focus:border-blue-500 focus:ring-blue-200 focus:ring-2 px-3 py-2.5 text-sm transition-all duration-200"
+                  className="w-full border-2 border-gray-300 px-3 py-2.5 text-sm transition-all duration-200"
                   placeholder="8자 이상의 안전한 비밀번호"
                 />
                 {user_password_error && (
@@ -247,7 +252,7 @@ const UserEdit = () => {
             </div>
 
             <div className="space-y-4 flex-1">
-              <div className="bg-green-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <UserIcon className="w-4 h-4 mr-2 text-green-600" />
                   이름
@@ -257,12 +262,22 @@ const UserEdit = () => {
                   name="user_name"
                   value={formData.user_name}
                   onChange={handleChange}
-                  className="w-full border-2 border-gray-300 focus:border-green-500 focus:ring-green-200 focus:ring-2  px-3 py-2.5 text-sm transition-all duration-200"
+                  onBlur={() => {
+                    const errorMessage = validateUserName(formData.user_name);
+                    user_name_setError(errorMessage);
+                  }}
+                  className="w-full border-2 border-gray-300 px-3 py-2.5 text-sm transition-all duration-200"
                   placeholder="실명을 입력해주세요"
                 />
+                {user_name_error && (
+                  <div className="flex items-center mt-2 text-red-600 text-sm">
+                    <XCircleIcon className="w-4 h-4 mr-1" />
+                    {user_name_error}
+                  </div>
+                )}
               </div>
 
-              <div className="bg-blue-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <IdentificationIcon className="w-4 h-4 mr-2 text-blue-600" />
                   닉네임
@@ -276,7 +291,7 @@ const UserEdit = () => {
                 />
               </div>
 
-              <div className="bg-yellow-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <CalendarDaysIcon className="w-4 h-4 mr-2 text-yellow-600" />
                   생년월일
@@ -290,7 +305,7 @@ const UserEdit = () => {
                 />
               </div>
 
-              <div className="bg-purple-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <GlobeAsiaAustraliaIcon className="w-4 h-4 mr-2 text-purple-600" />
                   국적
@@ -318,7 +333,7 @@ const UserEdit = () => {
             </div>
 
             <div className="space-y-4 flex-1">
-              <div className="bg-red-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <HeartIcon className="w-4 h-4 mr-2 text-red-500" />
                   혈액형
@@ -335,7 +350,7 @@ const UserEdit = () => {
                 </select>
               </div>
 
-              <div className="bg-indigo-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <AcademicCapIcon className="w-4 h-4 mr-2 text-indigo-600" />
                   최종학력
@@ -352,7 +367,7 @@ const UserEdit = () => {
                 </select>
               </div>
 
-              <div className="bg-blue-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <PhoneIcon className="w-4 h-4 mr-2 text-blue-600" />
                   연락처
@@ -390,7 +405,7 @@ const UserEdit = () => {
                 </div>
               </div>
 
-              <div className="bg-green-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <MapPinIcon className="w-4 h-4 mr-2 text-green-600" />
                   주소
@@ -444,7 +459,7 @@ const UserEdit = () => {
             </div>
 
             <div className="space-y-4 flex-1">
-              <div className="bg-orange-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <BriefcaseIcon className="w-4 h-4 mr-2 text-orange-600" />
                   직책
@@ -459,7 +474,7 @@ const UserEdit = () => {
                 />
               </div>
 
-              <div className="bg-blue-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <CalendarDaysIcon className="w-4 h-4 mr-2 text-blue-600" />
                   입사일
@@ -473,7 +488,7 @@ const UserEdit = () => {
                 />
               </div>
 
-              <div className="bg-purple-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <BuildingOfficeIcon className="w-4 h-4 mr-2 text-purple-600" />
                   부서
@@ -490,7 +505,7 @@ const UserEdit = () => {
                 </select>
               </div>
 
-              <div className="bg-green-50  p-4">
+              <div className="bg-gray-50  p-4">
                 <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
                   <ClockIcon className="w-4 h-4 mr-2 text-green-600" />
                   연차수
@@ -511,7 +526,7 @@ const UserEdit = () => {
             <button
               form="employee-form"
               type="submit"
-              className="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-6  transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
+              className="mt-6 w-full border border-gray-300 font-bold py-4 px-6  transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center"
             >
               <UserIcon className="w-5 h-5 mr-2" />
               직원 등록하기

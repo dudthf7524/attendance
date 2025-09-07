@@ -6,7 +6,6 @@ import Home from "./page/home/Home";
 import Dashboard from "./page/admin/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
 import AttendanceManagement from "./page/admin/attendance/AttendanceManagement";
-import TimeSetting from "./page/admin/time/Setting";
 import EmployeeList from "./page/admin/employee/List";
 import EmployeeRegister from "./page/admin/employee/Register";
 import LoginSuccess from "./page/login/LoginSuccess";
@@ -21,6 +20,7 @@ import VacationApproval from "./page/admin/VacationApproval";
 import EmployeeEdit from "./page/admin/employee/Edit";
 import Register from "./page/admin/setting/workPlace/Register";
 import Edit from "./page/admin/setting/workPlace/Edit";
+import TimeRegister from "./page/admin/time/Register";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,21 +37,21 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="join" element={<Join />} />
+        <Route path="login" element={<Login />} />
+        <Route path="/login/sucess" element={<LoginSuccess />} />
+        
         <Route element={<ClientLayout />}>
-          <Route path="join" element={<Join />} />
-          <Route path="login" element={<Login />} />
           <Route path="" element={<Home />} />
-          <Route path="/login/sucess" element={<LoginSuccess />} />
         </Route>
-
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={< Dashboard />} />
           <Route path="attendance" element={< AttendanceManagement />} />
           <Route path="employee/list" element={< EmployeeList />} />
           <Route path="employee/edit" element={< EmployeeEdit />} />
-          <Route path="time/setting" element={< TimeSetting />} />
           <Route path="employee/register" element={< EmployeeRegister />} />
           <Route path="setting/workplace" element={< WorkPlace />} />
+          <Route path="time/register" element={< TimeRegister />} />
           <Route path="time/edit" element={< TimeEdit />} />
           <Route path="vacation" element={< Vacation />} />
           <Route path="vacation/approval" element={< VacationApproval />} />

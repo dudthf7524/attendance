@@ -90,7 +90,6 @@ router.post("/register", authMiddlewareSession, async (req, res) => {
         user_nickname: data.user_nickname,
     }
 
-
     try {
         const user_code = await user.userRegister(userData, company_code, t);
         await userInfo.userInfoRegister(userInfoData, user_code, t)
@@ -110,10 +109,9 @@ router.post("/register", authMiddlewareSession, async (req, res) => {
 });
 
 router.post("/edit", async (req, res) => {
-    console.log(req.body)
     const data = req.body;
     try {
-        const result = await user.userEdit(data);
+        const result = await userInfo.userInfoEdit(data);
         res.json(result);
     } catch (error) {
         console.error(error)

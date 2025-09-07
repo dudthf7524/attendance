@@ -93,7 +93,7 @@ const userRegister = async (data, company_code, transaction) => {
 };
 
 const userEdit = async (data) => {
-    console.log(data)
+    console.log("data", data)
 
     try {
         const result = await user.update(

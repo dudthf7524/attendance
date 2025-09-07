@@ -109,58 +109,61 @@ const CompanyAddress = () => {
   }
 
   return (
-
-    <div className="w-full min-w-[700px] overflow-x-auto">
-      <div className="bg-white rounded-xl shadow p-5 flex flex-col">
-        <div className="mb-3">
-          <div className="inline-block mb-3">
-            <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-              🌍 위치 설정 시스템
-            </span>
-          </div>
-          <h1 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
-            GPS 근무지 설정
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            {workPlaceData
-              ? "설정된 근무지 정보를 확인하고 수정할 수 있습니다"
-              : "정확한 근무 위치와 출근 허용 범위를 설정하여 GPS 기반 출결 관리를 시작하세요"
-            }
-          </p>
-        </div>
-
+    <div className="w-full h-full bg-gray-100">
+      <div className="p-5 flex flex-1 flex-col gap-4 h-full">
         {workPlaceData ?
           (
             <Detail workPlaceData={workPlaceData} location={location} />
           )
           :
           (
-            // 근무지 데이터가 없을 때 - '위치 설정하기' 버튼 표시
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-              <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100">
-                <h2 className="text-xl font-bold text-gray-900 mb-2">근무지 설정 필요</h2>
-                <p className="text-sm text-gray-600">
-                  GPS 기반 출결 관리를 위해 근무지를 설정해주세요
-                </p>
+            <div className="flex gap-4 flex-1 h-full">
+              <div className="bg-white p-6 w-1/3 h-full flex flex-col border border-gray-200">
+                <div className="mb-6">
+                  <div className="flex items-center mb-4">
+                    <MapIcon className="w-5 h-5 text-blue-600 mr-2" />
+                    <h3 className="text-lg font-bold text-gray-900">GPS 근무지 설정</h3>
+                  </div>
+                  <p className="text-xs text-gray-500">GPS 기반 출결 관리 시스템</p>
+                </div>
+                
+                <div className="space-y-6 flex-1">
+                  <div className="bg-gray-50 p-4">
+                    <h4 className="text-sm font-semibold text-gray-800 mb-3">설정 필요</h4>
+                    <p className="text-xs text-gray-600 mb-4">
+                      근무지가 설정되지 않았습니다. 정확한 출결 관리를 위해 근무지 위치와 허용 반경을 설정해주세요.
+                    </p>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={handleRegister}
+                  className="mt-6 w-full border border-gray-300 font-semibold py-3 px-6 transition-all duration-200"
+                >
+                  <div className="flex items-center justify-center">
+                    <MapPinIcon className="w-5 h-5 mr-2" />
+                    위치 설정하기
+                  </div>
+                </button>
               </div>
 
-              <div className="p-8 text-center">
-                <div className="max-w-md mx-auto">
-                  <MapIcon className="w-24 h-24 mx-auto text-gray-300 mb-6" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    아직 근무지가 설정되지 않았습니다
-                  </h3>
-                  <p className="text-gray-600 mb-8">
-                    정확한 출결 관리를 위해 근무지 위치와 허용 반경을 설정해주세요.
-                    직원들은 설정된 범위 내에서만 출퇴근 체크를 할 수 있습니다.
-                  </p>
-                  <button
-                    onClick={handleRegister}
-                    className="inline-flex items-center space-x-3 px-8 py-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors text-lg font-medium"
-                  >
-                    <MapPinIcon className="w-6 h-6" />
-                    <span>위치 설정하기</span>
-                  </button>
+              <div className="bg-white p-6 w-2/3 h-full flex flex-col border border-gray-200">
+                <div className="mb-6">
+                  <div className="flex items-center mb-4">
+                    <MapPinIcon className="w-5 h-5 text-gray-400 mr-2" />
+                    <h3 className="text-lg font-bold text-gray-900">근무지 미리보기</h3>
+                  </div>
+                  <p className="text-xs text-gray-500">근무지 설정 후 위치가 표시됩니다</p>
+                </div>
+                
+                <div className="flex-1 bg-gray-50 p-4 flex items-center justify-center">
+                  <div className="text-center">
+                    <MapIcon className="w-24 h-24 mx-auto text-gray-300 mb-4" />
+                    <h4 className="text-lg font-semibold text-gray-600 mb-2">근무지 설정 대기중</h4>
+                    <p className="text-sm text-gray-500">
+                      위치를 설정하면 지도에서 근무지를 확인할 수 있습니다.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -168,7 +171,6 @@ const CompanyAddress = () => {
         }
       </div>
     </div>
-
   );
 };
 

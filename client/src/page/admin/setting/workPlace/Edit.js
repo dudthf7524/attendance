@@ -80,102 +80,97 @@ const Edit = ({ onCancel }) => {
     };
 
     return (
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
-            <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <h2 className="text-xl font-bold text-gray-900 mb-2">근무지 위치 수정</h2>
-                        <p className="text-sm text-gray-600">
-                            지도에서 근무지를 검색하고 출근 허용 반경을 조정해주세요
-                        </p>
-                    </div>
-                    {/* <button
-                        onClick={onCancel}
-                        className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
-                    >
-                        취소
-                    </button> */}
-                </div>
-            </div>
-
-            <div className="p-8">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* 검색 및 설정 섹션 */}
-                    <div className="lg:col-span-1 space-y-6">
-                        <div className="bg-gray-50 rounded-xl p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">근무지 검색</h3>
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">주소 검색</label>
-                                    <Autocomplete onLoad={setAutocomplete} onPlaceChanged={handlePlaceSelect}>
-                                        <input
-                                            type="text"
-                                            placeholder="예: 서울시 중구 세종대로"
-                                            defaultValue={address}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                                        />
-                                    </Autocomplete>
-                                </div>
-
-                                <div className="flex items-center p-4 bg-white rounded-lg border border-gray-200">
-                                    <MapPinIcon className="w-5 h-5 mr-3 text-gray-600 flex-shrink-0" />
-                                    <div className="min-w-0 flex-1">
-                                        <p className="text-sm font-medium text-gray-900">현재 설정된 주소</p>
-                                        <p className="text-sm text-gray-600 truncate">
-                                            {address || "주소를 검색해주세요"}
-                                        </p>
-                                    </div>
-                                </div>
+        <div className="w-full h-full bg-gray-100">
+            <div className="p-5 flex flex-1 flex-col gap-4 h-full">
+                <div className="flex gap-4 flex-1 h-full">
+                    <div className="bg-white p-6 w-1/4 h-full flex flex-col border border-gray-200">
+                        <div className="mb-6">
+                            <div className="flex items-center mb-4">
+                                <MapPinIcon className="w-5 h-5 text-blue-600 mr-2" />
+                                <h3 className="text-lg font-bold text-gray-900">근무지 검색</h3>
                             </div>
+                            <p className="text-xs text-gray-500">근무지 위치를 검색하세요</p>
                         </div>
-
-                        <div className="bg-gray-50 rounded-xl p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">근무 반경 설정</h3>
-                            <div className="space-y-4">
-                                <div>
-                                    <div className="flex justify-between items-center mb-3">
-                                        <label className="text-sm font-medium text-gray-700">허용 반경</label>
-                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-black text-white">
-                                            {radius}m
-                                        </span>
-                                    </div>
+                        <div className="space-y-6 flex-1">
+                            <div className="bg-gray-50 p-4">
+                                <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                                    주소 검색
+                                </label>
+                                <Autocomplete onLoad={setAutocomplete} onPlaceChanged={handlePlaceSelect}>
                                     <input
-                                        type="range"
-                                        min="100"
-                                        max="500"
-                                        step="100"
-                                        value={radius}
-                                        onChange={(e) => setRadius(Number(e.target.value))}
-                                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                                        type="text"
+                                        placeholder="예: 서울시 중구 세종대로"
+                                        defaultValue={address}
+                                        className="w-full border-2 border-gray-300 px-3 py-2.5 text-sm"
                                     />
-                                    <div className="flex justify-between text-xs text-gray-500 mt-2">
-                                        <span>100m</span>
-                                        <span>500m</span>
-                                    </div>
-                                </div>
+                                </Autocomplete>
+                            </div>
 
-                                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                                    <p className="text-sm text-blue-800">
-                                        <strong>권장 설정:</strong> 일반 사무실은 100-200m, 대형 건물은 300-500m가 적당합니다.
+                            <div className="bg-gray-50 p-4">
+                                <label className="block text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                                    설정된 주소
+                                </label>
+                                <div className="flex items-center p-3 bg-white border border-gray-300">
+                                    <MapPinIcon className="w-4 h-4 mr-2 text-gray-600" />
+                                    <p className="text-sm text-gray-800">
+                                        {address || "주소를 검색해주세요"}
                                     </p>
                                 </div>
                             </div>
                         </div>
-
-                        <button
-                            onClick={handleSave}
-                            className="flex items-center justify-center border border-gray-200 bg-blue-600 w-full space-x-2 px-8 py-4 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                        >
-                            <MapPinIcon className="w-5 h-5" />
-                            <span>수정 사항 저장</span>
-                        </button>
                     </div>
 
-                    {/* 지도 섹션 */}
-                    <div className="lg:col-span-2">
-                        <div className="bg-gray-50 rounded-xl p-6">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">근무지 위치 미리보기</h3>
-                            <div className="rounded-lg overflow-hidden border border-gray-200" style={{ height: "500px" }}>
+                    <div className="bg-white p-6 w-1/4 h-full flex flex-col border border-gray-200">
+                        <div className="mb-6">
+                            <div className="flex items-center mb-4">
+                                <MapPinIcon className="w-5 h-5 text-green-600 mr-2" />
+                                <h3 className="text-lg font-bold text-gray-900">반경 설정</h3>
+                            </div>
+                            <p className="text-xs text-gray-500">출근 허용 범위를 설정하세요</p>
+                        </div>
+
+                        <div className="space-y-4 flex-1">
+                            <div className="bg-gray-50 p-4">
+                                <div className="flex justify-between items-center mb-3">
+                                    <label className="text-sm font-semibold text-gray-800">허용 반경</label>
+                                    <span className="text-sm font-semibold bg-gray-800 text-white px-3 py-1">
+                                        {radius}m
+                                    </span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="100"
+                                    max="500"
+                                    step="100"
+                                    value={radius}
+                                    onChange={(e) => setRadius(Number(e.target.value))}
+                                    className="w-full h-2 bg-gray-300 appearance-none cursor-pointer"
+                                />
+                                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                                    <span>100m</span>
+                                    <span>500m</span>
+                                </div>
+                            </div>
+
+                            <div className="bg-gray-50 p-4">
+                                <p className="text-xs text-gray-600">
+                                    <strong>권장 설정:</strong> 일반 사무실은 100-200m, 대형 건물은 300-500m가 적당합니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white p-6 w-1/2 h-full flex flex-col border border-gray-200">
+                        <div className="mb-6">
+                            <div className="flex items-center mb-4">
+                                <MapPinIcon className="w-5 h-5 text-purple-600 mr-2" />
+                                <h3 className="text-lg font-bold text-gray-900">위치 미리보기</h3>
+                            </div>
+                            <p className="text-xs text-gray-500">근무지 위치와 허용 범위를 확인하세요</p>
+                        </div>
+                        
+                        <div className="flex-1 bg-gray-50 p-4">
+                            <div className="border border-gray-300 h-full" style={{ minHeight: "400px" }}>
                                 <GoogleMap
                                     mapContainerStyle={{ width: "100%", height: "100%" }}
                                     center={location || { lat: 37.5665, lng: 126.9780 }}
@@ -208,15 +203,25 @@ const Edit = ({ onCancel }) => {
                             </div>
                             <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
                                 <div className="flex items-center">
-                                    <div className="w-4 h-4 bg-black rounded-full mr-2"></div>
+                                    <div className="w-3 h-3 bg-gray-800 mr-2"></div>
                                     <span>근무지 중심점</span>
                                 </div>
                                 <div className="flex items-center">
-                                    <div className="w-4 h-4 border-2 border-black rounded-full bg-black bg-opacity-20 mr-2"></div>
-                                    <span>출근 허용 범위 ({radius}m)</span>
+                                    <div className="w-3 h-3 border border-gray-800 bg-gray-300 mr-2"></div>
+                                    <span>허용 범위 ({radius}m)</span>
                                 </div>
                             </div>
                         </div>
+
+                        <button
+                            onClick={handleSave}
+                            className="mt-6 w-full border border-gray-300 font-semibold py-3 px-6 transition-all duration-200"
+                        >
+                            <div className="flex items-center justify-center">
+                                <MapPinIcon className="w-5 h-5 mr-2" />
+                                수정 사항 저장
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>

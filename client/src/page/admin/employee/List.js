@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { USER_DELETE_REQUEST, USER_LIST_REQUEST, USER_EDIT_REQUEST, USER_VIEW_REQUEST } from "../../../reducers/user";
 import { useNavigate } from "react-router-dom";
 import View from "./View";
+import { TIME_VIEW_REQUEST } from "../../../reducers/time";
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ const EmployeeList = () => {
   const [itemsPerPage] = useState(10); // 페이지당 아이템 수
 
   const { userList, userView, userViewLoading } = useSelector((state) => state.user);
+  const { timeView } = useSelector((state) => state.time);
+
   useEffect(() => {
     userListDB();
   }, []);
@@ -24,6 +27,22 @@ const EmployeeList = () => {
       type: USER_LIST_REQUEST,
     });
   };
+  // const userList = [
+  //   {
+  //     auth: {
+  //       auth_code: "A1",
+  //       auth_name: "마스터",
+  //     },
+  //     user_code: "1",
+  //     user_info: {
+  //       user_hire_date: "2020-09-10",
+  //       user_name: "최영솔",
+  //       user_nickname: "cys"
+
+
+  //     }
+  //   }
+  // ]
 
   // 테스트용 더미 데이터 (실제로는 API에서 가져올 데이터)
   // const userList = Array.from({ length: 50 }, (_, index) => ({
@@ -116,6 +135,13 @@ const EmployeeList = () => {
       type: USER_VIEW_REQUEST,
       data: user.user_code
     });
+
+    const user_code = { user_code: user.user_code };
+
+    dispatch({
+      type: TIME_VIEW_REQUEST,
+      data: user_code
+    });
     setSelectedDetailUser(user); // 기본 정보는 리스트에서
     setShowDetailView(true);
   }
@@ -150,6 +176,8 @@ const EmployeeList = () => {
       type: USER_LIST_REQUEST,
     });
   }
+
+
   return (
     <div className="w-full h-full bg-gray-100 flex flex-col">
       <div className="p-5 flex flex-col lg:flex-row flex-1 gap-6">
@@ -167,23 +195,21 @@ const EmployeeList = () => {
 
           <div className="flex-1 overflow-y-auto">
             <div className="overflow-x-auto">
-              <div className="min-w-full text-sm flex flex-col overflow-hidden border border-gray-200">
-                <div className="grid grid-cols-2 font-bold text-gray-800 border-b-2 border-blue-200">
+              <div className="min-w-full text-sm flex flex-col overflow-hidden border-t border-b border-gray-300">
+                <div className="grid grid-cols-2 font-bold border-b border-gray-300">
                   <div className="p-4 flex items-center">
-                    <CalendarDaysIcon className="w-4 h-4 mr-2 text-blue-600" />
                     입사일
                   </div>
                   <div className="p-4 flex items-center">
-                    <UserIcon className="w-4 h-4 mr-2 text-blue-600" />
                     직원명
                   </div>
                 </div>
                 {currentItems?.map((user, i) => (
                   <div
                     key={i}
-                    className={`grid grid-cols-2 items-center border-b border-gray-100 transition-all duration-200 cursor-pointer ${selectedDetailUser?.user_code === user.user_code
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white transform'
-                      : 'text-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:shadow-md hover:transform'
+                    className={`grid grid-cols-2 items-center transition-all duration-200 cursor-pointer ${selectedDetailUser?.user_code === user.user_code
+                      ? 'bg-blue-600 text-white transform'
+                      : 'text-gray-800 hover:bg-gray-50 hover:transform'
                       }`}
                     onClick={() => handleEmployeeDetail(user)}
                   >
@@ -219,7 +245,7 @@ const EmployeeList = () => {
                 <button
                   key={pageNumber}
                   className={`px-3 py-2 font-medium transition-all duration-200 transform ${pageNumber === currentPage
-                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white scale-110 z-10"
+                    ? "bg-blue-600 text-white scale-110 z-10"
                     : "text-gray-600 hover:bg-white hover:shadow-md hover:text-blue-600 hover:-translate-y-0.5"
                     }`}
                   onClick={() => handlePageChange(pageNumber)}
@@ -275,6 +301,7 @@ const EmployeeList = () => {
             <View
               selectedUser={selectedDetailUser}
               detailedUserData={userView}
+              timeView={timeView}
               isLoading={userViewLoading}
             />
           )

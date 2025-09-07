@@ -89,22 +89,7 @@ export default function Vacation() {
     return (
         <div className="w-full h-full bg-gray-100 flex flex-col">
             <div className="p-5 flex flex-1 gap-4">
-                <div className="w-1/5 flex flex-col gap-4">
-                    {/* <div className="bg-white shadow p-5 flex-1">
-                        <div className="inline-block mb-3">
-                            <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                                🏖️ 휴가 관리 시스템
-                            </span>
-                        </div>
-                        <h1 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
-                            휴가 관리
-                        </h1>
-                        <p className="text-sm text-gray-500 mt-1">
-                            직원들의 휴가 일정을 한눈에 확인하고 효율적으로 관리하세요
-                        </p>
-                    </div> */}
-                    
-                    {/* 통계 박스 */}
+                {/* <div className="w-1/5 flex flex-col gap-4">
                     <div className="bg-white shadow p-5 flex-1">
                         <h3 className="text-base font-semibold text-gray-900 mb-3">휴가 현황</h3>
                         <div className="space-y-3">
@@ -152,12 +137,12 @@ export default function Vacation() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* 오른쪽 영역 */}
-                <div className="w-4/5 flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-4">
                     {/* 상단 액션 버튼 박스 */}
-                    <div className="bg-white shadow p-4">
+                    {/* <div className="bg-white shadow p-4">
                         <div className="flex justify-between items-center">
                             <h2 className="text-lg font-bold text-gray-900">휴가 관리 대시보드</h2>
                             <button
@@ -168,10 +153,10 @@ export default function Vacation() {
                                 <span>휴가 승인</span>
                             </button>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* 메인 콘텐츠 영역 */}
-                    <div className="flex gap-4 flex-1">
+                    <div className="w-full flex gap-4 flex-1">
                         {/* 캘린더 박스 */}
                         <div className="bg-white shadow p-5 flex-1">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
@@ -241,7 +226,7 @@ export default function Vacation() {
                     </div>
 
                     {/* 최근 휴가 신청 목록 박스 */}
-                    <div className="bg-white shadow p-5">
+                    {/* <div className="bg-white shadow p-5">
                         <h3 className="text-lg font-semibold text-gray-900 mb-4">최근 휴가 신청</h3>
                         <div className="overflow-x-auto">
                             <div className="min-w-full text-sm flex flex-col">
@@ -283,7 +268,7 @@ export default function Vacation() {
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

@@ -29,24 +29,26 @@ const Join = () => {
     const [isVerify, setIsVerify] = useState(false);
     const [isBizVerified, setIsBizVerified] = useState(false);
     const [isVerifyingBiz, setIsVerifyingBiz] = useState(false);
-    const [timer, setTimer] = useState(180); // 3분 = 180초
+    const [timer, setTimer] = useState(180);
     const [timerActive, setTimerActive] = useState(false);
+    const [currentStep, setCurrentStep] = useState(1);
 
     const [formData, setFormData] = useState({
-        company_number: "5",
-        company_name: "a",
-        company_type: "a",
-        company_count: "a",
-        company_ceo_name: "a",
-        company_ceo_phone: "a",
-        user_id: "a",
-        user_password: "a",
+        company_number: "",
+        company_name: "",
+        company_type: "",
+        company_count: "",
+        company_ceo_name: "",
+        company_ceo_phone: "",
+        user_id: "",
+        user_password: "",
     });
     const [phoneData, setPhoneData] = useState({
         phone_1: "010",
         phone_2: "",
         phone_3: "",
-    })
+    });
+
     const formDataChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -81,7 +83,7 @@ const Join = () => {
         { value: "I", label: "숙박업" },
         { value: "I2", label: "음식·음료업" },
     ];
-    console.log(customDomain)
+
     const sendEmail = async () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -95,8 +97,6 @@ const Join = () => {
         
         formData.user_id = user_id;
 
-
-
         if (!formData.user_id) {
             setContent("이메일을 입력해주세요.");
             setModalOpen(true);
@@ -109,7 +109,7 @@ const Join = () => {
             return;
         } else {
             setOpenVerify(true);
-            setTimer(180); // 3분
+            setTimer(180);
             setTimerActive(true);
 
             const randomNum = Math.floor(100000 + Math.random() * 900000).toString();
@@ -128,12 +128,9 @@ const Join = () => {
                 data: data,
             });
         }
-
     };
 
     const onVerify = () => {
-        console.log(verifyNum);
-        console.log(emailVerifyNum);
         if (verifyNum === emailVerifyNum) {
             setIsVerify(true);
             setContent("이메일 인증에 성공하였습니다.");
@@ -147,8 +144,6 @@ const Join = () => {
             setModalOpen(true);
         }
     };
-
-
 
     const verifyBusinessNumber = async () => {
         if (!formData.company_number) {
@@ -169,10 +164,8 @@ const Join = () => {
             });
         } catch (e) {
             console.error(e);
-
         }
     };
-
 
     useEffect(() => {
         let interval;
@@ -181,7 +174,6 @@ const Join = () => {
                 setTimer((prev) => prev - 1);
             }, 1000);
         } else if (timer === 0 && !isVerify) {
-            // 시간 초과 시 처리
             setTimerActive(false);
             setEmailVerifyNum("");
             setVerifyNum("");
@@ -198,43 +190,63 @@ const Join = () => {
         return `${m}:${s}`;
     };
 
-    const onSubmit = async () => {
-        if (phoneData.phone_1 && phoneData.phone_2 && phoneData.phone_3) {
-            formData.company_ceo_phone = phoneData.phone_1 + "-" + phoneData.phone_2 + "-" + phoneData.phone_3;
-        }
+    const nextStep = () => {
+        if (currentStep === 1) {
+            if (phoneData.phone_1 && phoneData.phone_2 && phoneData.phone_3) {
+                formData.company_ceo_phone = phoneData.phone_1 + "-" + phoneData.phone_2 + "-" + phoneData.phone_3;
+            }
 
-        if (!formData.company_number) {
-            setContent("사업자등록번호를 입력해주세요");
-            setModalOpen(true);
-            return;
+            if (!formData.company_number) {
+                setContent("사업자등록번호를 입력해주세요");
+                setModalOpen(true);
+                return;
+            }
+            if (!isBizVerified) {
+                setContent("사업자등록번호 인증을 완료해주세요");
+                setModalOpen(true);
+                return;
+            }
+            if (!formData.company_name) {
+                setContent("회사명을 입력해주세요");
+                setModalOpen(true);
+                return;
+            }
+            if (!formData.company_type) {
+                setContent("업종을 선택해주세요");
+                setModalOpen(true);
+                return;
+            }
+            if (!formData.company_count) {
+                setContent("사용 예상 인원을 입력해주세요");
+                setModalOpen(true);
+                return;
+            }
+            if (!formData.company_ceo_name) {
+                setContent("대표이름을 입력해주세요");
+                setModalOpen(true);
+                return;
+            }
+            if (!formData.company_ceo_phone) {
+                setContent("연락처를 입력해주세요");
+                setModalOpen(true);
+                return;
+            }
+            setCurrentStep(2);
         }
-        if (!formData.company_name) {
-            setContent("회사명을 입력해주세요");
-            setModalOpen(true);
-            return;
-        }
-        if (!formData.company_type) {
-            setContent("업종을 입력해주세요");
-            setModalOpen(true);
-            return;
-        }
-        if (!formData.company_count) {
-            setContent("사용 예상 인원을 입력해주세요");
-            setModalOpen(true);
-            return;
-        }
-        if (!formData.company_ceo_name) {
-            setContent("대표이름을 입력해주세요");
-            setModalOpen(true);
-            return;
-        }
-        if (!formData.company_ceo_phone) {
-            setContent("연락처를 입력해주세요");
-            setModalOpen(true);
-            return;
-        }
+    };
+
+    const prevStep = () => {
+        setCurrentStep(1);
+    };
+
+    const onSubmit = async () => {
         if (!formData.user_id) {
             setContent("아이디(이메일)를(을) 입력해주세요");
+            setModalOpen(true);
+            return;
+        }
+        if (!isVerify) {
+            setContent("이메일 인증을 완료해주세요");
             setModalOpen(true);
             return;
         }
@@ -275,236 +287,345 @@ const Join = () => {
     }, [companyNumber]);
 
     return (
-        <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center p-6">
-            <div className="bg-white p-8 rounded-lg border border-gray-300 shadow-lg max-w-2xl w-full space-y-6">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold mb-2">
-                        <span className="text-black">TicTec</span> 회원가입
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 text-black flex flex-col items-center justify-center p-4">
+            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xl max-w-2xl w-full space-y-6 backdrop-blur-sm">
+                <div className="text-center mb-6">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl mb-4 shadow-lg">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                        TicTec 회원가입
                     </h1>
                     <p className="text-gray-600">미래형 출결관리 솔루션에 가입하여 시작하세요</p>
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        사업자등록번호 <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                        name="company_number"
-                        value={formData.company_number}
-                        onChange={formDataChange}
-                        type="text"
-                        className={`w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent ${isBizVerified ? 'bg-gray-100 border-gray-400' : ''}`}
-                        placeholder="숫자로 이루어진 10자리 값만 가능"
-                        readOnly={isBizVerified}
-                    />
-                    <button
-                        onClick={verifyBusinessNumber}
-                        disabled={isBizVerified}
-                        className={`w-full mt-3 py-3 rounded-lg font-medium transition duration-200 ${isBizVerified ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-blue-600 text-white'}`}
-                    >
-                        {isBizVerified ? "사업자 등록번호 인증 완료" : isVerifyingBiz ? "인증 중..." : "사업자 등록번호 인증"}
-                    </button>
-                </div>
-
-                {/* 회사명 */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">회사명 <span className="text-red-500">*</span></label>
-                    <input
-                        type="text"
-                        name="company_name"
-                        value={formData.company_name}
-                        onChange={formDataChange}
-                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                        placeholder="(주) TICTEC"
-                    />
-                </div>
-
-                {/* 업종 */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">업종 <span className="text-red-500">*</span></label>
-                    <select
-                        name="company_type"
-                        value={formData.company_type}
-                        onChange={formDataChange}
-                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                    >
-                        {BIZ_TYPES.map((type) => (
-                            <option key={type.value} value={type.value}>{type.label}</option>
-                        ))}
-                    </select>
-                </div>
-
-                {/* 인원 */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">사용 예상 인원 <span className="text-red-500">*</span></label>
-                    <input
-                        type="text"
-                        name="company_count"
-                        value={formData.company_count}
-                        onChange={formDataChange}
-                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                        placeholder="10"
-                    />
-                </div>
-
-                {/* 대표 이름 */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">대표이름 <span className="text-red-500">*</span></label>
-                    <input
-                        type="text"
-                        name="company_ceo_name"
-                        value={formData.company_ceo_name}
-                        onChange={formDataChange}
-                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                        placeholder="김틱택"
-                    />
-                </div>
-
-                {/* 연락처 */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        연락처 <span className="text-red-500">*</span>
-                    </label>
-                    <div className="flex gap-2 w-full items-center justify-between">
-                        <input
-                            type="text"
-                            name="phone_1"
-                            maxLength={3}
-                            value={phoneData.phone_1}
-                            onChange={phoneDataChange}
-                            className="w-1/3 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                            placeholder="010"
-                        />
-                        <span className="text-gray-600">-</span>
-                        <input
-                            type="text"
-                            name="phone_2"
-                            maxLength={4}
-                            value={phoneData.phone_2}
-                            onChange={phoneDataChange}
-                            className="w-1/3 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                            placeholder="1234"
-                        />
-                        <span className="text-gray-600">-</span>
-                        <input
-                            type="text"
-                            name="phone_3"
-                            maxLength={4}
-                            value={phoneData.phone_3}
-                            onChange={phoneDataChange}
-                            className="w-1/3 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 text-center focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                            placeholder="5678"
-                        />
+                    
+                    {/* 진행 단계 표시 */}
+                    <div className="flex items-center justify-center mt-6 space-x-4">
+                        <div className={`flex items-center ${currentStep >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
+                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold ${
+                                currentStep >= 1 ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-400'
+                            }`}>
+                                1
+                            </div>
+                            <span className="ml-2 text-sm font-medium">회사정보</span>
+                        </div>
+                        <div className={`w-8 h-0.5 ${currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
+                        <div className={`flex items-center ${currentStep >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
+                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold ${
+                                currentStep >= 2 ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-400'
+                            }`}>
+                                2
+                            </div>
+                            <span className="ml-2 text-sm font-medium">계정정보</span>
+                        </div>
                     </div>
                 </div>
-                {/* 이메일 */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">아이디(이메일) <span className="text-red-500">*</span></label>
-                    <div className="w-full flex flex-col sm:flex-row sm:items-center gap-2 mt-2">
-                        {/* 아이디 입력 */}
-                        <input
-                            type="text"
-                            name="user_id"
-                            value={formData.user_id}
-                            onChange={formDataChange}
-                            placeholder="아이디"
-                            className={`flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent ${isVerify ? 'bg-gray-100 border-gray-400' : ''}`}
-                            readOnly={isVerify}
-                        />
 
-                        {/* @ 선택 영역 */}
-                        <div className="flex items-center sm:w-auto w-full">
-                            <span className="mx-1 text-gray-600">@</span>
-                            <select
-                                name="emailDomain"
-                                value={emailDomain}
-                                onChange={(e) => setEmailDomain(e.target.value)}
-                                className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
+                {/* 1단계: 회사 정보 */}
+                {currentStep === 1 && (
+                    <div className="space-y-5">
+                        <div className="space-y-4">
+                            <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                사업자등록번호 <span className="text-red-500">*</span>
+                            </label>
+                            <div className="relative">
+                                <input
+                                    name="company_number"
+                                    value={formData.company_number}
+                                    onChange={formDataChange}
+                                    type="text"
+                                    className={`w-full px-4 py-3 bg-gray-50 border-2 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200 ${isBizVerified ? 'bg-green-50 border-green-300 text-green-800' : 'border-gray-200'}`}
+                                    placeholder="숫자로 이루어진 10자리 값만 가능"
+                                    readOnly={isBizVerified}
+                                />
+                                {isBizVerified && (
+                                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                )}
+                            </div>
+                            <button
+                                onClick={verifyBusinessNumber}
+                                disabled={isBizVerified}
+                                className={`w-full mt-3 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] ${isBizVerified ? 'bg-green-500 text-white cursor-not-allowed shadow-lg' : isVerifyingBiz ? 'bg-blue-400 text-white cursor-wait' : 'border border-gray-300 shadow-lg hover:shadow-xl'}`}
+                            >
+                                {isBizVerified ? "✓ 사업자 등록번호 인증 완료" : isVerifyingBiz ? "⏳ 인증 중..." : "🔍 사업자 등록번호 인증"}
+                            </button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-4">
+                                <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    회사명 <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="company_name"
+                                    value={formData.company_name}
+                                    onChange={formDataChange}
+                                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                    placeholder="(주) TICTEC"
+                                />
+                            </div>
+
+                            <div className="space-y-4">
+                                <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    업종 <span className="text-red-500">*</span>
+                                </label>
+                                <select
+                                    name="company_type"
+                                    value={formData.company_type}
+                                    onChange={formDataChange}
+                                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                >
+                                    {BIZ_TYPES.map((type) => (
+                                        <option key={type.value} value={type.value}>{type.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-4">
+                                <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    사용 예상 인원 <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="company_count"
+                                    value={formData.company_count}
+                                    onChange={formDataChange}
+                                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                    placeholder="10"
+                                />
+                            </div>
+
+                            <div className="space-y-4">
+                                <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    대표이름 <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="company_ceo_name"
+                                    value={formData.company_ceo_name}
+                                    onChange={formDataChange}
+                                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                    placeholder="김틱택"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                연락처 <span className="text-red-500">*</span>
+                            </label>
+                            <div className="flex gap-3 w-full items-center justify-between">
+                                <input
+                                    type="text"
+                                    name="phone_1"
+                                    maxLength={3}
+                                    value={phoneData.phone_1}
+                                    onChange={phoneDataChange}
+                                    className="w-1/3 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 text-center focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                    placeholder="010"
+                                />
+                                <span className="text-gray-400 font-medium">-</span>
+                                <input
+                                    type="text"
+                                    name="phone_2"
+                                    maxLength={4}
+                                    value={phoneData.phone_2}
+                                    onChange={phoneDataChange}
+                                    className="w-1/3 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 text-center focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                    placeholder="1234"
+                                />
+                                <span className="text-gray-400 font-medium">-</span>
+                                <input
+                                    type="text"
+                                    name="phone_3"
+                                    maxLength={4}
+                                    value={phoneData.phone_3}
+                                    onChange={phoneDataChange}
+                                    className="w-1/3 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 text-center focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                    placeholder="5678"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="pt-4">
+                            <button 
+                                onClick={nextStep}
+                                className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-lg rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                            >
+                                다음 단계 →
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* 2단계: 계정 정보 */}
+                {currentStep === 2 && (
+                    <div className="space-y-5">
+                        <div className="space-y-4">
+                            <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                아이디(이메일) <span className="text-red-500">*</span>
+                            </label>
+                            <div className="w-full flex flex-col sm:flex-row sm:items-center gap-3 mt-2">
+                                <div className="relative flex-1">
+                                    <input
+                                        type="text"
+                                        name="user_id"
+                                        value={formData.user_id}
+                                        onChange={formDataChange}
+                                        placeholder="아이디"
+                                        className={`w-full px-4 py-3 bg-gray-50 border-2 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200 ${isVerify ? 'bg-green-50 border-green-300 text-green-800' : 'border-gray-200'}`}
+                                        readOnly={isVerify}
+                                    />
+                                    {isVerify && (
+                                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                                            <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="flex items-center sm:w-auto w-full gap-2">
+                                    <span className="text-gray-600 font-medium">@</span>
+                                    <select
+                                        name="emailDomain"
+                                        value={emailDomain}
+                                        onChange={(e) => setEmailDomain(e.target.value)}
+                                        className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                        disabled={isVerify}
+                                    >
+                                        {emailDomains.map((domain) => (
+                                            <option key={domain} value={domain}>
+                                                {domain === "custom" ? "직접 입력" : domain}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                {emailDomain === "custom" && (
+                                    <input
+                                        type="text"
+                                        value={customDomain}
+                                        onChange={(e) => setCustomDomain(e.target.value)}
+                                        placeholder="예: mydomain.com"
+                                        className="w-full sm:w-auto px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200 mt-1 sm:mt-0"
+                                        disabled={isVerify}
+                                    />
+                                )}
+                            </div>
+                            <button
+                                onClick={sendEmail}
+                                className={`w-full mt-3 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] ${isVerify ? 'bg-green-500 text-white cursor-not-allowed shadow-lg' : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg hover:shadow-xl'}`}
                                 disabled={isVerify}
                             >
-                                {emailDomains.map((domain) => (
-                                    <option key={domain} value={domain}>
-                                        {domain === "custom" ? "직접 입력" : domain}
-                                    </option>
-                                ))}
-                            </select>
+                                {isVerify ? "✓ 이메일 인증 완료" : "📧 이메일 인증"}
+                            </button>
+                            {openVerify && !isVerify && (
+                                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
+                                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                                        <input
+                                            value={verifyNum}
+                                            onChange={(e) => setVerifyNum(e.target.value)}
+                                            className="flex-1 px-4 py-3 bg-white border-2 border-blue-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 transition-all duration-200"
+                                            placeholder="인증번호 입력"
+                                        />
+                                        <button
+                                            className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 active:scale-95 whitespace-nowrap shadow-lg"
+                                            onClick={onVerify}
+                                        >
+                                            ✓ 인증
+                                        </button>
+                                    </div>
+
+                                    <div className="flex justify-between items-center bg-white rounded-lg p-3">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                            <p className="text-gray-700 text-sm font-medium">인증번호가 발송되었습니다.</p>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <p className="text-orange-600 text-sm font-bold">{formatTime(timer)}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                        {emailDomain === "custom" && (
-                            <input
-                                type="text"
-                                value={customDomain}
-                                onChange={(e) => setCustomDomain(e.target.value)}
-                                placeholder="예: mydomain.com"
-                                className="w-full sm:w-auto px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent mt-1 sm:mt-0"
-                                disabled={isVerify}
-                            />
-                        )}
-                    </div>
-                    <button
-                        onClick={sendEmail}
-                        className={`w-full mt-3 py-3 rounded-lg font-medium transition duration-200 ${isVerify ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-blue-600 text-white'}`}
-                        disabled={isVerify}
-                    >
-                        {isVerify ? "이메일 인증 완료" : "이메일 인증"}
-                    </button>
-                    {openVerify && !isVerify && (
-                        <>
-                            <div className="flex flex-col sm:flex-row mt-3 gap-2 w-full">
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-4">
+                                <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    비밀번호 <span className="text-red-500">*</span>
+                                </label>
                                 <input
-                                    value={verifyNum}
-                                    onChange={(e) => setVerifyNum(e.target.value)}
-                                    className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                                    placeholder="인증번호 입력"
+                                    type="password"
+                                    name="user_password"
+                                    value={formData.user_password}
+                                    onChange={formDataChange}
+                                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                    placeholder="비밀번호를 입력하세요"
                                 />
-                                <button
-                                    className="px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-medium transition duration-200 whitespace-nowrap"
-                                    onClick={onVerify}
-                                >
-                                    인증
-                                </button>
                             </div>
 
-                            <div className="flex mt-2 justify-between items-center">
-                                <p className="text-gray-700 text-sm">인증번호가 발송되었습니다.</p>
-                                <p className="text-gray-700 text-sm font-medium whitespace-nowrap">{formatTime(timer)}</p>
+                            <div className="space-y-4">
+                                <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    비밀번호 확인 <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="password"
+                                    value={user_password_check}
+                                    onChange={(e) => {
+                                        setPasswordCheck(e.target.value);
+                                        setCheckPassword(e.target.value !== formData.user_password);
+                                    }}
+                                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-black placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 focus:bg-white transition-all duration-200"
+                                    placeholder="비밀번호를 다시 입력하세요"
+                                />
                             </div>
-                        </>
-                    )}
-                </div>
+                        </div>
+                        
+                        {checkPassword && (
+                            <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl p-3">
+                                <svg className="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <p className="text-sm text-red-600 font-medium">비밀번호가 일치하지 않습니다.</p>
+                            </div>
+                        )}
 
-                {/* 비밀번호 */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">비밀번호 <span className="text-red-500">*</span></label>
-                    <input
-                        type="password"
-                        name="user_password"
-                        value={formData.user_password}
-                        onChange={formDataChange}
-                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                        placeholder="비밀번호를 입력하세요"
-                    />
-                </div>
-
-                {/* 비밀번호 확인 */}
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">비밀번호 확인 <span className="text-red-500">*</span></label>
-                    <input
-                        type="password"
-                        value={user_password_check}
-                        onChange={(e) => {
-                            setPasswordCheck(e.target.value);
-                            setCheckPassword(e.target.value !== formData.user_password);
-                        }}
-                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
-                        placeholder="비밀번호를 다시 입력하세요"
-                    />
-                    {checkPassword && (
-                        <p className="text-sm text-red-500 mt-1">비밀번호가 일치하지 않습니다.</p>
-                    )}
-                </div>
-
-                <button onClick={onSubmit} className="w-full mt-6 py-4 bg-blue-600 text-white font-semibold">
-                    가입하기
-                </button>
+                        <div className="flex gap-3 pt-4">
+                            <button 
+                                onClick={prevStep}
+                                className="flex-1 py-4 bg-gray-500 hover:bg-gray-600 text-white font-bold text-lg rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                            >
+                                ← 이전
+                            </button>
+                            <button 
+                                onClick={onSubmit} 
+                                className="flex-1 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white font-bold text-lg rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                            >
+                                🎉 가입하기
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
             <AlertModal
                 isOpen={modalOpen}
