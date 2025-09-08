@@ -1,4 +1,6 @@
+const dayjs = require("dayjs");
 const { vacation, user, userInfo } = require("../models");
+const { Op } = require("sequelize");
 
 const vacationRegister = async (data, user_code, company_code) => {
     console.log('data', data)
@@ -18,7 +20,7 @@ const vacationRegister = async (data, user_code, company_code) => {
 };
 
 const vacationList = async (company_code) => {
-
+    const today = dayjs().format("YYYY-MM-DD");
     try {
         const result = await vacation.findAll({
             attributes: ['vacation_id', 'start_date', 'end_date', 'reason', 'vacation_state'],
@@ -26,10 +28,23 @@ const vacationList = async (company_code) => {
                 {
                     model: user,
                     required: true,
-                    attributes: ['user_name'],
-                    where: { company_code: company_code },
+                    attributes: ['user_code'],
+                    include: [
+                        {
+                            model: userInfo,
+                            required: true,
+                            attributes: ['user_name'],
+                        },
+                    ],
                 },
             ],
+            where: {
+                company_code: company_code,
+                start_date: {
+                    [Op.gte]: today   // 오늘 포함 이후
+                }
+            },
+
         });
         console.log("휴가 리스트", result)
         return result;

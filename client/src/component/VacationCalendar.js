@@ -1,31 +1,48 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { useDispatch, useSelector } from 'react-redux';
+import { VACATION_LIST_REQUEST } from '../reducers/vacation';
 
-const VacationCalendar = ({ 
-  vacationData = [], 
-  selectedDate, 
-  onDateSelect, 
-  className = "" 
+const VacationCalendar = ({
+  vacationData = [],
+  selectedDate,
+  onDateSelect,
+  className = ""
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    vacationListDB();
+  }, []);
+
+  const vacationListDB = async () => {
+    dispatch({
+      type: VACATION_LIST_REQUEST,
+    });
+  };
+  const { vacationList } = useSelector((state) => state.vacation);
+
+  console.log("vacationList", vacationList)
+
   const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
-  
+
   // 달력 데이터 계산
   const calendarData = useMemo(() => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    
+
     // 이번 달 첫날과 마지막날
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    
+
     // 이번 달 첫날의 요일 (0: 일요일)
     const firstDayWeek = firstDay.getDay();
-    
+
     // 달력에 표시할 날짜들
     const days = [];
-    
+
     // 이전 달 마지막 날짜들 (빈 칸 채우기)
     const prevMonth = new Date(year, month - 1, 0);
     for (let i = firstDayWeek - 1; i >= 0; i--) {
@@ -38,7 +55,7 @@ const VacationCalendar = ({
         isNextMonth: false
       });
     }
-    
+
     // 이번 달 날짜들
     for (let day = 1; day <= lastDay.getDate(); day++) {
       const date = new Date(year, month, day);
@@ -50,7 +67,7 @@ const VacationCalendar = ({
         isNextMonth: false
       });
     }
-    
+
     // 다음 달 첫 날짜들 (6주 맞추기)
     const remainingDays = 42 - days.length; // 6주 × 7일 = 42일
     for (let day = 1; day <= remainingDays; day++) {
@@ -63,18 +80,18 @@ const VacationCalendar = ({
         isNextMonth: true
       });
     }
-    
+
     return { days, year, month };
   }, [currentDate]);
 
   // 날짜별 휴가 데이터 매핑
   const getVacationInfo = (date) => {
     const dateStr = date.toISOString().split('T')[0];
-    const vacations = vacationData.filter(v => v.date === dateStr);
+    const vacations = vacationList?.filter(v => v.start_date === dateStr);
     return {
-      count: vacations.length,
+      count: vacations?.length,
       vacations,
-      types: [...new Set(vacations.map(v => v.type))]
+      types: [...new Set(vacations?.map(v => v.type))]
     };
   };
 
@@ -164,9 +181,8 @@ const VacationCalendar = ({
         {weekDays.map((day, index) => (
           <div
             key={day}
-            className={`text-center py-3 text-sm font-semibold ${
-              index === 0 || index === 6 ? 'text-red-500' : 'text-gray-600'
-            }`}
+            className={`text-center py-3 text-sm font-semibold ${index === 0 || index === 6 ? 'text-red-500' : 'text-gray-600'
+              }`}
           >
             {day}
           </div>
@@ -199,12 +215,11 @@ const VacationCalendar = ({
               `}
             >
               {/* 날짜 숫자 */}
-              <div className={`text-sm font-semibold ${
-                selectedCheck ? 'text-white' : 
-                todayCheck ? 'text-blue-600' : 
-                weekendCheck && isCurrentMonth ? 'text-red-500' : 
-                isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
-              }`}>
+              <div className={`text-sm font-semibold ${selectedCheck ? 'text-white' :
+                todayCheck ? 'text-blue-600' :
+                  weekendCheck && isCurrentMonth ? 'text-red-500' :
+                    isCurrentMonth ? 'text-gray-900' : 'text-gray-400'
+                }`}>
                 {day}
               </div>
 
@@ -231,9 +246,8 @@ const VacationCalendar = ({
                     {vacationInfo.types.slice(0, 3).map((type, idx) => (
                       <div
                         key={idx}
-                        className={`w-1 h-1 rounded-full ${
-                          selectedCheck ? 'bg-white' : getTypeColor(type)
-                        }`}
+                        className={`w-1 h-1 rounded-full ${selectedCheck ? 'bg-white' : getTypeColor(type)
+                          }`}
                       />
                     ))}
                   </div>
@@ -303,8 +317,8 @@ const VacationCalendar = ({
             {selectedDate.getFullYear()}년 {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일
           </h4>
           <p className="text-sm text-blue-600">
-            {getVacationInfo(selectedDate).count > 0 
-              ? `${getVacationInfo(selectedDate).count}명이 휴가 중입니다` 
+            {getVacationInfo(selectedDate).count > 0
+              ? `${getVacationInfo(selectedDate).count}명이 휴가 중입니다`
               : '휴가자가 없는 날입니다'
             }
           </p>
