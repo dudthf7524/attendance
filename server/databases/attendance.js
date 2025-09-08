@@ -40,12 +40,14 @@ const attendanceToday = async (user_code) => {
 };
 
 const attendanceEdit = async (data) => {
+
     try {
         const result = await attendance.update(
             {
                 attendance_start_time: data.attendance_start_time,
                 attendance_start_state: data.attendance_start_state,
                 attendance_end_time: data.attendance_end_time,
+                attendance_end_date: data.attendance_end_date,
                 attendance_end_state: data.attendance_end_state,
             },
             {
