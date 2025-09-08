@@ -56,6 +56,7 @@ const Register = () => {
             radius: radius,
         };
 
+
         // 실제로는 dispatch로 서버에 저장
         dispatch({
             type: WORK_PLACE_REGISTER_REQUEST,
