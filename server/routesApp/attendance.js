@@ -32,7 +32,7 @@ router.post("/update", verifyToken, async (req, res) => {
     console.log(req.body)
     try {
         const data = req.body;
-        const result = await attendance.attendanceUpdate(data);
+        const result = await attendance.attendanceEdit(data);
         if (result) {
             return res
                 .status(200)
