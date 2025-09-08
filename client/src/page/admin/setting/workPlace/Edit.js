@@ -154,15 +154,15 @@ const Edit = ({ onCancel }) => {
                                 </div>
                                 <input
                                     type="range"
-                                    min="100"
+                                    min="50"
                                     max="500"
-                                    step="100"
+                                    step="50"
                                     value={radius}
                                     onChange={(e) => setRadius(Number(e.target.value))}
                                     className="w-full h-2 bg-gray-300 appearance-none cursor-pointer"
                                 />
                                 <div className="flex justify-between text-xs text-gray-500 mt-2">
-                                    <span>100m</span>
+                                    <span>50m</span>
                                     <span>500m</span>
                                 </div>
                             </div>
