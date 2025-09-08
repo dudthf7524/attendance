@@ -28,6 +28,21 @@ const Register = () => {
         }
     };
 
+    const handleMapClick = (event) => {
+        const lat = event.latLng.lat();
+        const lng = event.latLng.lng();
+        
+        setLocation({ lat, lng });
+        
+        // 역지오코딩으로 주소 가져오기
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+            if (status === 'OK' && results[0]) {
+                setAddress(results[0].formatted_address);
+            }
+        });
+    };
+
     const handleSave = () => {
         if (!address) {
             alert("근무지를 검색해주세요");
@@ -112,15 +127,15 @@ const Register = () => {
                                 </div>
                                 <input
                                     type="range"
-                                    min="100"
+                                    min="50"
                                     max="500"
-                                    step="100"
+                                    step="50"
                                     value={radius}
                                     onChange={(e) => setRadius(Number(e.target.value))}
                                     className="w-full h-2 bg-gray-300 appearance-none cursor-pointer"
                                 />
                                 <div className="flex justify-between text-xs text-gray-500 mt-2">
-                                    <span>100m</span>
+                                    <span>50m</span>
                                     <span>500m</span>
                                 </div>
                             </div>
@@ -128,6 +143,12 @@ const Register = () => {
                             <div className="bg-gray-50 p-4">
                                 <p className="text-xs text-gray-600">
                                     <strong>권장 설정:</strong> 일반 사무실은 100-200m, 대형 건물은 300-500m가 적당합니다.
+                                </p>
+                            </div>
+
+                            <div className="bg-blue-50 border border-blue-200 p-4 mt-4">
+                                <p className="text-xs text-blue-800">
+                                    <strong>팁:</strong> 지도를 클릭하여 직접 위치를 선택할 수 있습니다.
                                 </p>
                             </div>
                         </div>
@@ -148,6 +169,7 @@ const Register = () => {
                                     mapContainerStyle={{ width: "100%", height: "100%" }}
                                     center={location || { lat: 37.5665, lng: 126.9780 }}
                                     zoom={16}
+                                    onClick={handleMapClick}
                                     options={{
                                         styles: [
                                             {
@@ -168,6 +190,7 @@ const Register = () => {
                                                     fillColor: "#6495ED55",
                                                     strokeColor: "#6495ED",
                                                     strokeWeight: 1,
+                                                    clickable: false,
                                                 }}
                                             />
                                         </>
