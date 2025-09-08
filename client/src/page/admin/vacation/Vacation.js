@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import VacationCalendar from '../../component/VacationCalendar';
+import VacationCalendar from '../../../component/VacationCalendar';
 import { format } from 'date-fns';
 import {
     PlusIcon,

@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import ClientLayout from "./layout/ClientLayout";
 import WorkPlace from "./page/admin/setting/workPlace/WorkPlace";
 import TimeEdit from "./page/admin/time/Edit";
-import Vacation from "./page/admin/Vacation";
+import Vacation from "./page/admin/vacation/Vacation";
 import VacationApproval from "./page/admin/VacationApproval";
 import EmployeeEdit from "./page/admin/employee/Edit";
 import Register from "./page/admin/setting/workPlace/Register";
