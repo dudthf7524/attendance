@@ -4,42 +4,6 @@ import Footer from "../../component/Footer";
 const Home = () => {
     return (
         <div className="min-h-screen bg-white text-gray-900 overflow-y-auto">
-            <style jsx>{`
-                @keyframes fade-in-up {
-                    from {
-                        opacity: 0;
-                        transform: translateY(30px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                
-                .animate-fade-in-up {
-                    animation: fade-in-up 0.8s ease-out forwards;
-                }
-                
-                .delay-200 {
-                    animation-delay: 200ms;
-                }
-                
-                .delay-400 {
-                    animation-delay: 400ms;
-                }
-                
-                .delay-600 {
-                    animation-delay: 600ms;
-                }
-                
-                .delay-500 {
-                    animation-delay: 500ms;
-                }
-                
-                .delay-1000 {
-                    animation-delay: 1000ms;
-                }
-            `}</style>
             <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 via-purple-50 to-pink-50 overflow-hidden">
                 {/* Animated background elements */}
                 <div className="absolute inset-0">
@@ -48,21 +12,21 @@ const Home = () => {
                     <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-gradient-to-br from-indigo-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse delay-500"></div>
                 </div>
                 
-                <div className="relative text-center max-w-6xl mx-auto px-6 z-10">
-                    <div className="inline-block mb-6 animate-bounce">
-                        <span className="text-sm font-medium text-indigo-700 bg-gradient-to-r from-indigo-100 to-purple-100 px-6 py-3 rounded-full shadow-lg backdrop-blur-sm border border-indigo-200">
+                <div className="relative text-center max-w-6xl mx-auto px-4 sm:px-6 z-10">
+                    <div className="inline-block mb-4 sm:mb-6 animate-bounce">
+                        <span className="text-sm sm:text-base font-medium text-indigo-700 bg-gradient-to-r from-indigo-100 to-purple-100 px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg backdrop-blur-sm border border-indigo-200">
                             ✨ 새로운 출결 관리의 시작
                         </span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-8 tracking-tight animate-fade-in-up">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extrabold leading-tight mb-6 sm:mb-8 tracking-tight animate-fade-in-up">
                         <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">스마트한</span>
                         <br />
                         <span className="bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent italic">TicTec</span>
                         <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"> 출결관리</span>
                     </h1>
-                    <p className="text-xl md:text-2xl text-gray-700 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-200">
-                        GPS 기반 정밀 위치 추적부터 자동화된 근태 관리까지,<br />
-                        <strong className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">현장을 위한 완전한 출결 솔루션</strong>
+                    <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-700 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up delay-200 px-2">
+                        GPS 기반 정밀 위치 추적부터 자동화된 근태 관리까지,<br className="hidden sm:block" />
+                        <span className="sm:hidden"> </span><strong className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">현장을 위한 완전한 출결 솔루션</strong>
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fade-in-up delay-400">
@@ -81,18 +45,18 @@ const Home = () => {
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center animate-fade-in-up delay-600">
-                        <div className="p-6 rounded-2xl bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
-                            <div className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">99.9%</div>
-                            <div className="text-gray-700 font-medium">출결 정확도</div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 text-center animate-fade-in-up delay-600 px-2">
+                        <div className="p-4 sm:p-6 rounded-2xl bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
+                            <div className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">99.9%</div>
+                            <div className="text-gray-700 font-medium text-base sm:text-lg">출결 정확도</div>
                         </div>
-                        <div className="p-6 rounded-2xl bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
-                            <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">240+</div>
-                            <div className="text-gray-700 font-medium">도입 기업</div>
+                        <div className="p-4 sm:p-6 rounded-2xl bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
+                            <div className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">240+</div>
+                            <div className="text-gray-700 font-medium text-base sm:text-lg">도입 기업</div>
                         </div>
-                        <div className="p-6 rounded-2xl bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
-                            <div className="text-4xl font-bold bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent mb-2">24/7</div>
-                            <div className="text-gray-700 font-medium">실시간 모니터링</div>
+                        <div className="p-4 sm:p-6 rounded-2xl bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
+                            <div className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent mb-2">24/7</div>
+                            <div className="text-gray-700 font-medium text-base sm:text-lg">실시간 모니터링</div>
                         </div>
                     </div>
                 </div>

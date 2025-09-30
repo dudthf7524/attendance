@@ -9,7 +9,6 @@ const transporter = nodemailer.createTransport({
 });
 
 async function sendEmail(user_id, email_verification_number) {
-    console.log(user_id, email_verification_number)
     try {
         await transporter.sendMail({
             from: 'creamoff2021@naver.com',

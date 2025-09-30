@@ -9,7 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { LoadScript } from '@react-google-maps/api';
 const store = configureStore();
-const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const GMAP_LIBRARIES = ['places'];
 
 window.addEventListener("unhandledrejection", (event) => {

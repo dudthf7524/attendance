@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+    const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     const [autocomplete, setAutocomplete] = useState(null);
     const [address, setAddress] = useState("");
     const [location, setLocation] = useState(null);

@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 
 const Edit = ({ onCancel }) => {
-    const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+    const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     const dispatch = useDispatch();
     const locations = useLocation();
     const navigate = useNavigate();

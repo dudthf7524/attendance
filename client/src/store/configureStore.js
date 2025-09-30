@@ -9,7 +9,7 @@ const configureStore = () => {
   const sagaMiddlware = createSagaMiddleware();
   const middlewares = [sagaMiddlware];
   const enhancer =
-    process.env.NODE_ENV === "production"
+    import.meta.env.MODE === "production"
       ? compose(applyMiddleware(...middlewares))
       : composeWithDevTools(applyMiddleware(...middlewares));
   const store = createStore(reducer, enhancer);

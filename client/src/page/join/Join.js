@@ -91,10 +91,10 @@ const Join = () => {
 
         user_id = formData.user_id + "@" + emailDomain;
 
-        if(emailDomain === "custom"){
+        if (emailDomain === "custom") {
             user_id = formData.user_id + "@" + customDomain;
         }
-        
+
         formData.user_id = user_id;
 
         if (!formData.user_id) {
@@ -290,31 +290,21 @@ const Join = () => {
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 text-black flex flex-col items-center justify-center p-4">
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-2xl max-w-2xl w-full space-y-6 backdrop-blur-sm">
                 <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl mb-4 shadow-lg">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h1 className="text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                        TicTec 회원가입
+                    <h1 className="text-3xl font-bold mb-3 text-blue-600">
+                        TicTec
                     </h1>
-                    <p className="text-gray-600">미래형 출결관리 솔루션에 가입하여 시작하세요</p>
-                    
-                    {/* 진행 단계 표시 */}
                     <div className="flex items-center justify-center mt-6 space-x-4">
                         <div className={`flex items-center ${currentStep >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
-                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold ${
-                                currentStep >= 1 ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-400'
-                            }`}>
+                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold ${currentStep >= 1 ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-400'
+                                }`}>
                                 1
                             </div>
                             <span className="ml-2 text-sm font-medium">회사정보</span>
                         </div>
                         <div className={`w-8 h-0.5 ${currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
                         <div className={`flex items-center ${currentStep >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
-                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold ${
-                                currentStep >= 2 ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-400'
-                            }`}>
+                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold ${currentStep >= 2 ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-300 text-gray-400'
+                                }`}>
                                 2
                             </div>
                             <span className="ml-2 text-sm font-medium">계정정보</span>
@@ -327,7 +317,6 @@ const Join = () => {
                     <div className="space-y-5">
                         <div className="space-y-4">
                             <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                 사업자등록번호 <span className="text-red-500">*</span>
                             </label>
                             <div className="relative">
@@ -351,16 +340,15 @@ const Join = () => {
                             <button
                                 onClick={verifyBusinessNumber}
                                 disabled={isBizVerified}
-                                className={`w-full mt-3 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] ${isBizVerified ? 'bg-green-500 text-white cursor-not-allowed shadow-lg' : isVerifyingBiz ? 'bg-blue-400 text-white cursor-wait' : 'border border-gray-300 shadow-lg hover:shadow-xl'}`}
+                                className={`w-full mt-3 py-3 rounded-xl font-semibold ${isBizVerified ? 'bg-green-500 text-white' : isVerifyingBiz ? 'bg-blue-400 text-white' : 'border border-gray-300'}`}
                             >
-                                {isBizVerified ? "✓ 사업자 등록번호 인증 완료" : isVerifyingBiz ? "⏳ 인증 중..." : "🔍 사업자 등록번호 인증"}
+                                {isBizVerified ? "✓ 사업자 등록번호 인증 완료" : isVerifyingBiz ? "인증 중..." : "사업자 등록번호 인증"}
                             </button>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-4">
                                 <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                     회사명 <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -375,7 +363,6 @@ const Join = () => {
 
                             <div className="space-y-4">
                                 <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                     업종 <span className="text-red-500">*</span>
                                 </label>
                                 <select
@@ -394,7 +381,6 @@ const Join = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-4">
                                 <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                     사용 예상 인원 <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -409,7 +395,6 @@ const Join = () => {
 
                             <div className="space-y-4">
                                 <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                     대표이름 <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -425,7 +410,6 @@ const Join = () => {
 
                         <div className="space-y-4">
                             <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                 연락처 <span className="text-red-500">*</span>
                             </label>
                             <div className="flex gap-3 w-full items-center justify-between">
@@ -462,9 +446,9 @@ const Join = () => {
                         </div>
 
                         <div className="pt-4">
-                            <button 
+                            <button
                                 onClick={nextStep}
-                                className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-lg rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                                className="w-full py-4 bg-blue-600 text-white font-bold text-lg rounded-xl"
                             >
                                 다음 단계 →
                             </button>
@@ -477,7 +461,6 @@ const Join = () => {
                     <div className="space-y-5">
                         <div className="space-y-4">
                             <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                 아이디(이메일) <span className="text-red-500">*</span>
                             </label>
                             <div className="w-full flex flex-col sm:flex-row sm:items-center gap-3 mt-2">
@@ -529,10 +512,10 @@ const Join = () => {
                             </div>
                             <button
                                 onClick={sendEmail}
-                                className={`w-full mt-3 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] ${isVerify ? 'bg-green-500 text-white cursor-not-allowed shadow-lg' : 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg hover:shadow-xl'}`}
+                                className={`w-full mt-3 py-3 rounded-xl font-semibold ${isVerify ? 'bg-green-500 text-white' : 'bg-blue-600 text-white'}`}
                                 disabled={isVerify}
                             >
-                                {isVerify ? "✓ 이메일 인증 완료" : "📧 이메일 인증"}
+                                {isVerify ? "✓ 이메일 인증 완료" : "이메일 인증"}
                             </button>
                             {openVerify && !isVerify && (
                                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
@@ -570,7 +553,6 @@ const Join = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-4">
                                 <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                     비밀번호 <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -585,7 +567,6 @@ const Join = () => {
 
                             <div className="space-y-4">
                                 <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                                     비밀번호 확인 <span className="text-red-500">*</span>
                                 </label>
                                 <input
@@ -600,7 +581,7 @@ const Join = () => {
                                 />
                             </div>
                         </div>
-                        
+
                         {checkPassword && (
                             <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl p-3">
                                 <svg className="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -611,17 +592,17 @@ const Join = () => {
                         )}
 
                         <div className="flex gap-3 pt-4">
-                            <button 
+                            <button
                                 onClick={prevStep}
-                                className="flex-1 py-4 bg-gray-500 hover:bg-gray-600 text-white font-bold text-lg rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                                className="flex-1 py-4 bg-gray-500 text-white font-bold text-lg rounded-xl"
                             >
-                                ← 이전
+                                이전
                             </button>
-                            <button 
-                                onClick={onSubmit} 
-                                className="flex-1 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 text-white font-bold text-lg rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+                            <button
+                                onClick={onSubmit}
+                                className="flex-1 py-4 text-white font-bold text-lg rounded-xl bg-blue-600"
                             >
-                                🎉 가입하기
+                                가입하기
                             </button>
                         </div>
                     </div>

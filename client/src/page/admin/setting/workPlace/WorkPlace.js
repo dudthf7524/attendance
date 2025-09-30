@@ -7,7 +7,7 @@ import Detail from "./Detai";
 import Register from "./Register";
 import { useNavigate } from "react-router-dom";
 
-const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const CompanyAddress = () => {
   const dispatch = useDispatch();

@@ -22,7 +22,7 @@ const AlertModal = ({ isOpen, onClose, message }) => {
         <div className="p-6 pt-0 border-t border-gray-100">
           <button
             onClick={onClose}
-            className="w-full py-3 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95"
+            className="w-full py-3 bg-gray-800 text-white font-medium rounded-xl"
           >
             확인
           </button>
